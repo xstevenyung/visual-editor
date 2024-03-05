@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent, ReactElement, SyntheticEvent } from 'react';
 import { Translations } from './langs/fr';
 export type TranslationKey = keyof typeof Translations;
 export type Translation = Record<TranslationKey, string>;
@@ -6,6 +6,12 @@ export type EditorComponentData = {
     _id: string;
     _name: string;
     [key: string]: any;
+};
+export type Action = {
+    position: 'header' | 'footer';
+    icon: string;
+    action: (e: SyntheticEvent<HTMLButtonElement, MouseEvent>) => void;
+    title: string;
 };
 export type Device = {
     name: string;

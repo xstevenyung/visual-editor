@@ -1,6 +1,7 @@
 import React from 'react';
-import type { Device, EditorComponentDefinition, EditorComponentTemplate, Translation } from './types';
+import type { Action, Device, EditorComponentDefinition, EditorComponentTemplate, Translation } from './types';
 import { BaseStyles } from './components/BaseStyles';
+import { Button, ButtonIcon, Field as FieldUI, Modal, Spinner } from './components/ui';
 export { PreviewWrapper } from './elements/PreviewWrapper';
 export { AddButton } from './elements/AddButton';
 export type { EditorMessageEvents } from './components/Preview/PreviewPostMessage';
@@ -18,6 +19,7 @@ export declare class VisualEditor {
     });
     registerComponent(name: string, definition: EditorComponentDefinition): void;
     registerTemplate(template: EditorComponentTemplate): void;
+    registerButton(action: Action): void;
     defineElement(elementName?: string): void;
 }
 type VisualEditorProps = {
@@ -28,6 +30,34 @@ type VisualEditorProps = {
     element: Element;
 };
 export declare function VisualEditorComponent({ previewUrl, name, element, iconsUrl, visible: visibleProps, }: VisualEditorProps): import("@emotion/react/types/jsx-namespace").EmotionJSX.Element;
+export declare const UI: {
+    Button: typeof Button;
+    ButtonIcon: typeof ButtonIcon;
+    Flex: React.ForwardRefExoticComponent<Omit<{
+        between?: boolean | undefined;
+        center?: boolean | undefined;
+        column?: boolean | undefined;
+        gap?: number | undefined;
+        as?: React.ElementType<any, keyof React.JSX.IntrinsicElements> | undefined;
+    } & React.ClassAttributes<HTMLDivElement> & React.HTMLAttributes<HTMLDivElement>, "ref"> & React.RefAttributes<HTMLDivElement>>;
+    Card: import("@emotion/styled").StyledComponent<{
+        theme?: import("@emotion/react").Theme | undefined;
+        as?: React.ElementType<any, keyof React.JSX.IntrinsicElements> | undefined;
+    } & {
+        hoverable?: boolean | undefined;
+    }, React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, {}>;
+    Input: import("@emotion/styled").StyledComponent<{
+        theme?: import("@emotion/react").Theme | undefined;
+        as?: React.ElementType<any, keyof React.JSX.IntrinsicElements> | undefined;
+    }, React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, {}>;
+    Field: typeof FieldUI;
+    Modal: typeof Modal;
+    Spinner: typeof Spinner;
+    Label: import("@emotion/styled").StyledComponent<{
+        theme?: import("@emotion/react").Theme | undefined;
+        as?: React.ElementType<any, keyof React.JSX.IntrinsicElements> | undefined;
+    }, React.DetailedHTMLProps<React.LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>, {}>;
+};
 export { Text } from './fields/Text';
 export { Field } from './components/ui';
 export { Checkbox } from './fields/Checkbox';

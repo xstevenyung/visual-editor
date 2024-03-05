@@ -1,14 +1,15 @@
-import { Device, EditorComponentData, EditorComponentDefinitions, EditorComponentTemplate } from './types';
+import { Action, Device, EditorComponentData, EditorComponentDefinitions, EditorComponentTemplate } from './types';
 import { ReactElement } from 'react';
 import { InsertPosition } from './enum';
 import { Events } from './constants';
-declare const createStore: (data: EditorComponentData[] | undefined, definitions: EditorComponentDefinitions, hiddenCategories: string[] | undefined, rootElement: HTMLElement, templates: EditorComponentTemplate[], insertPosition: InsertPosition, devices: Device[]) => import("zustand").UseBoundStore<import("zustand").StoreApi<Omit<{
+declare const createStore: (data: EditorComponentData[] | undefined, definitions: EditorComponentDefinitions, hiddenCategories: string[] | undefined, rootElement: HTMLElement, templates: EditorComponentTemplate[], insertPosition: InsertPosition, devices: Device[], actions: Action[]) => import("zustand").UseBoundStore<import("zustand").StoreApi<Omit<{
     data: EditorComponentData[];
     definitions: EditorComponentDefinitions;
     hiddenCategories: string[];
     rootElement: HTMLElement;
     templates: EditorComponentTemplate[];
     insertPosition: InsertPosition;
+    actions: Action[];
     device: Device;
     devices: Device[];
     previousData: EditorComponentData[];
@@ -42,7 +43,7 @@ export type Store = ReturnType<typeof createStore>;
 type StoreState = Store extends {
     getState: () => infer T;
 } ? T : never;
-export declare function StoreProvider({ children, data, definitions, hiddenCategories, rootElement, templates, insertPosition, devices, onStore, }: {
+export declare function StoreProvider({ children, data, definitions, hiddenCategories, rootElement, templates, insertPosition, devices, onStore, actions, }: {
     children: ReactElement;
     data: EditorComponentData[];
     templates: EditorComponentTemplate[];
@@ -51,6 +52,7 @@ export declare function StoreProvider({ children, data, definitions, hiddenCateg
     rootElement: HTMLElement;
     insertPosition: InsertPosition;
     devices: Device[];
+    actions: Action[];
     onStore: (s: Store) => void;
 }): import("@emotion/react/types/jsx-namespace").EmotionJSX.Element;
 declare function useStore<T>(selector: (state: StoreState) => T): T;
@@ -61,6 +63,7 @@ export declare function usePartialStore<K extends keyof StoreState>(...keys: K[]
     rootElement: HTMLElement;
     templates: EditorComponentTemplate[];
     insertPosition: InsertPosition;
+    actions: Action[];
     device: Device;
     devices: Device[];
     previousData: EditorComponentData[];

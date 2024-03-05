@@ -1602,7 +1602,7 @@ function t(key) {
 // src/store.tsx
 import { jsx as jsx15 } from "@emotion/react/jsx-runtime";
 var sidebarWidth = typeof localStorage !== "undefined" ? localStorage.getItem("veSidebarWidth") : 0;
-var createStore = (data = [], definitions, hiddenCategories = [], rootElement, templates2, insertPosition, devices) => {
+var createStore = (data = [], definitions, hiddenCategories = [], rootElement, templates2, insertPosition, devices, actions2) => {
   return create(
     combine(
       {
@@ -1612,6 +1612,7 @@ var createStore = (data = [], definitions, hiddenCategories = [], rootElement, t
         rootElement,
         templates: templates2,
         insertPosition,
+        actions: actions2,
         device: devices[devices.length - 1],
         devices,
         previousData: data,
@@ -1764,7 +1765,8 @@ function StoreProvider({
   templates: templates2,
   insertPosition,
   devices,
-  onStore
+  onStore,
+  actions: actions2
 }) {
   const store = useMemo2(
     () => createStore(
@@ -1774,7 +1776,8 @@ function StoreProvider({
       rootElement,
       templates2,
       insertPosition,
-      devices
+      devices,
+      actions2
     ),
     [
       data,
@@ -2207,15 +2210,32 @@ var Wrapper5 = styled17.div({
 
 // src/components/Sidebar/SidebarHeader.tsx
 import styled18 from "@emotion/styled";
-import { jsx as jsx23, jsxs as jsxs12 } from "@emotion/react/jsx-runtime";
+
+// src/components/Sidebar/Actions/ActionButton.tsx
+import { jsx as jsx23 } from "@emotion/react/jsx-runtime";
+function ActionButton({
+  icon,
+  title,
+  action
+}) {
+  return /* @__PURE__ */ jsx23(ButtonIcon, { onClick: prevent(action), title, children: /* @__PURE__ */ jsx23("span", { dangerouslySetInnerHTML: { __html: icon } }) });
+}
+
+// src/components/Sidebar/SidebarHeader.tsx
+import { jsx as jsx24, jsxs as jsxs12 } from "@emotion/react/jsx-runtime";
+import { createElement } from "@emotion/react";
 function SidebarHeader({ onClose, children }) {
-  const { setAddBlockIndex } = usePartialStore("setAddBlockIndex");
+  const { setAddBlockIndex, actions: actions2 } = usePartialStore(
+    "setAddBlockIndex",
+    "actions"
+  );
   return /* @__PURE__ */ jsxs12(Wrapper6, { between: true, children: [
-    /* @__PURE__ */ jsx23("div", { children: /* @__PURE__ */ jsx23(ButtonIcon, { title: t("close"), onClick: prevent(onClose), children: /* @__PURE__ */ jsx23(IconCross, { size: 12 }) }) }),
+    /* @__PURE__ */ jsx24("div", { children: /* @__PURE__ */ jsx24(ButtonIcon, { title: t("close"), onClick: prevent(onClose), children: /* @__PURE__ */ jsx24(IconCross, { size: 12 }) }) }),
     /* @__PURE__ */ jsxs12(Flex, { children: [
+      actions2.filter((a) => a.position === "header").map((a, k) => /* @__PURE__ */ createElement(ActionButton, { ...a, key: k })),
       children,
-      /* @__PURE__ */ jsx23(CopyAction, { size: 20 }),
-      /* @__PURE__ */ jsx23(
+      /* @__PURE__ */ jsx24(CopyAction, { size: 20 }),
+      /* @__PURE__ */ jsx24(
         Button,
         {
           icon: IconCirclePlus,
@@ -2241,16 +2261,21 @@ import { keyframes as keyframes4 } from "@emotion/react";
 
 // src/components/Sidebar/SidebarFooter.tsx
 import styled19 from "@emotion/styled";
-import { jsx as jsx24, jsxs as jsxs13 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx25, jsxs as jsxs13 } from "@emotion/react/jsx-runtime";
+import { createElement as createElement2 } from "@emotion/react";
 function SidebarFooter() {
+  const { actions: actions2 } = usePartialStore("actions");
   return /* @__PURE__ */ jsxs13(Wrapper7, { between: true, children: [
     /* @__PURE__ */ jsxs13(Mention, { children: [
       t("poweredBy"),
       " ",
-      /* @__PURE__ */ jsx24("br", {}),
-      /* @__PURE__ */ jsx24("a", { href: "https://ciklik.com", target: "_blank", children: /* @__PURE__ */ jsx24(Logo, { src: "https://static.ciklik.co/logo.svg", alt: "Logo Boxraiser" }) })
+      /* @__PURE__ */ jsx25("br", {}),
+      /* @__PURE__ */ jsx25("a", { href: "https://ciklik.com", target: "_blank", children: /* @__PURE__ */ jsx25(Logo, { src: "https://static.ciklik.co/logo.svg", alt: "Logo Boxraiser" }) })
     ] }),
-    /* @__PURE__ */ jsx24(Button, { type: "submit", icon: IconSave, children: t("save") })
+    /* @__PURE__ */ jsxs13(Flex, { children: [
+      actions2.filter((a) => a.position === "footer").map((a, k) => /* @__PURE__ */ createElement2(ActionButton, { ...a, key: k })),
+      /* @__PURE__ */ jsx25(Button, { type: "submit", icon: IconSave, children: t("save") })
+    ] })
   ] });
 }
 var Wrapper7 = styled19(Flex)({
@@ -2272,11 +2297,11 @@ var Logo = styled19("img")({
 
 // src/components/Sidebar/SidebarEmpty.tsx
 import styled20 from "@emotion/styled";
-import { jsx as jsx25, jsxs as jsxs14 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx26, jsxs as jsxs14 } from "@emotion/react/jsx-runtime";
 function SidebarEmpty(data) {
   return /* @__PURE__ */ jsxs14(Wrapper8, { children: [
-    /* @__PURE__ */ jsx25(Description, { children: t("noContent") }),
-    /* @__PURE__ */ jsx25("div", { children: /* @__PURE__ */ jsx25(Button, { outline: true, onClick: prevent(data.onAction), size: "small", children: t("useTemplate") }) })
+    /* @__PURE__ */ jsx26(Description, { children: t("noContent") }),
+    /* @__PURE__ */ jsx26("div", { children: /* @__PURE__ */ jsx26(Button, { outline: true, onClick: prevent(data.onAction), size: "small", children: t("useTemplate") }) })
   ] });
 }
 var Wrapper8 = styled20.div({
@@ -2297,7 +2322,7 @@ import { useCallback as useCallback5, useState as useState6 } from "react";
 // src/components/Sidebar/SidebarTemplates.tsx
 import styled21 from "@emotion/styled";
 import { useCallback as useCallback4, useState as useState5 } from "react";
-import { jsx as jsx26, jsxs as jsxs15 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx27, jsxs as jsxs15 } from "@emotion/react/jsx-runtime";
 function SidebarTemplates({ onTemplate }) {
   const { templates: templates2, setData } = usePartialStore("setData", "templates");
   const [loadingTemplate, setLoadingTemplate] = useState5();
@@ -2317,7 +2342,7 @@ function SidebarTemplates({ onTemplate }) {
     },
     [setData, onTemplate]
   );
-  return /* @__PURE__ */ jsx26(Wrapper9, { children: templates2.map((t2) => /* @__PURE__ */ jsx26(
+  return /* @__PURE__ */ jsx27(Wrapper9, { children: templates2.map((t2) => /* @__PURE__ */ jsx27(
     TemplateCard,
     {
       template: t2,
@@ -2339,11 +2364,11 @@ function TemplateCard({
       onClick: prevent(() => loading ? null : onClick(template)),
       loading,
       children: [
-        loading && /* @__PURE__ */ jsx26(Spinner, {}),
-        /* @__PURE__ */ jsx26(TemplateImage, { src: template.image, alt: "" }),
+        loading && /* @__PURE__ */ jsx27(Spinner, {}),
+        /* @__PURE__ */ jsx27(TemplateImage, { src: template.image, alt: "" }),
         /* @__PURE__ */ jsxs15(Body, { children: [
-          /* @__PURE__ */ jsx26(Title3, { children: template.name }),
-          /* @__PURE__ */ jsx26("div", { children: template.description })
+          /* @__PURE__ */ jsx27(Title3, { children: template.name }),
+          /* @__PURE__ */ jsx27("div", { children: template.description })
         ] })
       ]
     }
@@ -2390,7 +2415,7 @@ var Title3 = styled21.div({
 });
 
 // src/components/Sidebar/Sidebar.tsx
-import { jsx as jsx27, jsxs as jsxs16 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx28, jsxs as jsxs16 } from "@emotion/react/jsx-runtime";
 function Sidebar({
   onClose,
   ...props
@@ -2414,17 +2439,17 @@ function Sidebar({
   const showEmpty = dataLength === 0 && hasTemplates;
   const isTemplateMode = state === 1 /* TEMPLATES */;
   return /* @__PURE__ */ jsxs16(SidebarWrapper, { ...props, children: [
-    /* @__PURE__ */ jsx27(SidebarHeader, { onClose, children: hasTemplates && /* @__PURE__ */ jsx27(
+    /* @__PURE__ */ jsx28(SidebarHeader, { onClose, children: hasTemplates && /* @__PURE__ */ jsx28(
       ButtonIcon,
       {
         onClick: prevent(toggleMode),
         title: t(isTemplateMode ? "addComponent" : "useTemplate"),
-        children: isTemplateMode ? /* @__PURE__ */ jsx27(IconBlocs, {}) : /* @__PURE__ */ jsx27(IconPage, {})
+        children: isTemplateMode ? /* @__PURE__ */ jsx28(IconBlocs, {}) : /* @__PURE__ */ jsx28(IconPage, {})
       }
     ) }),
-    state === 0 /* BLOCS */ && (showEmpty ? /* @__PURE__ */ jsx27(SidebarEmpty, { onAction: () => setState(1 /* TEMPLATES */) }) : /* @__PURE__ */ jsx27(SidebarBlocs, {})),
-    state === 1 /* TEMPLATES */ && /* @__PURE__ */ jsx27(SidebarTemplates, { onTemplate: () => setState(0 /* BLOCS */) }),
-    /* @__PURE__ */ jsx27(SidebarFooter, {})
+    state === 0 /* BLOCS */ && (showEmpty ? /* @__PURE__ */ jsx28(SidebarEmpty, { onAction: () => setState(1 /* TEMPLATES */) }) : /* @__PURE__ */ jsx28(SidebarBlocs, {})),
+    state === 1 /* TEMPLATES */ && /* @__PURE__ */ jsx28(SidebarTemplates, { onTemplate: () => setState(0 /* BLOCS */) }),
+    /* @__PURE__ */ jsx28(SidebarFooter, {})
   ] });
 }
 var Out = keyframes4({
@@ -2466,7 +2491,7 @@ function useAsyncEffect(cb, deps) {
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 import weakMemoize from "@emotion/weak-memoize";
-import { jsx as jsx28 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx29 } from "@emotion/react/jsx-runtime";
 var memoizedCreateCacheWithContainer = weakMemoize((container) => {
   return createCache({
     container: container.querySelector("head"),
@@ -2474,17 +2499,17 @@ var memoizedCreateCacheWithContainer = weakMemoize((container) => {
   });
 });
 function FrameProvider({ container, children }) {
-  return /* @__PURE__ */ jsx28(CacheProvider, { value: memoizedCreateCacheWithContainer(container), children });
+  return /* @__PURE__ */ jsx29(CacheProvider, { value: memoizedCreateCacheWithContainer(container), children });
 }
 
 // src/components/BaseStyles.tsx
 import styled23 from "@emotion/styled";
 import { css as css2, Global } from "@emotion/react";
-import { Fragment as Fragment5, jsx as jsx29, jsxs as jsxs17 } from "@emotion/react/jsx-runtime";
+import { Fragment as Fragment5, jsx as jsx30, jsxs as jsxs17 } from "@emotion/react/jsx-runtime";
 var BaseStyles = ({ children, complete = true }) => {
   return /* @__PURE__ */ jsxs17(Fragment5, { children: [
-    /* @__PURE__ */ jsx29(Global, { styles: { "visual-editor": { display: "block" } } }),
-    /* @__PURE__ */ jsx29(Reset, { complete, children })
+    /* @__PURE__ */ jsx30(Global, { styles: { "visual-editor": { display: "block" } } }),
+    /* @__PURE__ */ jsx30(Reset, { complete, children })
   ] });
 };
 var Reset = styled23.div(
@@ -2618,12 +2643,12 @@ import styled25 from "@emotion/styled";
 
 // src/components/Preview/PreviewAddFloating.tsx
 import styled24 from "@emotion/styled";
-import { jsx as jsx30 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx31 } from "@emotion/react/jsx-runtime";
 function PreviewAddFloating({
   onClick,
   style
 }) {
-  return /* @__PURE__ */ jsx30(Button2, { onClick, style, children: /* @__PURE__ */ jsx30("span", { children: "Ajouter un bloc" }) });
+  return /* @__PURE__ */ jsx31(Button2, { onClick, style, children: /* @__PURE__ */ jsx31("span", { children: "Ajouter un bloc" }) });
 }
 var Button2 = styled24(UnstyledButton)({
   position: "absolute",
@@ -2697,7 +2722,7 @@ var Button2 = styled24(UnstyledButton)({
 });
 
 // src/components/Preview/PreviewItemWrapper.tsx
-import { jsx as jsx31, jsxs as jsxs18 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx32, jsxs as jsxs18 } from "@emotion/react/jsx-runtime";
 var PreviewItemWrapper = forwardRef3(
   ({ title, isFocused, style, onClick, onAdd, onDelete, onMove }, ref) => {
     const handleAdd = (e) => {
@@ -2718,37 +2743,37 @@ var PreviewItemWrapper = forwardRef3(
         style,
         onClick,
         children: [
-          /* @__PURE__ */ jsx31(PreviewAddFloating, { onClick: handleAdd }),
-          title && /* @__PURE__ */ jsx31(PreviewItemTitle, { isFocused, children: title }),
+          /* @__PURE__ */ jsx32(PreviewAddFloating, { onClick: handleAdd }),
+          title && /* @__PURE__ */ jsx32(PreviewItemTitle, { isFocused, children: title }),
           /* @__PURE__ */ jsxs18(PreviewItemHeader, { isFocused, children: [
-            /* @__PURE__ */ jsx31(
+            /* @__PURE__ */ jsx32(
               PreviewButton,
               {
                 onClick: prevent(() => onMove(-1)),
                 style: {
                   marginLeft: "auto"
                 },
-                children: /* @__PURE__ */ jsx31(IconUp, { size: 16 })
+                children: /* @__PURE__ */ jsx32(IconUp, { size: 16 })
               }
             ),
-            /* @__PURE__ */ jsx31(
+            /* @__PURE__ */ jsx32(
               PreviewButton,
               {
                 onClick: prevent(() => onMove(1)),
                 style: {
                   marginLeft: "auto"
                 },
-                children: /* @__PURE__ */ jsx31(IconDown, { size: 16 })
+                children: /* @__PURE__ */ jsx32(IconDown, { size: 16 })
               }
             ),
-            /* @__PURE__ */ jsx31(
+            /* @__PURE__ */ jsx32(
               PreviewButton,
               {
                 onClick: handleDelete,
                 style: {
                   backgroundColor: "var(--ve-danger)"
                 },
-                children: /* @__PURE__ */ jsx31(IconTrash, { size: 16 })
+                children: /* @__PURE__ */ jsx32(IconTrash, { size: 16 })
               }
             )
           ] })
@@ -2848,7 +2873,7 @@ var PreviewItemTitle = styled25.div(
 );
 
 // src/components/Preview/PreviewItem.tsx
-import { jsx as jsx32, jsxs as jsxs19 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx33, jsxs as jsxs19 } from "@emotion/react/jsx-runtime";
 function PreviewItem({
   index,
   data,
@@ -2872,10 +2897,10 @@ function PreviewItem({
       root.scrollTop = top;
     }
   }, [isFocused]);
-  return /* @__PURE__ */ jsx32(Flipped2, { flipId: data._id, children: /* @__PURE__ */ jsxs19("div", { children: [
-    loading && /* @__PURE__ */ jsx32(StyledSpinner, { size: 12 }),
-    /* @__PURE__ */ jsx32("div", { dangerouslySetInnerHTML: { __html: html } }),
-    /* @__PURE__ */ jsx32(
+  return /* @__PURE__ */ jsx33(Flipped2, { flipId: data._id, children: /* @__PURE__ */ jsxs19("div", { children: [
+    loading && /* @__PURE__ */ jsx33(StyledSpinner, { size: 12 }),
+    /* @__PURE__ */ jsx33("div", { dangerouslySetInnerHTML: { __html: html } }),
+    /* @__PURE__ */ jsx33(
       PreviewItemWrapper,
       {
         title,
@@ -2900,9 +2925,9 @@ var StyledSpinner = styled26(Spinner)({
 
 // src/components/Preview/PreviewAddButton.tsx
 import styled27 from "@emotion/styled";
-import { jsx as jsx33 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx34 } from "@emotion/react/jsx-runtime";
 function PreviewAddButton({ onClick }) {
-  return /* @__PURE__ */ jsx33(Wrapper10, { children: /* @__PURE__ */ jsx33(
+  return /* @__PURE__ */ jsx34(Wrapper10, { children: /* @__PURE__ */ jsx34(
     Button,
     {
       icon: IconCirclePlus,
@@ -2925,7 +2950,7 @@ var Wrapper10 = styled27.div({
 });
 
 // src/components/Preview/PreviewItems.tsx
-import { Fragment as Fragment6, jsx as jsx34, jsxs as jsxs20 } from "@emotion/react/jsx-runtime";
+import { Fragment as Fragment6, jsx as jsx35, jsxs as jsxs20 } from "@emotion/react/jsx-runtime";
 function PreviewItems({
   initialHTML = {},
   previewUrl
@@ -2936,7 +2961,7 @@ function PreviewItems({
     "data"
   );
   return /* @__PURE__ */ jsxs20(Fragment6, { children: [
-    /* @__PURE__ */ jsx34(Flipper, { flipKey: data.map((d) => d._id).join("_"), children: data.map((v, k) => /* @__PURE__ */ jsx34("div", { style: { position: "relative" }, children: /* @__PURE__ */ jsx34(
+    /* @__PURE__ */ jsx35(Flipper, { flipKey: data.map((d) => d._id).join("_"), children: data.map((v, k) => /* @__PURE__ */ jsx35("div", { style: { position: "relative" }, children: /* @__PURE__ */ jsx35(
       PreviewItem,
       {
         index: k,
@@ -2946,7 +2971,7 @@ function PreviewItems({
         previewUrl
       }
     ) }, v._id)) }),
-    /* @__PURE__ */ jsx34(PreviewAddButton, { onClick: () => setAddBlockIndex(data.length) })
+    /* @__PURE__ */ jsx35(PreviewAddButton, { onClick: () => setAddBlockIndex(data.length) })
   ] });
 }
 
@@ -2958,7 +2983,7 @@ import { useWindowSize } from "react-use";
 // src/components/Header/Header.tsx
 import styled28 from "@emotion/styled";
 import { keyframes as keyframes5 } from "@emotion/react";
-import { jsx as jsx35 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx36 } from "@emotion/react/jsx-runtime";
 function Header() {
   const {
     sidebarWidth: sidebarWidth2,
@@ -2966,23 +2991,23 @@ function Header() {
     setDevice,
     device: currentDevice
   } = usePartialStore("sidebarWidth", "devices", "setDevice", "device");
-  return /* @__PURE__ */ jsx35(Wrapper11, { center: true, style: { left: `${sidebarWidth2}vw` }, children: devices.map((device) => /* @__PURE__ */ jsx35(Tooltip, { content: device.name, children: /* @__PURE__ */ jsx35(
+  return /* @__PURE__ */ jsx36(Wrapper11, { center: true, style: { left: `${sidebarWidth2}vw` }, children: devices.map((device) => /* @__PURE__ */ jsx36(Tooltip, { content: device.name, children: /* @__PURE__ */ jsx36(
     Button3,
     {
       onClick: prevent(() => setDevice(device)),
       "aria-selected": device === currentDevice,
-      children: /* @__PURE__ */ jsx35(DeviceIcon, { icon: device.icon })
+      children: /* @__PURE__ */ jsx36(DeviceIcon, { icon: device.icon })
     }
   ) }, device.name)) });
 }
 function DeviceIcon({ icon }) {
   if (icon === "tablet") {
-    return /* @__PURE__ */ jsx35(IconTablet, {});
+    return /* @__PURE__ */ jsx36(IconTablet, {});
   }
   if (icon === "desktop") {
-    return /* @__PURE__ */ jsx35(IconDesktop, {});
+    return /* @__PURE__ */ jsx36(IconDesktop, {});
   }
-  return /* @__PURE__ */ jsx35(IconPhone, {});
+  return /* @__PURE__ */ jsx36(IconPhone, {});
 }
 var headerHeight = 50;
 var Out2 = keyframes5({
@@ -3031,10 +3056,10 @@ var Button3 = styled28("button")({
 });
 
 // src/components/Preview/PreviewWrapper.tsx
-import { jsx as jsx36 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx37 } from "@emotion/react/jsx-runtime";
 function PreviewWrapper({ children }) {
   const style = useViewportStyle();
-  return /* @__PURE__ */ jsx36(ViewportWrapper, { children: /* @__PURE__ */ jsx36(Viewport, { id: "viewport", style, children }) });
+  return /* @__PURE__ */ jsx37(ViewportWrapper, { children: /* @__PURE__ */ jsx37(Viewport, { id: "viewport", style, children }) });
 }
 function useViewportStyle() {
   const { height: windowHeight, width: windowWidth } = useWindowSize();
@@ -3081,7 +3106,7 @@ var Viewport = styled29.div({
 });
 
 // src/components/Preview/Preview.tsx
-import { jsx as jsx37, jsxs as jsxs21 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx38, jsxs as jsxs21 } from "@emotion/react/jsx-runtime";
 function Preview({ previewUrl }) {
   const iframe = useRef9(null);
   const [iframeRoot, setIframeRoot] = useState9(null);
@@ -3115,8 +3140,8 @@ function Preview({ previewUrl }) {
     setIframeRoot(root);
   }, []);
   return /* @__PURE__ */ jsxs21(PreviewWrapper, { children: [
-    showSpinner && /* @__PURE__ */ jsx37(Spinner, { css: { color: "white", opacity: 0.6 } }),
-    /* @__PURE__ */ jsx37(
+    showSpinner && /* @__PURE__ */ jsx38(Spinner, { css: { color: "white", opacity: 0.6 } }),
+    /* @__PURE__ */ jsx38(
       StyledIframe,
       {
         loaded,
@@ -3125,7 +3150,7 @@ function Preview({ previewUrl }) {
       }
     ),
     iframeRoot && createPortal(
-      /* @__PURE__ */ jsx37(FrameProvider, { container: iframe.current.contentDocument, children: /* @__PURE__ */ jsx37(BaseStyles, { complete: false, children: /* @__PURE__ */ jsx37(
+      /* @__PURE__ */ jsx38(FrameProvider, { container: iframe.current.contentDocument, children: /* @__PURE__ */ jsx38(BaseStyles, { complete: false, children: /* @__PURE__ */ jsx38(
         PreviewItems,
         {
           initialHTML: initialHTML.current,
@@ -3153,7 +3178,7 @@ var StyledIframe = styled30.iframe(
 // src/components/ResizeBar.tsx
 import { useState as useState10 } from "react";
 import styled31 from "@emotion/styled";
-import { Fragment as Fragment7, jsx as jsx38, jsxs as jsxs22 } from "@emotion/react/jsx-runtime";
+import { Fragment as Fragment7, jsx as jsx39, jsxs as jsxs22 } from "@emotion/react/jsx-runtime";
 function ResizeBar() {
   const [drag, setDrag] = useState10(false);
   const { setSidebarWidth } = usePartialStore("setSidebarWidth");
@@ -3175,8 +3200,8 @@ function ResizeBar() {
     );
   };
   return /* @__PURE__ */ jsxs22(Fragment7, { children: [
-    /* @__PURE__ */ jsx38(Wrapper12, { isDragging: drag, onMouseDown: handleMouseDown }),
-    drag && /* @__PURE__ */ jsx38(ResizeBarOverlay, {})
+    /* @__PURE__ */ jsx39(Wrapper12, { isDragging: drag, onMouseDown: handleMouseDown }),
+    drag && /* @__PURE__ */ jsx39(ResizeBarOverlay, {})
   ] });
 }
 var Wrapper12 = styled31.div(
@@ -3212,7 +3237,7 @@ import { useEffect as useEffect8, useMemo as useMemo5, useState as useState11 } 
 
 // src/components/Blocs/BlocSelectorItem.tsx
 import styled32 from "@emotion/styled";
-import { jsx as jsx39, jsxs as jsxs23 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx40, jsxs as jsxs23 } from "@emotion/react/jsx-runtime";
 function BlocSelectorItem({
   definition,
   name,
@@ -3222,8 +3247,8 @@ function BlocSelectorItem({
   const icon = iconsUrl.replace("[name]", name);
   const title = definition.title;
   return /* @__PURE__ */ jsxs23(Button4, { onClick: prevent(onClick), children: [
-    /* @__PURE__ */ jsx39(ButtonImage, { children: /* @__PURE__ */ jsx39("img", { src: icon, alt: "" }) }),
-    /* @__PURE__ */ jsx39("div", { children: title })
+    /* @__PURE__ */ jsx40(ButtonImage, { children: /* @__PURE__ */ jsx40("img", { src: icon, alt: "" }) }),
+    /* @__PURE__ */ jsx40("div", { children: title })
   ] });
 }
 var Button4 = styled32.button({
@@ -3281,7 +3306,7 @@ var ButtonImage = styled32.div({
 
 // src/components/Blocs/BlocSelectorSearch.tsx
 import styled33 from "@emotion/styled";
-import { jsx as jsx40, jsxs as jsxs24 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx41, jsxs as jsxs24 } from "@emotion/react/jsx-runtime";
 var Wrapper13 = styled33.div({
   position: "relative",
   float: "right",
@@ -3307,7 +3332,7 @@ function BlocSelectorSearch({
   onChange
 }) {
   return /* @__PURE__ */ jsxs24(Wrapper13, { children: [
-    /* @__PURE__ */ jsx40(
+    /* @__PURE__ */ jsx41(
       Input2,
       {
         type: "search",
@@ -3316,7 +3341,7 @@ function BlocSelectorSearch({
         onChange: (e) => onChange(e.target.value)
       }
     ),
-    /* @__PURE__ */ jsx40(IconSearch, { size: 14 })
+    /* @__PURE__ */ jsx41(IconSearch, { size: 14 })
   ] });
 }
 
@@ -3349,7 +3374,7 @@ var BlocSelectorGrid = styled34(Tabs.Tab)({
 });
 
 // src/components/Blocs/BlocSelector.tsx
-import { jsx as jsx41, jsxs as jsxs25 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx42, jsxs as jsxs25 } from "@emotion/react/jsx-runtime";
 var ALL_TAB = "Tous les blocs";
 function BlocSelector({ iconsUrl }) {
   const isVisible = useBlocSelectionVisible();
@@ -3385,10 +3410,10 @@ function BlocSelector({ iconsUrl }) {
       onVisibilityChange: handleVisibilityChange,
       title: t("addComponent"),
       children: [
-        /* @__PURE__ */ jsx41(BlocSelectorSearch, { value: search, onChange: setSearch }),
-        /* @__PURE__ */ jsx41(Tabs, { css: { margin: "1.5rem 0" }, children: categories.map((category) => /* @__PURE__ */ jsx41(BlocSelectorGrid, { title: category, children: Object.keys(definitions).filter(
+        /* @__PURE__ */ jsx42(BlocSelectorSearch, { value: search, onChange: setSearch }),
+        /* @__PURE__ */ jsx42(Tabs, { css: { margin: "1.5rem 0" }, children: categories.map((category) => /* @__PURE__ */ jsx42(BlocSelectorGrid, { title: category, children: Object.keys(definitions).filter(
           (key) => !hiddenCategories.includes(definitions[key].category ?? "")
-        ).filter(searchDefinition(search ?? "", category, definitions)).map((key) => /* @__PURE__ */ jsx41(
+        ).filter(searchDefinition(search ?? "", category, definitions)).map((key) => /* @__PURE__ */ jsx42(
           BlocSelectorItem,
           {
             definition: definitions[key],
@@ -3411,14 +3436,14 @@ function searchDefinition(search, category, definitions) {
 }
 
 // src/components/RollbackMessage.tsx
-import { jsx as jsx42 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx43 } from "@emotion/react/jsx-runtime";
 function RollbackMessage() {
   const {
     message: rollbackMessage,
     rollback,
     voidRollback
   } = useRollbackMessage();
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     Flash,
     {
       action: t("rollback"),
@@ -3436,12 +3461,12 @@ import { keyframes as keyframes7 } from "@emotion/react";
 
 // src/components/Layout/SidebarToggleButton.tsx
 import styled35 from "@emotion/styled";
-import { jsx as jsx43 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx44 } from "@emotion/react/jsx-runtime";
 function SidebarToggleButton({
   collapsed,
   onClick
 }) {
-  return /* @__PURE__ */ jsx43(Button5, { onClick: prevent(onClick), collapsed, children: /* @__PURE__ */ jsx43(IconBack, { size: 20 }) });
+  return /* @__PURE__ */ jsx44(Button5, { onClick: prevent(onClick), collapsed, children: /* @__PURE__ */ jsx44(IconBack, { size: 20 }) });
 }
 var Button5 = styled35(ButtonIcon)(
   {
@@ -3462,7 +3487,7 @@ var Button5 = styled35(ButtonIcon)(
 
 // src/components/Preview/PreviewPostMessage.tsx
 import { useEffect as useEffect9, useRef as useRef10, useState as useState12 } from "react";
-import { jsx as jsx44 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx45 } from "@emotion/react/jsx-runtime";
 function PreviewPostMessage({ previewUrl }) {
   const iframe = useRef10(null);
   const [loaded, setLoaded] = useState12(false);
@@ -3526,7 +3551,7 @@ function PreviewPostMessage({ previewUrl }) {
     "referrer",
     window.location.toString()
   );
-  return /* @__PURE__ */ jsx44(PreviewWrapper, { children: /* @__PURE__ */ jsx44(
+  return /* @__PURE__ */ jsx45(PreviewWrapper, { children: /* @__PURE__ */ jsx45(
     StyledIframe,
     {
       ref: iframe,
@@ -3539,14 +3564,14 @@ function PreviewPostMessage({ previewUrl }) {
 }
 
 // src/components/Layout.tsx
-import { Fragment as Fragment8, jsx as jsx45, jsxs as jsxs26 } from "@emotion/react/jsx-runtime";
+import { Fragment as Fragment8, jsx as jsx46, jsxs as jsxs26 } from "@emotion/react/jsx-runtime";
 function Layout({ previewUrl, onClose, iconsUrl }) {
   const [sidebarCollapsed, toggleSidebar] = useToggle(false);
   const showResizeControl = !sidebarCollapsed;
   const PreviewComponent = VisualEditor.postMessagePreview ? PreviewPostMessage : Preview;
-  return /* @__PURE__ */ jsx45(Fragment8, { children: /* @__PURE__ */ jsxs26(Wrapper14, { withSidebar: !sidebarCollapsed, children: [
-    /* @__PURE__ */ jsx45(Header, {}),
-    /* @__PURE__ */ jsx45(
+  return /* @__PURE__ */ jsx46(Fragment8, { children: /* @__PURE__ */ jsxs26(Wrapper14, { withSidebar: !sidebarCollapsed, children: [
+    /* @__PURE__ */ jsx46(Header, {}),
+    /* @__PURE__ */ jsx46(
       Sidebar,
       {
         onClose,
@@ -3555,22 +3580,22 @@ function Layout({ previewUrl, onClose, iconsUrl }) {
         }
       }
     ),
-    previewUrl && /* @__PURE__ */ jsx45(PreviewComponent, { previewUrl }),
-    /* @__PURE__ */ jsx45(
+    previewUrl && /* @__PURE__ */ jsx46(PreviewComponent, { previewUrl }),
+    /* @__PURE__ */ jsx46(
       SidebarToggleButton,
       {
         collapsed: sidebarCollapsed,
         onClick: toggleSidebar
       }
     ),
-    showResizeControl && /* @__PURE__ */ jsx45(ResizeBar, {}),
-    /* @__PURE__ */ jsx45(BlocSelector, { iconsUrl }),
-    /* @__PURE__ */ jsx45(RollbackMessage, {})
+    showResizeControl && /* @__PURE__ */ jsx46(ResizeBar, {}),
+    /* @__PURE__ */ jsx46(BlocSelector, { iconsUrl }),
+    /* @__PURE__ */ jsx46(RollbackMessage, {})
   ] }) });
 }
 function Wrapper14(props) {
   const { sidebarWidth: sidebarWidth2 } = usePartialStore("sidebarWidth");
-  return /* @__PURE__ */ jsx45(
+  return /* @__PURE__ */ jsx46(
     StyledWrapper,
     {
       ...props,
@@ -3719,7 +3744,7 @@ function useStopPropagation(ref, eventNames) {
 
 // src/elements/PreviewWrapper.tsx
 import { createRoot } from "react-dom/client";
-import { jsx as jsx46 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx47 } from "@emotion/react/jsx-runtime";
 var PreviewWrapper2 = class extends (isClientSide() ? HTMLElement : class {
 }) {
   constructor() {
@@ -3771,7 +3796,7 @@ var PreviewWrapper2 = class extends (isClientSide() ? HTMLElement : class {
       return;
     }
     this.root.render(
-      /* @__PURE__ */ jsx46(Reset, { complete: false, children: /* @__PURE__ */ jsx46(
+      /* @__PURE__ */ jsx47(Reset, { complete: false, children: /* @__PURE__ */ jsx47(
         PreviewItemWrapper,
         {
           title: this.dataset.name,
@@ -3801,7 +3826,7 @@ var PreviewWrapper2 = class extends (isClientSide() ? HTMLElement : class {
 
 // src/elements/AddButton.tsx
 import { createRoot as createRoot2 } from "react-dom/client";
-import { jsx as jsx47 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx48 } from "@emotion/react/jsx-runtime";
 var AddButton = class extends (isClientSide() ? HTMLElement : class {
 }) {
   connectedCallback() {
@@ -3814,7 +3839,7 @@ var AddButton = class extends (isClientSide() ? HTMLElement : class {
       window.parent.postMessage({ type: "ve-add", payload: { id: parseInt(this.dataset.index ?? "0") } }, referrer);
     };
     createRoot2(div).render(
-      /* @__PURE__ */ jsx47(Reset, { complete: true, children: /* @__PURE__ */ jsx47(PreviewAddButton, { onClick: onAddClick }) })
+      /* @__PURE__ */ jsx48(Reset, { complete: true, children: /* @__PURE__ */ jsx48(PreviewAddButton, { onClick: onAddClick }) })
     );
   }
 };
@@ -3878,14 +3903,14 @@ function genericFieldDefinition(args, options) {
 }
 
 // src/fields/Text.tsx
-import { jsx as jsx48 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx49 } from "@emotion/react/jsx-runtime";
 var Component = ({
   value,
   onChange,
   options
 }) => {
   const id = useUniqId("textinput");
-  return /* @__PURE__ */ jsx48(
+  return /* @__PURE__ */ jsx49(
     Field,
     {
       label: options.label,
@@ -3906,15 +3931,15 @@ var Text = defineField({
 
 // src/fields/Checkbox.tsx
 import styled37 from "@emotion/styled";
-import { jsx as jsx49, jsxs as jsxs27 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx50, jsxs as jsxs27 } from "@emotion/react/jsx-runtime";
 var Component2 = ({
   value,
   onChange,
   options
 }) => {
   const id = useUniqId("checkbox");
-  return /* @__PURE__ */ jsx49(Field, { help: options.help, children: /* @__PURE__ */ jsxs27(Wrapper15, { children: [
-    /* @__PURE__ */ jsx49(
+  return /* @__PURE__ */ jsx50(Field, { help: options.help, children: /* @__PURE__ */ jsxs27(Wrapper15, { children: [
+    /* @__PURE__ */ jsx50(
       Input3,
       {
         type: "checkbox",
@@ -3923,7 +3948,7 @@ var Component2 = ({
         onChange: () => onChange(!value)
       }
     ),
-    /* @__PURE__ */ jsx49(Label2, { htmlFor: id, children: options.label })
+    /* @__PURE__ */ jsx50(Label2, { htmlFor: id, children: options.label })
   ] }) });
 };
 var Checkbox = defineField({
@@ -3988,7 +4013,7 @@ var Label2 = styled37.label({
 // src/fields/Repeater.tsx
 import { useMemo as useMemo7, useState as useState14 } from "react";
 import styled38 from "@emotion/styled";
-import { jsx as jsx50, jsxs as jsxs28 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx51, jsxs as jsxs28 } from "@emotion/react/jsx-runtime";
 var Wrapper16 = styled38.div({
   display: "flex",
   flexDirection: "column",
@@ -4041,8 +4066,8 @@ var Component3 = ({
   function handleMove(from, to) {
     onChange(moveItem(value, from, to));
   }
-  return /* @__PURE__ */ jsx50(Field, { label: options.label, children: /* @__PURE__ */ jsx50(SortableWrapper, { items: value, onMove: handleMove, children: /* @__PURE__ */ jsxs28(Wrapper16, { children: [
-    value.map((line, k) => /* @__PURE__ */ jsx50(
+  return /* @__PURE__ */ jsx51(Field, { label: options.label, children: /* @__PURE__ */ jsx51(SortableWrapper, { items: value, onMove: handleMove, children: /* @__PURE__ */ jsxs28(Wrapper16, { children: [
+    value.map((line, k) => /* @__PURE__ */ jsx51(
       FieldLine,
       {
         line,
@@ -4054,7 +4079,7 @@ var Component3 = ({
       },
       line._id
     )),
-    canAdd && /* @__PURE__ */ jsx50(Footer, { children: /* @__PURE__ */ jsx50(Button, { secondary: true, onClick: prevent(add), icon: IconCirclePlus, children: options.addLabel }) })
+    canAdd && /* @__PURE__ */ jsx51(Footer, { children: /* @__PURE__ */ jsx51(Button, { secondary: true, onClick: prevent(add), icon: IconCirclePlus, children: options.addLabel }) })
   ] }) }) });
 };
 var FieldLine = ({ line, index, onRemove, onUpdate, options, defaultCollapsed }) => {
@@ -4063,25 +4088,25 @@ var FieldLine = ({ line, index, onRemove, onUpdate, options, defaultCollapsed })
   const escapedTitle = useMemo7(() => textContent(title), [title]);
   return /* @__PURE__ */ jsxs28(Item, { item: line, children: [
     /* @__PURE__ */ jsxs28(SidebarHeading, { onClick: prevent(toggleCollapsed), title: escapedTitle, children: [
-      /* @__PURE__ */ jsx50(SidebarHeading.Hover, { children: onRemove && /* @__PURE__ */ jsx50(
+      /* @__PURE__ */ jsx51(SidebarHeading.Hover, { children: onRemove && /* @__PURE__ */ jsx51(
         ButtonIcon,
         {
           danger: true,
           onClick: () => onRemove(line),
           title: t("deleteItem"),
-          children: /* @__PURE__ */ jsx50(IconTrash, { size: 20 })
+          children: /* @__PURE__ */ jsx51(IconTrash, { size: 20 })
         }
       ) }),
-      /* @__PURE__ */ jsx50(
+      /* @__PURE__ */ jsx51(
         ButtonIcon,
         {
           rotate: collapsed ? -90 : 0,
           onClick: prevent(toggleCollapsed),
-          children: /* @__PURE__ */ jsx50(IconDown, { size: 24 })
+          children: /* @__PURE__ */ jsx51(IconDown, { size: 24 })
         }
       )
     ] }),
-    !collapsed && /* @__PURE__ */ jsx50(ItemBody, { children: /* @__PURE__ */ jsx50(
+    !collapsed && /* @__PURE__ */ jsx51(ItemBody, { children: /* @__PURE__ */ jsx51(
       FieldsRenderer,
       {
         fields: options.fields,
@@ -4099,7 +4124,7 @@ var Repeater = defineField(() => ({
 
 // src/fields/ImageUrl.tsx
 import styled39 from "@emotion/styled";
-import { jsx as jsx51 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx52 } from "@emotion/react/jsx-runtime";
 var Component4 = ({
   value,
   onChange,
@@ -4112,17 +4137,17 @@ var Component4 = ({
     }).catch((e) => {
     });
   };
-  return /* @__PURE__ */ jsx51(
+  return /* @__PURE__ */ jsx52(
     Field,
     {
       id,
       label: options.label,
       help: options.help,
       value,
-      tooltip: value ? /* @__PURE__ */ jsx51(TooltipImage, { src: value, alt: "" }) : void 0,
+      tooltip: value ? /* @__PURE__ */ jsx52(TooltipImage, { src: value, alt: "" }) : void 0,
       onChange: (e) => onChange(e.target.value),
       css: { paddingRight: 40 },
-      icon: options.onBrowse ? /* @__PURE__ */ jsx51(Button6, { onClick: prevent(handleBrowse), children: /* @__PURE__ */ jsx51(IconFolder, { size: 16 }) }) : void 0
+      icon: options.onBrowse ? /* @__PURE__ */ jsx52(Button6, { onClick: prevent(handleBrowse), children: /* @__PURE__ */ jsx52(IconFolder, { size: 16 }) }) : void 0
     }
   );
 };
@@ -4181,16 +4206,16 @@ var TiptapToolbarButton = styled40(UnstyledButton)(
 );
 
 // src/components/Editor/TiptapEditor/TiptapIcons.tsx
-import { jsx as jsx52 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx53 } from "@emotion/react/jsx-runtime";
 function IconBold({ size = 24 }) {
-  return /* @__PURE__ */ jsx52(
+  return /* @__PURE__ */ jsx53(
     "svg",
     {
       width: size,
       height: size,
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 24 24",
-      children: /* @__PURE__ */ jsx52(
+      children: /* @__PURE__ */ jsx53(
         "path",
         {
           d: "M8 11h4.5a2.5 2.5 0 1 0 0-5H8v5zm10 4.5a4.5 4.5 0 0 1-4.5 4.5H6V4h6.5a4.5 4.5 0 0 1 3.256 7.606A4.498 4.498 0 0 1 18 15.5zM8 13v5h5.5a2.5 2.5 0 1 0 0-5H8z",
@@ -4201,14 +4226,14 @@ function IconBold({ size = 24 }) {
   );
 }
 function IconItalic({ size = 24 }) {
-  return /* @__PURE__ */ jsx52(
+  return /* @__PURE__ */ jsx53(
     "svg",
     {
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 24 24",
       width: size,
       height: size,
-      children: /* @__PURE__ */ jsx52(
+      children: /* @__PURE__ */ jsx53(
         "path",
         {
           d: "M15 20H7v-2h2.927l2.116-12H9V4h8v2h-2.927l-2.116 12H15z",
@@ -4219,14 +4244,14 @@ function IconItalic({ size = 24 }) {
   );
 }
 function IconUnderline({ size = 24 }) {
-  return /* @__PURE__ */ jsx52(
+  return /* @__PURE__ */ jsx53(
     "svg",
     {
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 24 24",
       width: size,
       height: size,
-      children: /* @__PURE__ */ jsx52(
+      children: /* @__PURE__ */ jsx53(
         "path",
         {
           d: "M8 3v9a4 4 0 1 0 8 0V3h2v9a6 6 0 1 1-12 0V3h2zM4 20h16v2H4v-2z",
@@ -4237,14 +4262,14 @@ function IconUnderline({ size = 24 }) {
   );
 }
 function IconMark({ size = 24 }) {
-  return /* @__PURE__ */ jsx52(
+  return /* @__PURE__ */ jsx53(
     "svg",
     {
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 24 24",
       width: size,
       height: size,
-      children: /* @__PURE__ */ jsx52(
+      children: /* @__PURE__ */ jsx53(
         "path",
         {
           d: "M15.243 4.515l-6.738 6.737-.707 2.121-1.04 1.041 2.828 2.829 1.04-1.041 2.122-.707 6.737-6.738-4.242-4.242zm6.364 3.535a1 1 0 0 1 0 1.414l-7.779 7.779-2.12.707-1.415 1.414a1 1 0 0 1-1.414 0l-4.243-4.243a1 1 0 0 1 0-1.414l1.414-1.414.707-2.121 7.779-7.779a1 1 0 0 1 1.414 0l5.657 5.657zm-6.364-.707l1.414 1.414-4.95 4.95-1.414-1.414 4.95-4.95zM4.283 16.89l2.828 2.829-1.414 1.414-4.243-1.414 2.828-2.829z",
@@ -4255,14 +4280,14 @@ function IconMark({ size = 24 }) {
   );
 }
 function IconLink({ size = 24 }) {
-  return /* @__PURE__ */ jsx52(
+  return /* @__PURE__ */ jsx53(
     "svg",
     {
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 24 24",
       width: size,
       height: size,
-      children: /* @__PURE__ */ jsx52(
+      children: /* @__PURE__ */ jsx53(
         "path",
         {
           d: "M17.657 14.828l-1.414-1.414L17.657 12A4 4 0 1 0 12 6.343l-1.414 1.414-1.414-1.414 1.414-1.414a6 6 0 0 1 8.485 8.485l-1.414 1.414zm-2.829 2.829l-1.414 1.414a6 6 0 1 1-8.485-8.485l1.414-1.414 1.414 1.414L6.343 12A4 4 0 1 0 12 17.657l1.414-1.414 1.414 1.414zm0-9.9l1.415 1.415-7.071 7.07-1.415-1.414 7.071-7.07z",
@@ -4273,14 +4298,14 @@ function IconLink({ size = 24 }) {
   );
 }
 function IconClear({ size = 24 }) {
-  return /* @__PURE__ */ jsx52(
+  return /* @__PURE__ */ jsx53(
     "svg",
     {
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 24 24",
       width: size,
       height: size,
-      children: /* @__PURE__ */ jsx52(
+      children: /* @__PURE__ */ jsx53(
         "path",
         {
           d: "M12.651 14.065L11.605 20H9.574l1.35-7.661-7.41-7.41L4.93 3.515 20.485 19.07l-1.414 1.414-6.42-6.42zm-.878-6.535l.27-1.53h-1.8l-2-2H20v2h-5.927L13.5 9.257 11.773 7.53z",
@@ -4291,14 +4316,14 @@ function IconClear({ size = 24 }) {
   );
 }
 function IconList({ size = 24 }) {
-  return /* @__PURE__ */ jsx52(
+  return /* @__PURE__ */ jsx53(
     "svg",
     {
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 24 24",
       width: size,
       height: size,
-      children: /* @__PURE__ */ jsx52(
+      children: /* @__PURE__ */ jsx53(
         "path",
         {
           d: "M8 4h13v2H8V4zM4.5 6.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 7a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 6.9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM8 11h13v2H8v-2zm0 7h13v2H8v-2z",
@@ -4309,14 +4334,14 @@ function IconList({ size = 24 }) {
   );
 }
 function IconQuote({ size = 24 }) {
-  return /* @__PURE__ */ jsx52(
+  return /* @__PURE__ */ jsx53(
     "svg",
     {
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 24 24",
       width: size,
       height: size,
-      children: /* @__PURE__ */ jsx52(
+      children: /* @__PURE__ */ jsx53(
         "path",
         {
           d: "M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 0 1-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 0 1-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z",
@@ -4327,14 +4352,14 @@ function IconQuote({ size = 24 }) {
   );
 }
 function IconOrderedList({ size = 24 }) {
-  return /* @__PURE__ */ jsx52(
+  return /* @__PURE__ */ jsx53(
     "svg",
     {
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 24 24",
       width: size,
       height: size,
-      children: /* @__PURE__ */ jsx52(
+      children: /* @__PURE__ */ jsx53(
         "path",
         {
           d: "M8 4h13v2H8V4zM5 3v3h1v1H3V6h1V4H3V3h2zM3 14v-2.5h2V11H3v-1h3v2.5H4v.5h2v1H3zm2 5.5H3v-1h2V18H3v-1h3v4H3v-1h2v-.5zM8 11h13v2H8v-2zm0 7h13v2H8v-2z",
@@ -4364,14 +4389,14 @@ function IconHeading({
   } else if (level === 6) {
     path = "M21.097 8l-2.598 4.5c2.21 0 4.001 1.79 4.001 4s-1.79 4-4 4-4-1.79-4-4c0-.736.199-1.426.546-2.019L18.788 8h2.309zM4 4v7h7V4h2v16h-2v-7H4v7H2V4h2zm14.5 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2z";
   }
-  return /* @__PURE__ */ jsx52(
+  return /* @__PURE__ */ jsx53(
     "svg",
     {
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 24 24",
       width: size,
       height: size,
-      children: /* @__PURE__ */ jsx52("path", { d: path, fill: "currentColor" })
+      children: /* @__PURE__ */ jsx53("path", { d: path, fill: "currentColor" })
     }
   );
 }
@@ -4380,14 +4405,14 @@ function IconAlign({
   direction = "left"
 }) {
   if (direction === "left") {
-    return /* @__PURE__ */ jsx52(
+    return /* @__PURE__ */ jsx53(
       "svg",
       {
         xmlns: "http://www.w3.org/2000/svg",
         viewBox: "0 0 24 24",
         width: size,
         height: size,
-        children: /* @__PURE__ */ jsx52(
+        children: /* @__PURE__ */ jsx53(
           "path",
           {
             d: "M3 4h18v2H3V4zm0 15h14v2H3v-2zm0-5h18v2H3v-2zm0-5h14v2H3V9z",
@@ -4397,14 +4422,14 @@ function IconAlign({
       }
     );
   } else if (direction === "right") {
-    return /* @__PURE__ */ jsx52(
+    return /* @__PURE__ */ jsx53(
       "svg",
       {
         xmlns: "http://www.w3.org/2000/svg",
         viewBox: "0 0 24 24",
         width: size,
         height: size,
-        children: /* @__PURE__ */ jsx52(
+        children: /* @__PURE__ */ jsx53(
           "path",
           {
             d: "M3 4h18v2H3V4zm4 15h14v2H7v-2zm-4-5h18v2H3v-2zm4-5h14v2H7V9z",
@@ -4414,14 +4439,14 @@ function IconAlign({
       }
     );
   } else if (direction === "center") {
-    return /* @__PURE__ */ jsx52(
+    return /* @__PURE__ */ jsx53(
       "svg",
       {
         xmlns: "http://www.w3.org/2000/svg",
         viewBox: "0 0 24 24",
         width: size,
         height: size,
-        children: /* @__PURE__ */ jsx52(
+        children: /* @__PURE__ */ jsx53(
           "path",
           {
             d: "M3 4h18v2H3V4zm2 15h14v2H5v-2zm-2-5h18v2H3v-2zm2-5h14v2H5V9z",
@@ -4431,14 +4456,14 @@ function IconAlign({
       }
     );
   }
-  return /* @__PURE__ */ jsx52(
+  return /* @__PURE__ */ jsx53(
     "svg",
     {
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 24 24",
       width: size,
       height: size,
-      children: /* @__PURE__ */ jsx52(
+      children: /* @__PURE__ */ jsx53(
         "path",
         {
           d: "M3 4h18v2H3V4zm0 15h18v2H3v-2zm0-5h18v2H3v-2zm0-5h18v2H3V9z",
@@ -4494,7 +4519,7 @@ var TiptapDropdown = styled41.div(
 );
 
 // src/components/Editor/TiptapEditor/TiptapToolbarAlign.tsx
-import { jsx as jsx53, jsxs as jsxs29 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx54, jsxs as jsxs29 } from "@emotion/react/jsx-runtime";
 var TiptapToolbarAlign = ({
   editor
 }) => {
@@ -4506,8 +4531,8 @@ var TiptapToolbarAlign = ({
     return null;
   }
   return /* @__PURE__ */ jsxs29(TiptapDropdown, { size: alignments.length, children: [
-    /* @__PURE__ */ jsx53(TiptapToolbarButton, { title: capitalize(currentAlign), type: "button", children: /* @__PURE__ */ jsx53(IconAlign, { size: 16, direction: currentAlign }) }),
-    alignments.filter((align) => align !== currentAlign).map((align) => /* @__PURE__ */ jsx53(
+    /* @__PURE__ */ jsx54(TiptapToolbarButton, { title: capitalize(currentAlign), type: "button", children: /* @__PURE__ */ jsx54(IconAlign, { size: 16, direction: currentAlign }) }),
+    alignments.filter((align) => align !== currentAlign).map((align) => /* @__PURE__ */ jsx54(
       TiptapToolbarButton,
       {
         onClick: prevent(
@@ -4515,7 +4540,7 @@ var TiptapToolbarAlign = ({
         ),
         css: { height: 30 },
         title: capitalize(align),
-        children: /* @__PURE__ */ jsx53(IconAlign, { size: 16, direction: align })
+        children: /* @__PURE__ */ jsx54(IconAlign, { size: 16, direction: align })
       },
       align
     ))
@@ -4523,7 +4548,7 @@ var TiptapToolbarAlign = ({
 };
 
 // src/components/Editor/TiptapEditor/TiptapToolbarHeadings.tsx
-import { jsx as jsx54, jsxs as jsxs30 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx55, jsxs as jsxs30 } from "@emotion/react/jsx-runtime";
 var TiptapToolbarHeadings = ({
   editor
 }) => {
@@ -4539,14 +4564,14 @@ var TiptapToolbarHeadings = ({
     editor.chain().focus().toggleHeading({ level }).run();
   });
   return /* @__PURE__ */ jsxs30(TiptapDropdown, { size: levels.length + 1, children: [
-    /* @__PURE__ */ jsx54(TiptapToolbarButton, { active: !!currentLevel, onClick: clickHandler(currentLevel), children: /* @__PURE__ */ jsx54(IconHeading, { size: 16, level: currentLevel }) }),
-    levels.map((level) => /* @__PURE__ */ jsx54(
+    /* @__PURE__ */ jsx55(TiptapToolbarButton, { active: !!currentLevel, onClick: clickHandler(currentLevel), children: /* @__PURE__ */ jsx55(IconHeading, { size: 16, level: currentLevel }) }),
+    levels.map((level) => /* @__PURE__ */ jsx55(
       TiptapToolbarButton,
       {
         active: level === currentLevel,
         onClick: clickHandler(level),
         css: { height: 30 },
-        children: /* @__PURE__ */ jsx54(IconHeading, { size: 16, level })
+        children: /* @__PURE__ */ jsx55(IconHeading, { size: 16, level })
       },
       level
     ))
@@ -4569,7 +4594,7 @@ function colorToProperty(color) {
 
 // src/components/Editor/TiptapEditor/TiptapColorPicker.tsx
 import styled42 from "@emotion/styled";
-import { jsx as jsx55, jsxs as jsxs31 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx56, jsxs as jsxs31 } from "@emotion/react/jsx-runtime";
 function TiptapColorPicker({ editor, colors }) {
   const currentColor = editor?.getAttributes("textStyle").color;
   const cssColors = useMemo8(
@@ -4590,7 +4615,7 @@ function TiptapColorPicker({ editor, colors }) {
     return null;
   }
   return /* @__PURE__ */ jsxs31("div", { css: { position: "relative" }, children: [
-    /* @__PURE__ */ jsx55(TiptapToolbarButton, { onClick: prevent(toggleExpanded), children: /* @__PURE__ */ jsxs31(
+    /* @__PURE__ */ jsx56(TiptapToolbarButton, { onClick: prevent(toggleExpanded), children: /* @__PURE__ */ jsxs31(
       "svg",
       {
         width: 16,
@@ -4599,18 +4624,18 @@ function TiptapColorPicker({ editor, colors }) {
         fill: "none",
         xmlns: "http://www.w3.org/2000/svg",
         children: [
-          /* @__PURE__ */ jsx55(
+          /* @__PURE__ */ jsx56(
             "path",
             {
               d: "M15.246 14H8.754L7.154 18H5L11 3H13L19 18H16.846L15.246 14ZM14.446 12L12 5.885L9.554 12H14.446Z",
               fill: "currentColor"
             }
           ),
-          /* @__PURE__ */ jsx55("path", { d: "M3 20H21V22H3V20Z", fill: currentColor || "currentColor" })
+          /* @__PURE__ */ jsx56("path", { d: "M3 20H21V22H3V20Z", fill: currentColor || "currentColor" })
         ]
       }
     ) }),
-    expanded && /* @__PURE__ */ jsx55(Palette, { colors: cssColors, onChange: handleChange })
+    expanded && /* @__PURE__ */ jsx56(Palette, { colors: cssColors, onChange: handleChange })
   ] });
 }
 var PaletteWrapper = styled42.div(
@@ -4642,7 +4667,7 @@ function Palette({
   onChange
 }) {
   const changeHandler = (color) => prevent(() => onChange(color));
-  return /* @__PURE__ */ jsx55(PaletteWrapper, { size: colors.length, children: colors.map((color) => /* @__PURE__ */ jsx55(
+  return /* @__PURE__ */ jsx56(PaletteWrapper, { size: colors.length, children: colors.map((color) => /* @__PURE__ */ jsx56(
     PaletteItem,
     {
       onClick: changeHandler(color),
@@ -4653,7 +4678,7 @@ function Palette({
 }
 
 // src/components/Editor/TiptapEditor/TiptapToolbar.tsx
-import { Fragment as Fragment9, jsx as jsx56, jsxs as jsxs32 } from "@emotion/react/jsx-runtime";
+import { Fragment as Fragment9, jsx as jsx57, jsxs as jsxs32 } from "@emotion/react/jsx-runtime";
 var iconSize = 16;
 function TiptapToolbar({ editor, colors }) {
   const [mode, setMode] = useState15(0 /* Buttons */);
@@ -4672,7 +4697,7 @@ function TiptapToolbar({ editor, colors }) {
       setMode(0 /* Buttons */);
     }
   }, [editor.isFocused]);
-  return /* @__PURE__ */ jsx56(
+  return /* @__PURE__ */ jsx57(
     Toolbar,
     {
       className: "WysiwygToolbar",
@@ -4684,7 +4709,7 @@ function TiptapToolbar({ editor, colors }) {
           appendTo: () => rootElement
         } : {}
       },
-      children: mode === 1 /* Link */ ? /* @__PURE__ */ jsx56(ToolbarLink, { onSubmit: insertLink, onCancel: setButtonsMode }) : /* @__PURE__ */ jsx56(
+      children: mode === 1 /* Link */ ? /* @__PURE__ */ jsx57(ToolbarLink, { onSubmit: insertLink, onCancel: setButtonsMode }) : /* @__PURE__ */ jsx57(
         ToolbarButtons,
         {
           editor,
@@ -4714,8 +4739,8 @@ function ToolbarLink({
     }
   };
   return /* @__PURE__ */ jsxs32(Flex, { as: "form", onKeyDown: handleKeyDown, onSubmit: prevent(handleSubmit), children: [
-    /* @__PURE__ */ jsx56(LinkInput, { name: "link", type: "text", placeholder: "https://...", autoFocus: true }),
-    /* @__PURE__ */ jsx56(TiptapToolbarButton, { children: "Ok" })
+    /* @__PURE__ */ jsx57(LinkInput, { name: "link", type: "text", placeholder: "https://...", autoFocus: true }),
+    /* @__PURE__ */ jsx57(TiptapToolbarButton, { children: "Ok" })
   ] });
 }
 function ToolbarButtons({
@@ -4732,7 +4757,7 @@ function ToolbarButtons({
     }
   };
   return /* @__PURE__ */ jsxs32(Fragment9, { children: [
-    editor.can().toggleOrderedList() && /* @__PURE__ */ jsx56(
+    editor.can().toggleOrderedList() && /* @__PURE__ */ jsx57(
       TiptapToolbarButton,
       {
         onClick: prevent(
@@ -4740,10 +4765,10 @@ function ToolbarButtons({
         ),
         active: editor.isActive("orderedList"),
         title: "Ordered List",
-        children: /* @__PURE__ */ jsx56(IconOrderedList, { size: iconSize })
+        children: /* @__PURE__ */ jsx57(IconOrderedList, { size: iconSize })
       }
     ),
-    editor.can().toggleBulletList() && /* @__PURE__ */ jsx56(
+    editor.can().toggleBulletList() && /* @__PURE__ */ jsx57(
       TiptapToolbarButton,
       {
         onClick: prevent(
@@ -4751,10 +4776,10 @@ function ToolbarButtons({
         ),
         active: editor.isActive("bulletList"),
         title: "Unordered List",
-        children: /* @__PURE__ */ jsx56(IconList, { size: iconSize })
+        children: /* @__PURE__ */ jsx57(IconList, { size: iconSize })
       }
     ),
-    editor.can().toggleBlockquote() && /* @__PURE__ */ jsx56(
+    editor.can().toggleBlockquote() && /* @__PURE__ */ jsx57(
       TiptapToolbarButton,
       {
         onClick: prevent(
@@ -4762,60 +4787,60 @@ function ToolbarButtons({
         ),
         active: editor.isActive("blockquote"),
         title: "Blockquote",
-        children: /* @__PURE__ */ jsx56(IconQuote, { size: iconSize })
+        children: /* @__PURE__ */ jsx57(IconQuote, { size: iconSize })
       }
     ),
-    /* @__PURE__ */ jsx56(TiptapToolbarHeadings, { editor }),
-    editor.can().toggleBulletList() && /* @__PURE__ */ jsx56(Separator, {}),
-    /* @__PURE__ */ jsx56(TiptapToolbarAlign, { editor }),
-    /* @__PURE__ */ jsx56(
+    /* @__PURE__ */ jsx57(TiptapToolbarHeadings, { editor }),
+    editor.can().toggleBulletList() && /* @__PURE__ */ jsx57(Separator, {}),
+    /* @__PURE__ */ jsx57(TiptapToolbarAlign, { editor }),
+    /* @__PURE__ */ jsx57(
       TiptapToolbarButton,
       {
         onClick: prevent(() => editor.chain().focus().toggleBold().run()),
         active: editor.isActive("bold"),
         title: "Bold",
-        children: /* @__PURE__ */ jsx56(IconBold, { size: iconSize })
+        children: /* @__PURE__ */ jsx57(IconBold, { size: iconSize })
       }
     ),
-    /* @__PURE__ */ jsx56(
+    /* @__PURE__ */ jsx57(
       TiptapToolbarButton,
       {
         onClick: prevent(() => editor.chain().focus().toggleItalic().run()),
         active: editor.isActive("italic"),
         title: "Italic",
-        children: /* @__PURE__ */ jsx56(IconItalic, { size: iconSize })
+        children: /* @__PURE__ */ jsx57(IconItalic, { size: iconSize })
       }
     ),
-    /* @__PURE__ */ jsx56(
+    /* @__PURE__ */ jsx57(
       TiptapToolbarButton,
       {
         onClick: prevent(() => editor.chain().focus().toggleUnderline().run()),
         active: editor.isActive("underline"),
         title: "Underline",
-        children: /* @__PURE__ */ jsx56(IconUnderline, { size: iconSize })
+        children: /* @__PURE__ */ jsx57(IconUnderline, { size: iconSize })
       }
     ),
-    /* @__PURE__ */ jsx56(
+    /* @__PURE__ */ jsx57(
       TiptapToolbarButton,
       {
         onClick: prevent(() => editor.chain().focus().toggleHighlight().run()),
         active: editor.isActive("highlight"),
         title: "Mark",
-        children: /* @__PURE__ */ jsx56(IconMark, { size: iconSize })
+        children: /* @__PURE__ */ jsx57(IconMark, { size: iconSize })
       }
     ),
-    /* @__PURE__ */ jsx56(TiptapColorPicker, { editor, colors }),
-    /* @__PURE__ */ jsx56(Separator, {}),
-    /* @__PURE__ */ jsx56(
+    /* @__PURE__ */ jsx57(TiptapColorPicker, { editor, colors }),
+    /* @__PURE__ */ jsx57(Separator, {}),
+    /* @__PURE__ */ jsx57(
       TiptapToolbarButton,
       {
         onClick: prevent(toggleLink),
         active: editor.isActive("link"),
         title: "Link",
-        children: /* @__PURE__ */ jsx56(IconLink, { size: iconSize })
+        children: /* @__PURE__ */ jsx57(IconLink, { size: iconSize })
       }
     ),
-    /* @__PURE__ */ jsx56(TiptapToolbarButton, { onClick: prevent(clearFormat), title: "Clear", children: /* @__PURE__ */ jsx56(IconClear, { size: iconSize }) })
+    /* @__PURE__ */ jsx57(TiptapToolbarButton, { onClick: prevent(clearFormat), title: "Clear", children: /* @__PURE__ */ jsx57(IconClear, { size: iconSize }) })
   ] });
 }
 var Toolbar = styled43(BubbleMenu)({
@@ -4854,7 +4879,7 @@ import styled44 from "@emotion/styled";
 import History from "@tiptap/extension-history";
 import Blockquote from "@tiptap/extension-blockquote";
 import { useEffect as useEffect15, useRef as useRef11, useState as useState16 } from "react";
-import { jsx as jsx57, jsxs as jsxs33 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx58, jsxs as jsxs33 } from "@emotion/react/jsx-runtime";
 var SingleDocument = Node.create({
   name: "doc",
   topNode: true,
@@ -4923,8 +4948,8 @@ function TiptapEditor({
       focused: isFocused,
       style: { textAlign: defaultAlign, color, backgroundColor },
       children: [
-        /* @__PURE__ */ jsx57(EditorContent, { editor }),
-        editor && /* @__PURE__ */ jsx57(TiptapToolbar, { editor, colors })
+        /* @__PURE__ */ jsx58(EditorContent, { editor }),
+        editor && /* @__PURE__ */ jsx58(TiptapToolbar, { editor, colors })
       ]
     }
   );
@@ -4976,7 +5001,7 @@ var EditorWrapper = styled44.div(
 );
 
 // src/fields/HTMLText.tsx
-import { jsx as jsx58 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx59 } from "@emotion/react/jsx-runtime";
 var Component5 = ({
   value,
   onChange,
@@ -4985,7 +5010,7 @@ var Component5 = ({
   textColor,
   defaultAlign
 }) => {
-  return /* @__PURE__ */ jsx58(Field, { label: options.label, help: options.help, children: /* @__PURE__ */ jsx58(
+  return /* @__PURE__ */ jsx59(Field, { label: options.label, help: options.help, children: /* @__PURE__ */ jsx59(
     TiptapEditor,
     {
       value,
@@ -5026,7 +5051,7 @@ import { useState as useState17 } from "react";
 import * as Popover from "@radix-ui/react-popover";
 import styled45 from "@emotion/styled";
 import { keyframes as keyframes8 } from "@emotion/react";
-import { jsx as jsx59, jsxs as jsxs34 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx60, jsxs as jsxs34 } from "@emotion/react/jsx-runtime";
 var Component6 = ({
   value,
   onChange,
@@ -5037,8 +5062,8 @@ var Component6 = ({
     onChange(color);
     setOpen(false);
   });
-  return /* @__PURE__ */ jsx59(Field, { label: options.label, children: /* @__PURE__ */ jsxs34(Popover.Root, { open: isOpen, onOpenChange: () => setOpen((v) => !v), children: [
-    /* @__PURE__ */ jsx59(Popover.Trigger, { asChild: true, children: /* @__PURE__ */ jsx59(
+  return /* @__PURE__ */ jsx60(Field, { label: options.label, children: /* @__PURE__ */ jsxs34(Popover.Root, { open: isOpen, onOpenChange: () => setOpen((v) => !v), children: [
+    /* @__PURE__ */ jsx60(Popover.Trigger, { asChild: true, children: /* @__PURE__ */ jsx60(
       Button7,
       {
         focused: isOpen || void 0,
@@ -5054,8 +5079,8 @@ var Component6 = ({
         {
           style: { "--children": options.colors.length + 1 },
           children: [
-            /* @__PURE__ */ jsx59(PaletteItemTransparent, { onClick: prevent(() => onChange(null)) }),
-            options.colors.map((color) => /* @__PURE__ */ jsx59(
+            /* @__PURE__ */ jsx60(PaletteItemTransparent, { onClick: prevent(() => onChange(null)) }),
+            options.colors.map((color) => /* @__PURE__ */ jsx60(
               PaletteItem2,
               {
                 style: { "--ve-color": colorToProperty(color) },
@@ -5066,7 +5091,7 @@ var Component6 = ({
           ]
         }
       ),
-      /* @__PURE__ */ jsx59(Arrow2, {})
+      /* @__PURE__ */ jsx60(Arrow2, {})
     ] })
   ] }) });
 };
@@ -5165,9 +5190,9 @@ var Arrow2 = styled45(Popover.Arrow)({
 
 // src/fields/Row.tsx
 import styled46 from "@emotion/styled";
-import { jsx as jsx60 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx61 } from "@emotion/react/jsx-runtime";
 var RowComponent = ({ options, children }) => {
-  return /* @__PURE__ */ jsx60(Field, { label: options.label, children: /* @__PURE__ */ jsx60(Wrapper17, { columns: options.columns, children }) });
+  return /* @__PURE__ */ jsx61(Field, { label: options.label, children: /* @__PURE__ */ jsx61(Wrapper17, { columns: options.columns, children }) });
 };
 var Row = defineFieldGroup({
   defaultOptions: {},
@@ -5187,7 +5212,7 @@ var Wrapper17 = styled46(Flex)(
 
 // src/fields/shared/AlignmentButton.tsx
 import styled47 from "@emotion/styled";
-import { jsx as jsx61, jsxs as jsxs35 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx62, jsxs as jsxs35 } from "@emotion/react/jsx-runtime";
 function AlignmentButton({
   value,
   onChange,
@@ -5195,7 +5220,7 @@ function AlignmentButton({
   ...props
 }) {
   return /* @__PURE__ */ jsxs35(Button8, { children: [
-    /* @__PURE__ */ jsx61(
+    /* @__PURE__ */ jsx62(
       "input",
       {
         type: "radio",
@@ -5205,7 +5230,7 @@ function AlignmentButton({
         ...props
       }
     ),
-    /* @__PURE__ */ jsx61("div", { children: /* @__PURE__ */ jsx61(IconComponent, {}) })
+    /* @__PURE__ */ jsx62("div", { children: /* @__PURE__ */ jsx62(IconComponent, {}) })
   ] });
 }
 var Button8 = styled47.div({
@@ -5259,7 +5284,7 @@ var AlignmentButtons = styled48.div({
 });
 
 // src/fields/Alignment.tsx
-import { jsx as jsx62 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx63 } from "@emotion/react/jsx-runtime";
 var AlignmentIcons = {
   top: IconAlignTop,
   left: IconAlignLeft,
@@ -5276,7 +5301,7 @@ var Component7 = ({
     "right",
     ...options.vertical ? ["top", "bottom"] : []
   ];
-  return /* @__PURE__ */ jsx62(Field, { label: options.label, children: /* @__PURE__ */ jsx62(AlignmentButtons, { children: alignements.map((alignment) => /* @__PURE__ */ jsx62(
+  return /* @__PURE__ */ jsx63(Field, { label: options.label, children: /* @__PURE__ */ jsx63(AlignmentButtons, { children: alignements.map((alignment) => /* @__PURE__ */ jsx63(
     AlignmentButton,
     {
       value: alignment,
@@ -5295,14 +5320,14 @@ var Alignment = defineField({
 });
 
 // src/fields/Select.tsx
-import { jsx as jsx63 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx64 } from "@emotion/react/jsx-runtime";
 var Component8 = ({
   value,
   onChange,
   options
 }) => {
   const id = useUniqId("selectinput");
-  return /* @__PURE__ */ jsx63(
+  return /* @__PURE__ */ jsx64(
     Field,
     {
       id,
@@ -5323,14 +5348,14 @@ var Select2 = defineField({
 });
 
 // src/fields/Number.tsx
-import { jsx as jsx64 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx65 } from "@emotion/react/jsx-runtime";
 var Component9 = ({
   value,
   onChange,
   options
 }) => {
   const id = useUniqId("numberinput");
-  return /* @__PURE__ */ jsx64(
+  return /* @__PURE__ */ jsx65(
     Field,
     {
       label: options.label,
@@ -5352,13 +5377,13 @@ var Number2 = defineField({
 // src/fields/Range.tsx
 import * as Slider from "@radix-ui/react-slider";
 import styled49 from "@emotion/styled";
-import { Fragment as Fragment10, jsx as jsx65, jsxs as jsxs36 } from "@emotion/react/jsx-runtime";
+import { Fragment as Fragment10, jsx as jsx66, jsxs as jsxs36 } from "@emotion/react/jsx-runtime";
 var Component10 = ({
   value,
   onChange,
   options
 }) => {
-  return /* @__PURE__ */ jsx65(
+  return /* @__PURE__ */ jsx66(
     Field,
     {
       label: /* @__PURE__ */ jsxs36(Fragment10, { children: [
@@ -5380,8 +5405,8 @@ var Component10 = ({
           step: options.step,
           onValueChange: (v) => onChange(v[0] || 0),
           children: [
-            /* @__PURE__ */ jsx65(Track2, { children: /* @__PURE__ */ jsx65(TrackSelected, {}) }),
-            /* @__PURE__ */ jsx65(Cursor, {})
+            /* @__PURE__ */ jsx66(Track2, { children: /* @__PURE__ */ jsx66(TrackSelected, {}) }),
+            /* @__PURE__ */ jsx66(Cursor, {})
           ]
         }
       )
@@ -5436,7 +5461,7 @@ var Cursor = styled49(Slider.Thumb)({
 
 // src/fields/Tabs.tsx
 import { cloneElement as cloneElement3 } from "react";
-import { jsx as jsx66 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx67 } from "@emotion/react/jsx-runtime";
 var Component11 = ({
   children,
   options
@@ -5446,7 +5471,7 @@ var Component11 = ({
       fields: tab.fields
     });
   };
-  return /* @__PURE__ */ jsx66(Tabs, { children: options.tabs.map((tab) => /* @__PURE__ */ jsx66(Tabs.Tab, { title: tab.label, children: /* @__PURE__ */ jsx66(Flex, { column: true, children: childrenForTab(tab) }) }, tab.label)) });
+  return /* @__PURE__ */ jsx67(Tabs, { children: options.tabs.map((tab) => /* @__PURE__ */ jsx67(Tabs.Tab, { title: tab.label, children: /* @__PURE__ */ jsx67(Flex, { column: true, children: childrenForTab(tab) }) }, tab.label)) });
 };
 function Tabs2(...tabs) {
   return {
@@ -5466,7 +5491,7 @@ import ReactDatePicker from "react-datepicker";
 import { css as css3 } from "@emotion/react";
 import { useState as useState18 } from "react";
 import styled50 from "@emotion/styled";
-import { jsx as jsx67, jsxs as jsxs37 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx68, jsxs as jsxs37 } from "@emotion/react/jsx-runtime";
 var DatePickerCss = css3`
   .react-datepicker__year-read-view--down-arrow,
   .react-datepicker__month-read-view--down-arrow,
@@ -6309,15 +6334,15 @@ var Component12 = ({
   };
   const ReactDatePickerComponent = typeof ReactDatePicker === "function" ? ReactDatePicker : ReactDatePicker.default;
   const id = useUniqId("datepickerinput");
-  return /* @__PURE__ */ jsx67(
+  return /* @__PURE__ */ jsx68(
     Field,
     {
       id,
       label: options.label,
       help: options.help,
-      icon: /* @__PURE__ */ jsx67(Button9, { onClick: prevent(() => setOpen(true)), children: /* @__PURE__ */ jsx67(IconCalendar, { size: 16 }) }),
+      icon: /* @__PURE__ */ jsx68(Button9, { onClick: prevent(() => setOpen(true)), children: /* @__PURE__ */ jsx68(IconCalendar, { size: 16 }) }),
       children: /* @__PURE__ */ jsxs37("div", { css: DatePickerCss, children: [
-        /* @__PURE__ */ jsx67(
+        /* @__PURE__ */ jsx68(
           Input,
           {
             id,
@@ -6326,7 +6351,7 @@ var Component12 = ({
             readOnly: true
           }
         ),
-        open && /* @__PURE__ */ jsx67("div", { css: { position: "absolute", zIndex: 4 }, children: /* @__PURE__ */ jsx67(
+        open && /* @__PURE__ */ jsx68("div", { css: { position: "absolute", zIndex: 4 }, children: /* @__PURE__ */ jsx68(
           ReactDatePickerComponent,
           {
             selected: date,
@@ -6354,7 +6379,7 @@ var DatePicker = defineField({
 });
 
 // src/fields/TextAlign.tsx
-import { jsx as jsx68 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx69 } from "@emotion/react/jsx-runtime";
 var AlignmentIcons2 = {
   left: IconTextLeft,
   center: IconTextCenter,
@@ -6367,7 +6392,7 @@ var Component13 = ({
 }) => {
   const alignements = Object.keys(AlignmentIcons2);
   const id = useUniqId();
-  return /* @__PURE__ */ jsx68(Field, { label: options.label, children: /* @__PURE__ */ jsx68(AlignmentButtons, { children: alignements.map((alignment) => /* @__PURE__ */ jsx68(
+  return /* @__PURE__ */ jsx69(Field, { label: options.label, children: /* @__PURE__ */ jsx69(AlignmentButtons, { children: alignements.map((alignment) => /* @__PURE__ */ jsx69(
     AlignmentButton,
     {
       name: id,
@@ -6409,9 +6434,10 @@ var Translations2 = {
 };
 
 // src/VisualEditor.tsx
-import { jsx as jsx69, jsxs as jsxs38 } from "@emotion/react/jsx-runtime";
+import { jsx as jsx70, jsxs as jsxs38 } from "@emotion/react/jsx-runtime";
 var components = {};
 var templates = [];
+var actions = [];
 var defaultDevices = [
   { name: "Mobile", width: 390, height: "100%", icon: "mobile" },
   { name: "Desktop", width: "100%", height: "100%", icon: "desktop" }
@@ -6427,6 +6453,9 @@ var _VisualEditor = class _VisualEditor {
   }
   registerTemplate(template) {
     templates.push(template);
+  }
+  registerButton(action) {
+    actions.push(action);
   }
   defineElement(elementName = "visual-editor") {
     class VisualEditorElement extends HTMLElement {
@@ -6505,18 +6534,19 @@ var _VisualEditor = class _VisualEditor {
           this._root = createRoot3(this);
         }
         this._root.render(
-          /* @__PURE__ */ jsx69(
+          /* @__PURE__ */ jsx70(
             StoreProvider,
             {
               data,
               definitions: components,
+              actions,
               templates,
               hiddenCategories,
               rootElement: this,
               devices: _VisualEditor.devices,
               insertPosition: this.getAttribute("insertPosition") ?? "start" /* Start */,
               onStore: (store) => this._store = store,
-              children: /* @__PURE__ */ jsx69(
+              children: /* @__PURE__ */ jsx70(
                 VisualEditorComponent,
                 {
                   element: this,
@@ -6554,10 +6584,10 @@ function VisualEditorComponent({
   const div = useRef12(null);
   useStopPropagation(div, ["change", "close"]);
   if (!visible) {
-    return /* @__PURE__ */ jsx69(HiddenTextarea, { name });
+    return /* @__PURE__ */ jsx70(HiddenTextarea, { name });
   }
   return /* @__PURE__ */ jsxs38("div", { ref: div, children: [
-    /* @__PURE__ */ jsx69(BaseStyles, { children: /* @__PURE__ */ jsx69(
+    /* @__PURE__ */ jsx70(BaseStyles, { children: /* @__PURE__ */ jsx70(
       Layout,
       {
         onClose: handleClose,
@@ -6565,15 +6595,26 @@ function VisualEditorComponent({
         iconsUrl
       }
     ) }),
-    /* @__PURE__ */ jsx69(HiddenTextarea, { name })
+    /* @__PURE__ */ jsx70(HiddenTextarea, { name })
   ] });
 }
 function HiddenTextarea({ name }) {
   const doNothing = () => null;
   const { data } = usePartialStore("data");
   const cleanedData = useMemo9(() => stringifyFields(data), [data]);
-  return /* @__PURE__ */ jsx69("textarea", { hidden: true, name, value: cleanedData, onChange: doNothing });
+  return /* @__PURE__ */ jsx70("textarea", { hidden: true, name, value: cleanedData, onChange: doNothing });
 }
+var UI = {
+  Button,
+  ButtonIcon,
+  Flex,
+  Card,
+  Input,
+  Field,
+  Modal,
+  Spinner,
+  Label
+};
 export {
   AddButton,
   Alignment,
@@ -6597,6 +6638,7 @@ export {
   Tabs2 as Tabs,
   Text,
   TextAlign2 as TextAlign,
+  UI,
   VisualEditor,
   VisualEditorComponent,
   defineField,

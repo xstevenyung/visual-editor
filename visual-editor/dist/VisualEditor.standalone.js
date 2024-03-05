@@ -32806,6 +32806,20 @@ var pkg = {
     }
   }
 };
+var jsx$2 = function jsx(type, props) {
+  var args = arguments;
+  if (props == null || !hasOwnProperty$1.call(props, "css")) {
+    return reactExports.createElement.apply(void 0, args);
+  }
+  var argsLength = args.length;
+  var createElementArgArray = new Array(argsLength);
+  createElementArgArray[0] = Emotion$1;
+  createElementArgArray[1] = createEmotionProps(type, props);
+  for (var i2 = 2; i2 < argsLength; i2++) {
+    createElementArgArray[i2] = args[i2];
+  }
+  return reactExports.createElement.apply(null, createElementArgArray);
+};
 var warnedAboutCssPropForGlobal = false;
 var Global = /* @__PURE__ */ withEmotionCache(function(props, cache) {
   if (process.env.NODE_ENV !== "production" && !warnedAboutCssPropForGlobal && // check for className as well since the user is
@@ -34323,10 +34337,10 @@ function requireReactJsxRuntime_development() {
           return jsxWithValidation(type, props, key, false);
         }
       }
-      var jsx2 = jsxWithValidationDynamic;
+      var jsx3 = jsxWithValidationDynamic;
       var jsxs2 = jsxWithValidationStatic;
       reactJsxRuntime_development.Fragment = REACT_FRAGMENT_TYPE;
-      reactJsxRuntime_development.jsx = jsx2;
+      reactJsxRuntime_development.jsx = jsx3;
       reactJsxRuntime_development.jsxs = jsxs2;
     })();
   }
@@ -34342,7 +34356,7 @@ const jsx$1 = jsxRuntimeExports.jsx;
 const jsxs$1 = jsxRuntimeExports.jsxs;
 const Fragment$2 = jsxRuntimeExports.Fragment;
 var Fragment$1 = Fragment$2;
-function jsx(type, props, key) {
+function jsx2(type, props, key) {
   if (!hasOwnProperty$1.call(props, "css")) {
     return jsx$1(type, props, key);
   }
@@ -34362,7 +34376,7 @@ function HiddenText(_ref2) {
     id,
     value
   } = _ref2;
-  return /* @__PURE__ */ jsx("div", {
+  return /* @__PURE__ */ jsx2("div", {
     id,
     style: hiddenStyles,
     children: value
@@ -34386,7 +34400,7 @@ function LiveRegion(_ref2) {
     clipPath: "inset(100%)",
     whiteSpace: "nowrap"
   };
-  return /* @__PURE__ */ jsx("div", {
+  return /* @__PURE__ */ jsx2("div", {
     id,
     style: visuallyHidden,
     role: "status",
@@ -34545,10 +34559,10 @@ function Accessibility(_ref2) {
     return null;
   }
   const markup = /* @__PURE__ */ jsxs(Fragment$1, {
-    children: [/* @__PURE__ */ jsx(HiddenText, {
+    children: [/* @__PURE__ */ jsx2(HiddenText, {
       id: hiddenTextDescribedById,
       value: screenReaderInstructions.draggable
-    }), /* @__PURE__ */ jsx(LiveRegion, {
+    }), /* @__PURE__ */ jsx2(LiveRegion, {
       id: liveRegionId,
       announcement
     })]
@@ -37186,16 +37200,16 @@ const DndContext = /* @__PURE__ */ reactExports.memo(function DndContext2(_ref2)
     value: registerMonitorListener,
     children: [/* @__PURE__ */ jsxs(InternalContext.Provider, {
       value: internalContext,
-      children: [/* @__PURE__ */ jsx(PublicContext.Provider, {
+      children: [/* @__PURE__ */ jsx2(PublicContext.Provider, {
         value: publicContext,
-        children: /* @__PURE__ */ jsx(ActiveDraggableContext.Provider, {
+        children: /* @__PURE__ */ jsx2(ActiveDraggableContext.Provider, {
           value: transform,
           children
         })
-      }), /* @__PURE__ */ jsx(RestoreFocus, {
+      }), /* @__PURE__ */ jsx2(RestoreFocus, {
         disabled: (accessibility == null ? void 0 : accessibility.restoreFocus) === false
       })]
-    }), /* @__PURE__ */ jsx(Accessibility, {
+    }), /* @__PURE__ */ jsx2(Accessibility, {
       ...accessibility,
       hiddenTextDescribedById: draggableDescribedById
     })]
@@ -37592,7 +37606,7 @@ function SortableContext({
     sortedRects: getSortedRects(items, droppableRects),
     strategy
   }), [activeIndex, containerId, disableTransforms, items, overIndex, droppableRects, useDragOverlay, strategy]);
-  return /* @__PURE__ */ jsx(Context.Provider, {
+  return /* @__PURE__ */ jsx2(Context.Provider, {
     value: contextValue,
     children
   });
@@ -37936,7 +37950,7 @@ function Button$8({
   return /* @__PURE__ */ jsxs(BaseButton$1, {
     css: [secondary && Secondary, size2 === "small" && Small, outline && Outline, process.env.NODE_ENV === "production" ? "" : ";label:Button;", process.env.NODE_ENV === "production" ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvdWkvQnV0dG9uLnRzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFtQk0iLCJmaWxlIjoiL1VzZXJzL3hzdGV2ZW55dW5nL0NvZGUva2xhcGF1ZGllbmNlL3BhY2thZ2VzL3Zpc3VhbC1lZGl0b3IvdmlzdWFsLWVkaXRvci9zcmMvY29tcG9uZW50cy91aS9CdXR0b24udHN4Iiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHN0eWxlZCBmcm9tICdAZW1vdGlvbi9zdHlsZWQnXG5cbnR5cGUgQnV0dG9uUHJvcHMgPSBPbWl0PEpTWC5JbnRyaW5zaWNFbGVtZW50c1snYnV0dG9uJ10sICdpY29uJz4gJiB7XG4gIHNlY29uZGFyeT86IGJvb2xlYW5cbiAgb3V0bGluZT86IGJvb2xlYW5cbiAgaWNvbj86ICguLi5hcmdzOiBhbnkpID0+IEpTWC5FbGVtZW50XG4gIHNpemU/OiAnc21hbGwnIHwgJ2RlZmF1bHQnXG59XG5cbmV4cG9ydCBmdW5jdGlvbiBCdXR0b24oe1xuICBjaGlsZHJlbixcbiAgaWNvbjogSWNvbkVsZW1lbnQsXG4gIHNpemUgPSAnZGVmYXVsdCcsXG4gIHNlY29uZGFyeSA9IGZhbHNlLFxuICBvdXRsaW5lID0gZmFsc2UsXG4gIC4uLnByb3BzXG59OiBCdXR0b25Qcm9wcykge1xuICByZXR1cm4gKFxuICAgIDxCYXNlQnV0dG9uXG4gICAgICBjc3M9e1tcbiAgICAgICAgc2Vjb25kYXJ5ICYmIFNlY29uZGFyeSxcbiAgICAgICAgc2l6ZSA9PT0gJ3NtYWxsJyAmJiBTbWFsbCxcbiAgICAgICAgb3V0bGluZSAmJiBPdXRsaW5lLFxuICAgICAgXX1cbiAgICAgIHsuLi5wcm9wc31cbiAgICA+XG4gICAgICB7SWNvbkVsZW1lbnQgJiYgPEljb25FbGVtZW50IHNpemU9ezIwfSAvPn1cbiAgICAgIHtjaGlsZHJlbn1cbiAgICA8L0Jhc2VCdXR0b24+XG4gIClcbn1cblxuY29uc3QgQmFzZUJ1dHRvbiA9IHN0eWxlZC5idXR0b24oe1xuICBvdXRsaW5lOiAnbm9uZScsXG4gIGRpc3BsYXk6ICdmbGV4JyxcbiAgYWxpZ25JdGVtczogJ2NlbnRlcicsXG4gIGdhcDogJzAuNWVtJyxcbiAgZm9udFdlaWdodDogNzAwLFxuICBiYWNrZ3JvdW5kQ29sb3I6ICd2YXIoLS12ZS1wcmltYXJ5KScsXG4gIGJvcmRlcjogJ25vbmUnLFxuICBjb2xvcjogJyNmZmYnLFxuICBhbGlnblNlbGY6ICdmbGV4LWVuZCcsXG4gIGZvbnRTaXplOiAnMC45cmVtJyxcbiAgaGVpZ2h0OiA0OCxcbiAgcGFkZGluZzogJzAgMWVtJyxcbiAgbGluZUhlaWdodDogJzEuMjVyZW0nLFxuICBjdXJzb3I6ICdwb2ludGVyJyxcbiAgYm9yZGVyUmFkaXVzOiA0LFxuICB0cmFuc2l0aW9uOiAnYmFja2dyb3VuZC1jb2xvciAwLjNzJyxcbiAgJyY6aG92ZXIsICY6Zm9jdXMnOiB7IGJhY2tncm91bmRDb2xvcjogJ3ZhcigtLXZlLXByaW1hcnktaG92ZXIpJyB9LFxufSlcblxuY29uc3QgU2Vjb25kYXJ5ID0ge1xuICBiYWNrZ3JvdW5kQ29sb3I6ICd0cmFuc3BhcmVudCcsXG4gIGNvbG9yOiAndmFyKC0tdmUtcHJpbWFyeSknLFxuICAnJjpob3ZlciwgJjpmb2N1cyc6IHsgYmFja2dyb3VuZENvbG9yOiAndmFyKC0tdmUtcHJpbWFyeS1saWdodCknIH0sXG59XG5cbmNvbnN0IFNtYWxsID0ge1xuICBoZWlnaHQ6IDQwLFxufVxuXG5jb25zdCBPdXRsaW5lID0ge1xuICBib3JkZXI6ICdzb2xpZCAxcHggdmFyKC0tdmUtcHJpbWFyeSknLFxuICBiYWNrZ3JvdW5kOiAndHJhbnNwYXJlbnQnLFxuICBjb2xvcjogJ3ZhcigtLXZlLXByaW1hcnkpJyxcbiAgJyY6aG92ZXIsICY6Zm9jdXMnOiB7IGJhY2tncm91bmRDb2xvcjogJ3ZhcigtLXZlLXByaW1hcnkpJywgY29sb3I6ICcjRkZGJyB9LFxufVxuIl19 */"],
     ...props,
-    children: [IconElement && /* @__PURE__ */ jsx(IconElement, {
+    children: [IconElement && /* @__PURE__ */ jsx2(IconElement, {
       size: 20
     }), children]
   });
@@ -40931,7 +40945,7 @@ var forwardRef = function(Tippy2, defaultProps2) {
     return (
       // If I spread them separately here, Babel adds the _extends ponyfill for
       // some reason
-      /* @__PURE__ */ jsx(Tippy2, {
+      /* @__PURE__ */ jsx2(Tippy2, {
         ...Object.assign({}, defaultProps2, props),
         children: children ? /* @__PURE__ */ reactExports.cloneElement(children, {
           ref: function ref(node2) {
@@ -40960,7 +40974,7 @@ function Tooltip$1({
     tippyProps.hideOnClick = true;
     tippyProps.interactive = true;
   }
-  return /* @__PURE__ */ jsx(StyledTippy, {
+  return /* @__PURE__ */ jsx2(StyledTippy, {
     content,
     visible,
     ...tippyProps,
@@ -40994,14 +41008,14 @@ function ButtonIcon({
   const style2 = rotate ? {
     transform: `rotate(${rotate}deg)`
   } : void 0;
-  const button = /* @__PURE__ */ jsx(BaseButton, {
+  const button = /* @__PURE__ */ jsx2(BaseButton, {
     ...props,
     "aria-label": title,
     css: [danger && Danger, success && Success, process.env.NODE_ENV === "production" ? "" : ";label:button;", process.env.NODE_ENV === "production" ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvdWkvQnV0dG9uSWNvbi50c3giXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBdUJNIiwiZmlsZSI6Ii9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvdWkvQnV0dG9uSWNvbi50c3giLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBUb29sdGlwIH0gZnJvbSAnLi9Ub29sdGlwJ1xuaW1wb3J0IHsgY3NzIH0gZnJvbSAnQGVtb3Rpb24vcmVhY3QnXG5pbXBvcnQgc3R5bGVkIGZyb20gJ0BlbW90aW9uL3N0eWxlZCdcblxudHlwZSBCdXR0b25Qcm9wcyA9IEpTWC5JbnRyaW5zaWNFbGVtZW50c1snYnV0dG9uJ10gJiB7XG4gIGRhbmdlcj86IGJvb2xlYW5cbiAgc3VjY2Vzcz86IGJvb2xlYW5cbiAgcm90YXRlPzogbnVtYmVyXG4gIHRpdGxlPzogc3RyaW5nXG59XG5cbmV4cG9ydCBmdW5jdGlvbiBCdXR0b25JY29uKHtcbiAgZGFuZ2VyLFxuICBzdWNjZXNzLFxuICByb3RhdGUsXG4gIHRpdGxlLFxuICAuLi5wcm9wc1xufTogQnV0dG9uUHJvcHMpIHtcbiAgY29uc3Qgc3R5bGUgPSByb3RhdGUgPyB7IHRyYW5zZm9ybTogYHJvdGF0ZSgke3JvdGF0ZX1kZWcpYCB9IDogdW5kZWZpbmVkXG4gIGNvbnN0IGJ1dHRvbiA9IChcbiAgICA8QmFzZUJ1dHRvblxuICAgICAgey4uLnByb3BzfVxuICAgICAgYXJpYS1sYWJlbD17dGl0bGV9XG4gICAgICBjc3M9e1tkYW5nZXIgJiYgRGFuZ2VyLCBzdWNjZXNzICYmIFN1Y2Nlc3NdfVxuICAgICAgc3R5bGU9e3N0eWxlfVxuICAgIC8+XG4gIClcbiAgaWYgKHRpdGxlKSB7XG4gICAgcmV0dXJuIChcbiAgICAgIDxUb29sdGlwIGNvbnRlbnQ9e3RpdGxlfSB0cmlnZ2VyPVwiZm9jdXNcIj5cbiAgICAgICAge2J1dHRvbn1cbiAgICAgIDwvVG9vbHRpcD5cbiAgICApXG4gIH1cblxuICByZXR1cm4gYnV0dG9uXG59XG5cbmNvbnN0IEJhc2VCdXR0b24gPSBzdHlsZWQuYnV0dG9uKHtcbiAgZmxleDogJ25vbmUnLFxuICB3aWR0aDogNDAsXG4gIGhlaWdodDogNDAsXG4gIGJvcmRlclJhZGl1czogNDAsXG4gIGRpc3BsYXk6ICdmbGV4JyxcbiAgYWxpZ25JdGVtczogJ2NlbnRlcicsXG4gIGp1c3RpZnlDb250ZW50OiAnY2VudGVyJyxcbiAgYmFja2dyb3VuZENvbG9yOiAndHJhbnNwYXJlbnQnLFxuICB0cmFuc2l0aW9uOiAnYmFja2dyb3VuZC1jb2xvciAwLjNzLCB0cmFuc2Zvcm0gMC4zcycsXG4gIGJvcmRlcjogJ25vbmUnLFxuICBvdXRsaW5lOiAnbm9uZScsXG4gIGN1cnNvcjogJ3BvaW50ZXInLFxuICBjb2xvcjogJ3ZhcigtLXZlLWNvbG9yLWxpZ2h0KScsXG4gIGJhY2tncm91bmQ6ICd2YXIoLS12ZS1iYWNrZ3JvdW5kKScsXG4gICcmOmhvdmVyLCAmOmZvY3VzJzoge1xuICAgIGJhY2tncm91bmRDb2xvcjogJ3ZhcigtLXZlLWhvdmVyKScsXG4gICAgY29sb3I6ICd2YXIoLS12ZS1jb2xvciknLFxuICB9LFxufSlcblxuY29uc3QgRGFuZ2VyID0ge1xuICBjb2xvcjogJ3ZhcigtLXZlLWRhbmdlciknLFxuICAnJjpob3ZlciwgJjpmb2N1cyc6IHtcbiAgICBjb2xvcjogJ3ZhcigtLXZlLWRhbmdlciknLFxuICAgIGJhY2tncm91bmRDb2xvcjogJ3ZhcigtLXZlLWRhbmdlci1saWdodCknLFxuICB9LFxufVxuXG5jb25zdCBTdWNjZXNzID0ge1xuICBjb2xvcjogJyMwNTk2NjknLFxuICAnJjpob3ZlciwgJjpmb2N1cyc6IHtcbiAgICBjb2xvcjogJyMwNTk2NjknLFxuICAgIGJhY2tncm91bmRDb2xvcjogJ3JnYmEoMTEwLCAyMzEsIDE4MywgLjIpJyxcbiAgfSxcbn1cblxuY29uc3QgRmxpcHBlZCA9IGNzcyh7XG4gIHRyYW5zZm9ybTogJ3JvdGF0ZSgxODBkZWcpJyxcbn0pXG4iXX0= */"],
     style: style2
   });
   if (title) {
-    return /* @__PURE__ */ jsx(Tooltip$1, {
+    return /* @__PURE__ */ jsx2(Tooltip$1, {
       content: title,
       trigger: "focus",
       children: button
@@ -41095,22 +41109,22 @@ function Field$1({
 }) {
   if (!children) {
     if (options) {
-      children = /* @__PURE__ */ jsx(Select$1, {
+      children = /* @__PURE__ */ jsx2(Select$1, {
         ...props,
         children: options.map((option, key) => {
-          return /* @__PURE__ */ jsx("option", {
+          return /* @__PURE__ */ jsx2("option", {
             value: option.value,
             children: option.label
           }, key);
         })
       });
     } else if (["text", "number"].includes(type)) {
-      children = /* @__PURE__ */ jsx(Input$2, {
+      children = /* @__PURE__ */ jsx2(Input$2, {
         type,
         ...props
       });
     } else if (type === "textarea") {
-      children = /* @__PURE__ */ jsx(Input$2, {
+      children = /* @__PURE__ */ jsx2(Input$2, {
         as: "textarea",
         ...props
       });
@@ -41119,20 +41133,20 @@ function Field$1({
     }
   }
   if (tooltip) {
-    children = /* @__PURE__ */ jsx(Tooltip$1, {
+    children = /* @__PURE__ */ jsx2(Tooltip$1, {
       content: tooltip,
       children
     });
   }
   return /* @__PURE__ */ jsxs("div", {
-    children: [label && /* @__PURE__ */ jsx(Label$1, {
+    children: [label && /* @__PURE__ */ jsx2(Label$1, {
       htmlFor: props.id,
       children: label
     }), /* @__PURE__ */ jsxs(Wrapper$g, {
-      children: [children, icon && /* @__PURE__ */ jsx(Icon, {
+      children: [children, icon && /* @__PURE__ */ jsx2(Icon, {
         children: icon
       })]
-    }), help && /* @__PURE__ */ jsx(HelpMessage, {
+    }), help && /* @__PURE__ */ jsx2(HelpMessage, {
       children: help
     })]
   });
@@ -43057,14 +43071,14 @@ function Modal({
   return /* @__PURE__ */ jsxs($5d3850c4d0b4e6c7$export$be92b6f5f03c0fe9, {
     open: visible,
     onOpenChange: onVisibilityChange,
-    children: [/* @__PURE__ */ jsx(ModalOverlay, {}), /* @__PURE__ */ jsxs(ModalContent, {
-      children: [/* @__PURE__ */ jsx(ModalTitle, {
+    children: [/* @__PURE__ */ jsx2(ModalOverlay, {}), /* @__PURE__ */ jsxs(ModalContent, {
+      children: [/* @__PURE__ */ jsx2(ModalTitle, {
         children: title
-      }), /* @__PURE__ */ jsx("div", {
+      }), /* @__PURE__ */ jsx2("div", {
         children
-      }), /* @__PURE__ */ jsx(ModalClose, {
+      }), /* @__PURE__ */ jsx2(ModalClose, {
         onClick: prevent(() => onVisibilityChange(false)),
-        children: /* @__PURE__ */ jsx(IconCross, {
+        children: /* @__PURE__ */ jsx2(IconCross, {
           size: 16
         })
       })]
@@ -43643,21 +43657,21 @@ function Tabs$1({
   return /* @__PURE__ */ jsxs($69cb30bb0017df05$export$b2539bed5023c21c, {
     value: currentTab,
     onValueChange: setCurrentTab,
-    children: [/* @__PURE__ */ jsx(TabsList, {
+    children: [/* @__PURE__ */ jsx2(TabsList, {
       ...props,
-      children: childrenArray.map((child) => /* @__PURE__ */ jsx(TabButton, {
+      children: childrenArray.map((child) => /* @__PURE__ */ jsx2(TabButton, {
         css: [currentTab === child.props.title && TabButtonSelected, process.env.NODE_ENV === "production" ? "" : ";label:Tabs;", process.env.NODE_ENV === "production" ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvdWkvVGFicy50c3giXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBbURZIiwiZmlsZSI6Ii9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvdWkvVGFicy50c3giLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgdHlwZSB7IFJlYWN0RWxlbWVudCwgUmVhY3ROb2RlIH0gZnJvbSAncmVhY3QnXG5pbXBvcnQgUmVhY3QsIHsgdXNlU3RhdGUgfSBmcm9tICdyZWFjdCdcbmltcG9ydCB7XG4gIFRhYnMgYXMgUmFkaXhUYWJzLFxuICBUYWJzQ29udGVudCxcbiAgVGFic0xpc3QgYXMgUmFkaXhUYWJzTGlzdCxcbiAgVGFic1RyaWdnZXIsXG59IGZyb20gJ0ByYWRpeC11aS9yZWFjdC10YWJzJ1xuXG5pbXBvcnQgc3R5bGVkIGZyb20gJ0BlbW90aW9uL3N0eWxlZCdcbmltcG9ydCB7IFN0eWxlcyB9IGZyb20gJ3NyYy9jb21wb25lbnRzL3VpL1N0eWxlcydcblxudHlwZSBUYWJzUHJvcHMgPSB7XG4gIGNoaWxkcmVuOiBSZWFjdE5vZGVcbn1cbnR5cGUgVGFiUHJvcHMgPSB7XG4gIGNoaWxkcmVuOiBSZWFjdE5vZGVcbiAgdGl0bGU6IHN0cmluZ1xufVxuXG5jb25zdCBUYWJzTGlzdCA9IHN0eWxlZChSYWRpeFRhYnNMaXN0KSh7XG4gIGRpc3BsYXk6ICdmbGV4JyxcbiAgZ2FwOiAnLjVyZW0nLFxuICBtYXJnaW5Cb3R0b206ICcxZW0nLFxufSlcblxuY29uc3QgVGFiQnV0dG9uID0gc3R5bGVkKFRhYnNUcmlnZ2VyKSh7XG4gIGJhY2tncm91bmRDb2xvcjogJ3ZhcigtLXZlLWhvdmVyKScsXG4gIGJvcmRlclJhZGl1czogNTYsXG4gIHBhZGRpbmc6ICcuNnJlbSAxcmVtJyxcbiAgYm9yZGVyOiAnbm9uZScsXG4gIGZvbnRXZWlnaHQ6IDUwMCxcbiAgY3Vyc29yOiAncG9pbnRlcicsXG4gIHRyYW5zaXRpb246ICdjb2xvciAuM3MsIGJhY2tncm91bmQtY29sb3IgLjNzJyxcbn0pXG5cbmNvbnN0IFRhYkJ1dHRvblNlbGVjdGVkID0ge1xuICBjb2xvcjogJ3ZhcigtLXZlLXByaW1hcnkpJyxcbiAgYmFja2dyb3VuZENvbG9yOiAndmFyKC0tdmUtcHJpbWFyeS1saWdodCknLFxufVxuXG5leHBvcnQgZnVuY3Rpb24gVGFicyh7IGNoaWxkcmVuLCAuLi5wcm9wcyB9OiBUYWJzUHJvcHMpIHtcbiAgY29uc3QgY2hpbGRyZW5BcnJheSA9IFJlYWN0LkNoaWxkcmVuLnRvQXJyYXkoXG4gICAgY2hpbGRyZW5cbiAgKSBhcyBSZWFjdEVsZW1lbnQ8VGFiUHJvcHM+W11cbiAgY29uc3QgW2N1cnJlbnRUYWIsIHNldEN1cnJlbnRUYWJdID0gdXNlU3RhdGUoY2hpbGRyZW5BcnJheVswXT8ucHJvcHMudGl0bGUpXG4gIHJldHVybiAoXG4gICAgPFJhZGl4VGFicyB2YWx1ZT17Y3VycmVudFRhYn0gb25WYWx1ZUNoYW5nZT17c2V0Q3VycmVudFRhYn0+XG4gICAgICA8VGFic0xpc3Qgey4uLnByb3BzfT5cbiAgICAgICAge2NoaWxkcmVuQXJyYXkubWFwKChjaGlsZCkgPT4gKFxuICAgICAgICAgIDxUYWJCdXR0b25cbiAgICAgICAgICAgIGNzcz17W2N1cnJlbnRUYWIgPT09IGNoaWxkLnByb3BzLnRpdGxlICYmIFRhYkJ1dHRvblNlbGVjdGVkXX1cbiAgICAgICAgICAgIHZhbHVlPXtjaGlsZC5wcm9wcy50aXRsZX1cbiAgICAgICAgICAgIGtleT17Y2hpbGQucHJvcHMudGl0bGV9XG4gICAgICAgICAgPlxuICAgICAgICAgICAge2NoaWxkLnByb3BzLnRpdGxlfVxuICAgICAgICAgIDwvVGFiQnV0dG9uPlxuICAgICAgICApKX1cbiAgICAgIDwvVGFic0xpc3Q+XG4gICAgICB7Y2hpbGRyZW5BcnJheS5tYXAoKGNoaWxkKSA9PiAoXG4gICAgICAgIDxUYWJzQ29udGVudCBrZXk9e2NoaWxkLnByb3BzLnRpdGxlfSB2YWx1ZT17Y2hpbGQucHJvcHMudGl0bGV9PlxuICAgICAgICAgIHtjaGlsZH1cbiAgICAgICAgPC9UYWJzQ29udGVudD5cbiAgICAgICkpfVxuICAgIDwvUmFkaXhUYWJzPlxuICApXG59XG5cbmZ1bmN0aW9uIFRhYihwcm9wczogVGFiUHJvcHMpIHtcbiAgcmV0dXJuIDxkaXYgey4uLnByb3BzfSAvPlxufVxuXG5UYWJzLlRhYiA9IFRhYlxuIl19 */"],
         value: child.props.title,
         children: child.props.title
       }, child.props.title))
-    }), childrenArray.map((child) => /* @__PURE__ */ jsx($69cb30bb0017df05$export$bd905d70e8fd2ebb, {
+    }), childrenArray.map((child) => /* @__PURE__ */ jsx2($69cb30bb0017df05$export$bd905d70e8fd2ebb, {
       value: child.props.title,
       children: child
     }, child.props.title))]
   });
 }
 function Tab(props) {
-  return /* @__PURE__ */ jsx("div", {
+  return /* @__PURE__ */ jsx2("div", {
     ...props
   });
 }
@@ -43668,7 +43682,7 @@ const Flex = reactExports.forwardRef(({
   center,
   ...props
 }, ref) => {
-  return /* @__PURE__ */ jsx(Wrapper$f, {
+  return /* @__PURE__ */ jsx2(Wrapper$f, {
     ...props,
     ref,
     css: [between && Between, column2 && Column, center && Center, process.env.NODE_ENV === "production" ? "" : ";label:Flex;", process.env.NODE_ENV === "production" ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvdWkvRmxleC50c3giXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBa0JRIiwiZmlsZSI6Ii9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvdWkvRmxleC50c3giLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBFbGVtZW50VHlwZSwgZm9yd2FyZFJlZiwgUmVhY3ROb2RlIH0gZnJvbSAncmVhY3QnXG5pbXBvcnQgc3R5bGVkIGZyb20gJ0BlbW90aW9uL3N0eWxlZCdcbmltcG9ydCB7IGNzcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0J1xuXG50eXBlIEZsZXhQcm9wcyA9IHtcbiAgYmV0d2Vlbj86IGJvb2xlYW5cbiAgY2VudGVyPzogYm9vbGVhblxuICBjb2x1bW4/OiBib29sZWFuXG4gIGdhcD86IG51bWJlclxuICBhcz86IEVsZW1lbnRUeXBlPGFueT5cbn0gJiBKU1guSW50cmluc2ljRWxlbWVudHNbJ2RpdiddXG5cbmV4cG9ydCBjb25zdCBGbGV4ID0gZm9yd2FyZFJlZjxIVE1MRGl2RWxlbWVudCwgRmxleFByb3BzPihcbiAgKHsgYmV0d2VlbiwgY29sdW1uLCBjZW50ZXIsIC4uLnByb3BzIH0sIHJlZikgPT4ge1xuICAgIHJldHVybiAoXG4gICAgICA8V3JhcHBlclxuICAgICAgICB7Li4ucHJvcHN9XG4gICAgICAgIHJlZj17cmVmfVxuICAgICAgICBjc3M9e1tiZXR3ZWVuICYmIEJldHdlZW4sIGNvbHVtbiAmJiBDb2x1bW4sIGNlbnRlciAmJiBDZW50ZXJdfVxuICAgICAgLz5cbiAgICApXG4gIH1cbilcblxuRmxleC5kaXNwbGF5TmFtZSA9ICdGbGV4J1xuXG5jb25zdCBXcmFwcGVyID0gc3R5bGVkLmRpdjxGbGV4UHJvcHM+KFxuICB7XG4gICAgZGlzcGxheTogJ2ZsZXgnLFxuICAgIGFsaWduSXRlbXM6ICdjZW50ZXInLFxuICAgIGp1c3RpZnlDb250ZW50OiAnZmxleC1zdGFydCcsXG4gIH0sXG4gICh7IGdhcCA9IDEgfSkgPT4gKHtcbiAgICBnYXA6IGdhcCArICdlbScsXG4gICAgZ3JpZEdhcDogZ2FwICsgJ2VtJyxcbiAgfSlcbilcblxuY29uc3QgQmV0d2VlbiA9IHtcbiAganVzdGlmeUNvbnRlbnQ6ICdzcGFjZS1iZXR3ZWVuJyxcbn1cblxuY29uc3QgQ2VudGVyID0ge1xuICBqdXN0aWZ5Q29udGVudDogJ2NlbnRlcicsXG59XG5cbmNvbnN0IENvbHVtbiA9IHtcbiAgZGlzcGxheTogJ2dyaWQnLFxuICBhbGlnbkNvbnRlbnQ6ICdmbGV4LXN0YXJ0JyxcbiAgZ3JpZFRlbXBsYXRlQ29sdW1uczogJzFmcicsXG4gIGFsaWduSXRlbXM6ICdmbGV4LXN0YXJ0Jyxcbn1cbiJdfQ== */"]
@@ -43847,7 +43861,7 @@ const PresenceChild = ({
   reactExports.useMemo(() => {
     presenceChildren.forEach((_2, key) => presenceChildren.set(key, false));
   }, [isPresent]);
-  return /* @__PURE__ */ jsx(ClassNames, {
+  return /* @__PURE__ */ jsx2(ClassNames, {
     children: ({
       css: css2,
       cx: cx2
@@ -43910,8 +43924,8 @@ const AnimatePresence = ({
   updateChildLookup(filteredChildren, allChildren);
   if (isInitialRender.current) {
     isInitialRender.current = false;
-    return /* @__PURE__ */ jsx(Fragment$1, {
-      children: filteredChildren.map((child) => /* @__PURE__ */ jsx(PresenceChild, {
+    return /* @__PURE__ */ jsx2(Fragment$1, {
+      children: filteredChildren.map((child) => /* @__PURE__ */ jsx2(PresenceChild, {
         isPresent: true,
         in: inKeyframes,
         out: outKeyframes,
@@ -43954,7 +43968,7 @@ const AnimatePresence = ({
         forceRender();
       }
     };
-    childrenToRender.splice(insertionIndex, 0, /* @__PURE__ */ jsx(PresenceChild, {
+    childrenToRender.splice(insertionIndex, 0, /* @__PURE__ */ jsx2(PresenceChild, {
       isPresent: false,
       onExitComplete: onExit,
       in: inKeyframes,
@@ -43964,7 +43978,7 @@ const AnimatePresence = ({
   });
   childrenToRender = childrenToRender.map((child) => {
     const key = child.key;
-    return exiting.has(key) ? child : /* @__PURE__ */ jsx(PresenceChild, {
+    return exiting.has(key) ? child : /* @__PURE__ */ jsx2(PresenceChild, {
       isPresent: true,
       in: inKeyframes,
       out: outKeyframes,
@@ -43975,7 +43989,7 @@ const AnimatePresence = ({
   if (process.env.NODE_ENV !== "production" && exitBeforeEnter && childrenToRender.length > 1) {
     console.warn(`You're attempting to animate multiple children within AnimatePresence, but its exitBeforeEnter prop is set to true. This will lead to odd visual behaviour.`);
   }
-  return /* @__PURE__ */ jsx(Fragment$1, {
+  return /* @__PURE__ */ jsx2(Fragment$1, {
     children: exiting.size ? childrenToRender : childrenToRender.map((child) => reactExports.cloneElement(child))
   });
 };
@@ -43989,18 +44003,18 @@ function Flash({
   duration,
   onHide: onHide2
 }) {
-  return /* @__PURE__ */ jsx(AnimatePresence, {
+  return /* @__PURE__ */ jsx2(AnimatePresence, {
     in: FlashIn,
     out: FlashOut,
     children: children && /* @__PURE__ */ jsxs(Wrapper$e, {
       between: true,
-      children: [/* @__PURE__ */ jsx("div", {
+      children: [/* @__PURE__ */ jsx2("div", {
         children
-      }), action && /* @__PURE__ */ jsx(FlashButton, {
+      }), action && /* @__PURE__ */ jsx2(FlashButton, {
         size: "small",
         onClick: prevent(onClick),
         children: action
-      }), duration && /* @__PURE__ */ jsx(Progress, {
+      }), duration && /* @__PURE__ */ jsx2(Progress, {
         onAnimationEnd: preventPropagation(onHide2),
         style: {
           animationDuration: `${duration}s`
@@ -44137,23 +44151,23 @@ const SpinnerWrapper = /* @__PURE__ */ createStyled("div", process.env.NODE_ENV 
   "--size": `${size2}px`
 }), process.env.NODE_ENV === "production" ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvdWkvU3Bpbm5lci50c3giXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBZ0J1QiIsImZpbGUiOiIvVXNlcnMveHN0ZXZlbnl1bmcvQ29kZS9rbGFwYXVkaWVuY2UvcGFja2FnZXMvdmlzdWFsLWVkaXRvci92aXN1YWwtZWRpdG9yL3NyYy9jb21wb25lbnRzL3VpL1NwaW5uZXIudHN4Iiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsga2V5ZnJhbWVzIH0gZnJvbSAnQGVtb3Rpb24vcmVhY3QnXG5pbXBvcnQgc3R5bGVkIGZyb20gJ0BlbW90aW9uL3N0eWxlZCdcblxudHlwZSBTcGlubmVyUHJvcHMgPSB7XG4gIHNpemU/OiBudW1iZXJcbn1cblxuY29uc3QgU3Bpbm5lcktleWZyYW1lcyA9IGtleWZyYW1lcyh7XG4gIGZyb206IHtcbiAgICB0cmFuc2Zvcm06ICdyb3RhdGUoMGRlZyknLFxuICB9LFxuICB0bzoge1xuICAgIHRyYW5zZm9ybTogJ3JvdGF0ZSgtMzYwZGVnKScsXG4gIH0sXG59KVxuXG5jb25zdCBTcGlubmVyV3JhcHBlciA9IHN0eWxlZC5kaXY8U3Bpbm5lclByb3BzPihcbiAge1xuICAgIHBvc2l0aW9uOiAnYWJzb2x1dGUnLFxuICAgIHRvcDogJ2NhbGMoNTAlIC0gdmFyKC0tc2l6ZSkgKiAwLjUpJyxcbiAgICBsZWZ0OiAnY2FsYyg1MCUgLSB2YXIoLS1zaXplKSAqIDAuNSknLFxuICAgIHdpZHRoOiAndmFyKC0tc2l6ZSknLFxuICAgIGhlaWdodDogJ3ZhcigtLXNpemUpJyxcbiAgICBhbmltYXRpb246IGAke1NwaW5uZXJLZXlmcmFtZXN9IDEuNHMgaW5maW5pdGUgbGluZWFyYCxcbiAgICBzdmc6IHtcbiAgICAgIGRpc3BsYXk6ICdibG9jaycsXG4gICAgICB3aWR0aDogJ3ZhcigtLXNpemUpJyxcbiAgICAgIGhlaWdodDogJ3ZhcigtLXNpemUpJyxcbiAgICB9LFxuICB9LFxuICAoeyBzaXplID0gMzAgfSkgPT4gKHtcbiAgICAnLS1zaXplJzogYCR7c2l6ZX1weGAsXG4gIH0pXG4pXG5cbmV4cG9ydCBmdW5jdGlvbiBTcGlubmVyKHByb3BzOiBTcGlubmVyUHJvcHMpIHtcbiAgcmV0dXJuIChcbiAgICA8U3Bpbm5lcldyYXBwZXIgey4uLnByb3BzfT5cbiAgICAgIDxzdmcgdmlld0JveD1cIjAgMCA2MCA2MFwiIGZpbGw9XCJub25lXCIgeG1sbnM9XCJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Z1wiPlxuICAgICAgICA8cGF0aFxuICAgICAgICAgIGZpbGxSdWxlPVwiZXZlbm9kZFwiXG4gICAgICAgICAgY2xpcFJ1bGU9XCJldmVub2RkXCJcbiAgICAgICAgICBkPVwiTTMwIDYwQzQ2LjU2ODUgNjAgNjAgNDYuNTY4NSA2MCAzMEM2MCAxMy40MzE1IDQ2LjU2ODUgMCAzMCAwQzEzLjQzMTUgMCAwIDEzLjQzMTUgMCAzMEMwIDQ2LjU2ODUgMTMuNDMxNSA2MCAzMCA2MFpNMzAgNTBDNDEuMDQ1NyA1MCA1MCA0MS4wNDU3IDUwIDMwQzUwIDE4Ljk1NDMgNDEuMDQ1NyAxMCAzMCAxMEMxOC45NTQzIDEwIDEwIDE4Ljk1NDMgMTAgMzBDMTAgNDEuMDQ1NyAxOC45NTQzIDUwIDMwIDUwWlwiXG4gICAgICAgICAgZmlsbD1cInVybCgjcGFpbnQwX2xpbmVhcl8zMTNfMTUpXCJcbiAgICAgICAgLz5cbiAgICAgICAgPHBhdGhcbiAgICAgICAgICBmaWxsUnVsZT1cImV2ZW5vZGRcIlxuICAgICAgICAgIGNsaXBSdWxlPVwiZXZlbm9kZFwiXG4gICAgICAgICAgZD1cIk0xMCAzMEgwQzAgNDYuNTY4NSAxMy40MzE1IDYwIDMwIDYwVjUwQzE4Ljk1NDMgNTAgMTAgNDEuMDQ1NyAxMCAzMFpcIlxuICAgICAgICAgIGZpbGw9XCJjdXJyZW50Q29sb3JcIlxuICAgICAgICAvPlxuICAgICAgICA8ZGVmcz5cbiAgICAgICAgICA8bGluZWFyR3JhZGllbnRcbiAgICAgICAgICAgIGlkPVwicGFpbnQwX2xpbmVhcl8zMTNfMTVcIlxuICAgICAgICAgICAgeDE9XCIzMFwiXG4gICAgICAgICAgICB5MT1cIjMwXCJcbiAgICAgICAgICAgIHgyPVwiMTdcIlxuICAgICAgICAgICAgeTI9XCIzMFwiXG4gICAgICAgICAgICBncmFkaWVudFVuaXRzPVwidXNlclNwYWNlT25Vc2VcIlxuICAgICAgICAgID5cbiAgICAgICAgICAgIDxzdG9wIHN0b3BDb2xvcj1cImN1cnJlbnRDb2xvclwiIHN0b3BPcGFjaXR5PVwiMFwiIC8+XG4gICAgICAgICAgICA8c3RvcFxuICAgICAgICAgICAgICBvZmZzZXQ9XCIwLjE5ODA2MlwiXG4gICAgICAgICAgICAgIHN0b3BDb2xvcj1cImN1cnJlbnRDb2xvclwiXG4gICAgICAgICAgICAgIHN0b3BPcGFjaXR5PVwiMC4yMTc3ODZcIlxuICAgICAgICAgICAgLz5cbiAgICAgICAgICAgIDxzdG9wXG4gICAgICAgICAgICAgIG9mZnNldD1cIjAuNDM0NDI1XCJcbiAgICAgICAgICAgICAgc3RvcENvbG9yPVwiY3VycmVudENvbG9yXCJcbiAgICAgICAgICAgICAgc3RvcE9wYWNpdHk9XCIwLjQ3NzY4N1wiXG4gICAgICAgICAgICAvPlxuICAgICAgICAgICAgPHN0b3Agb2Zmc2V0PVwiMVwiIHN0b3BDb2xvcj1cImN1cnJlbnRDb2xvclwiIC8+XG4gICAgICAgICAgPC9saW5lYXJHcmFkaWVudD5cbiAgICAgICAgPC9kZWZzPlxuICAgICAgPC9zdmc+XG4gICAgPC9TcGlubmVyV3JhcHBlcj5cbiAgKVxufVxuIl19 */");
 function Spinner(props) {
-  return /* @__PURE__ */ jsx(SpinnerWrapper, {
+  return /* @__PURE__ */ jsx2(SpinnerWrapper, {
     ...props,
     children: /* @__PURE__ */ jsxs("svg", {
       viewBox: "0 0 60 60",
       fill: "none",
       xmlns: "http://www.w3.org/2000/svg",
-      children: [/* @__PURE__ */ jsx("path", {
+      children: [/* @__PURE__ */ jsx2("path", {
         fillRule: "evenodd",
         clipRule: "evenodd",
         d: "M30 60C46.5685 60 60 46.5685 60 30C60 13.4315 46.5685 0 30 0C13.4315 0 0 13.4315 0 30C0 46.5685 13.4315 60 30 60ZM30 50C41.0457 50 50 41.0457 50 30C50 18.9543 41.0457 10 30 10C18.9543 10 10 18.9543 10 30C10 41.0457 18.9543 50 30 50Z",
         fill: "url(#paint0_linear_313_15)"
-      }), /* @__PURE__ */ jsx("path", {
+      }), /* @__PURE__ */ jsx2("path", {
         fillRule: "evenodd",
         clipRule: "evenodd",
         d: "M10 30H0C0 46.5685 13.4315 60 30 60V50C18.9543 50 10 41.0457 10 30Z",
         fill: "currentColor"
-      }), /* @__PURE__ */ jsx("defs", {
+      }), /* @__PURE__ */ jsx2("defs", {
         children: /* @__PURE__ */ jsxs("linearGradient", {
           id: "paint0_linear_313_15",
           x1: "30",
@@ -44161,18 +44175,18 @@ function Spinner(props) {
           x2: "17",
           y2: "30",
           gradientUnits: "userSpaceOnUse",
-          children: [/* @__PURE__ */ jsx("stop", {
+          children: [/* @__PURE__ */ jsx2("stop", {
             stopColor: "currentColor",
             stopOpacity: "0"
-          }), /* @__PURE__ */ jsx("stop", {
+          }), /* @__PURE__ */ jsx2("stop", {
             offset: "0.198062",
             stopColor: "currentColor",
             stopOpacity: "0.217786"
-          }), /* @__PURE__ */ jsx("stop", {
+          }), /* @__PURE__ */ jsx2("stop", {
             offset: "0.434425",
             stopColor: "currentColor",
             stopOpacity: "0.477687"
-          }), /* @__PURE__ */ jsx("stop", {
+          }), /* @__PURE__ */ jsx2("stop", {
             offset: "1",
             stopColor: "currentColor"
           })]
@@ -44184,12 +44198,12 @@ function Spinner(props) {
 function IconPhone({
   size: size2 = 18
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     width: size2,
     height: size2,
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       fill: "currentColor",
       d: "M7 4v16h10V4H7zM6 2h12a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm6 15a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
     })
@@ -44203,10 +44217,10 @@ function IconTablet({
     width: size2,
     height: size2,
     fill: "none",
-    children: [/* @__PURE__ */ jsx("path", {
+    children: [/* @__PURE__ */ jsx2("path", {
       fill: "currentColor",
       d: "M20 7H4v10h16V7Zm2-1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1Z"
-    }), /* @__PURE__ */ jsx("rect", {
+    }), /* @__PURE__ */ jsx2("rect", {
       width: "10",
       height: "1",
       x: "7",
@@ -44219,12 +44233,12 @@ function IconTablet({
 function IconDesktop({
   size: size2 = 24
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     width: size2,
     height: size2,
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       fill: "currentColor",
       d: "M4 16h16V5H4v11zm9 2v2h4v2H7v-2h4v-2H2.992A.998.998 0 0 1 2 16.993V4.007C2 3.451 2.455 3 2.992 3h18.016c.548 0 .992.449.992 1.007v12.986c0 .556-.455 1.007-.992 1.007H13z"
     })
@@ -44239,10 +44253,10 @@ function IconCheck({
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 16 16",
-    children: [/* @__PURE__ */ jsx("path", {
+    children: [/* @__PURE__ */ jsx2("path", {
       fill: "currentColor",
       d: "M13.315 2.716A7.461 7.461 0 102.763 13.268 7.461 7.461 0 0013.315 2.716zM8.039 14.454a6.468 6.468 0 01-6.46-6.46 6.468 6.468 0 016.46-6.462A6.468 6.468 0 0114.5 7.992a6.468 6.468 0 01-6.46 6.461z"
-    }), /* @__PURE__ */ jsx("path", {
+    }), /* @__PURE__ */ jsx2("path", {
       fill: "currentColor",
       d: "M6.915 9.556L4.62 7.262l-.708.707 3.002 3.002 5.234-5.235-.707-.707-4.527 4.527z"
     })]
@@ -44257,12 +44271,12 @@ function IconAlignLeft({
     height: size2,
     fill: "none",
     viewBox: "0 0 24 24",
-    children: [/* @__PURE__ */ jsx("path", {
+    children: [/* @__PURE__ */ jsx2("path", {
       fill: "currentColor",
       fillRule: "evenodd",
       d: "M10 6H5v13h5V6zM3 4v17h9V4H3z",
       clipRule: "evenodd"
-    }), /* @__PURE__ */ jsx("path", {
+    }), /* @__PURE__ */ jsx2("path", {
       fill: "currentColor",
       d: "M22 7v2h-7V7h7zM22 11v2h-7v-2h7zM19 15v2h-4v-2h4z"
     })]
@@ -44277,12 +44291,12 @@ function IconAlignRight({
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
-    children: [/* @__PURE__ */ jsx("path", {
+    children: [/* @__PURE__ */ jsx2("path", {
       fill: "currentColor",
       fillRule: "evenodd",
       d: "M19 6h-5v13h5V6zm-7-2v17h9V4h-9z",
       clipRule: "evenodd"
-    }), /* @__PURE__ */ jsx("path", {
+    }), /* @__PURE__ */ jsx2("path", {
       fill: "currentColor",
       d: "M10 7v2H3V7h7zM10 11v2H3v-2h7zM7 15v2H3v-2h4z"
     })]
@@ -44297,12 +44311,12 @@ function IconAlignTop({
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
-    children: [/* @__PURE__ */ jsx("defs", {}), /* @__PURE__ */ jsx("path", {
+    children: [/* @__PURE__ */ jsx2("defs", {}), /* @__PURE__ */ jsx2("path", {
       fill: "currentColor",
       fillRule: "evenodd",
       d: "M19 5H5v5h14V5zM3 3v9h18V3H3z",
       clipRule: "evenodd"
-    }), /* @__PURE__ */ jsx("path", {
+    }), /* @__PURE__ */ jsx2("path", {
       fill: "currentColor",
       d: "M20 14v2H3v-2h17zM14 18v2H3v-2h11z"
     })]
@@ -44317,12 +44331,12 @@ function IconAlignBottom({
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
-    children: [/* @__PURE__ */ jsx("path", {
+    children: [/* @__PURE__ */ jsx2("path", {
       fill: "currentColor",
       fillRule: "evenodd",
       d: "M19 14H5v5h14v-5zM3 12v9h18v-9H3z",
       clipRule: "evenodd"
-    }), /* @__PURE__ */ jsx("path", {
+    }), /* @__PURE__ */ jsx2("path", {
       fill: "currentColor",
       d: "M20 4v2H3V4h17zM14 8v2H3V8h11zM7 12v2H3v-2h4z"
     })]
@@ -44331,13 +44345,13 @@ function IconAlignBottom({
 function IconTextLeft({
   size: size2 = 24
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     width: size2,
     height: size2,
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       fill: "currentColor",
       d: "M3 8V6h8v2zM3 13v-2h18v2zM3 18v-2h14v2z"
     })
@@ -44346,13 +44360,13 @@ function IconTextLeft({
 function IconTextCenter({
   size: size2 = 24
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     width: size2,
     height: size2,
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       fill: "currentColor",
       d: "M8 8V6h8v2zM3 13v-2h18v2zM5 18v-2h14v2z"
     })
@@ -44361,13 +44375,13 @@ function IconTextCenter({
 function IconTextRight({
   size: size2 = 24
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     width: size2,
     height: size2,
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       fill: "currentColor",
       d: "M11 8V6h10v2zM3 13v-2h18v2zM6 18v-2h15v2z"
     })
@@ -44381,10 +44395,10 @@ function IconCirclePlus({
     viewBox: "0 0 24 24",
     width: size2,
     height: size2,
-    children: [/* @__PURE__ */ jsx("path", {
+    children: [/* @__PURE__ */ jsx2("path", {
       fill: "none",
       d: "M0 0h24v24H0z"
-    }), /* @__PURE__ */ jsx("path", {
+    }), /* @__PURE__ */ jsx2("path", {
       d: "M11 11V7h2v4h4v2h-4v4h-2v-4H7v-2h4zm1 11C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z",
       fill: "currentColor"
     })]
@@ -44394,20 +44408,20 @@ function IconDown({
   size: size2 = 24,
   style: style2
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     width: size2,
     height: size2,
     style: style2,
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z",
       fill: "currentColor"
     })
   });
 }
 function IconUp(props) {
-  return /* @__PURE__ */ jsx(IconDown, {
+  return /* @__PURE__ */ jsx2(IconDown, {
     ...props,
     style: {
       transform: "scaleY(-1)",
@@ -44418,12 +44432,12 @@ function IconUp(props) {
 function IconTrash({
   size: size2 = 24
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     width: size2,
     height: size2,
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M17 6h5v2h-2v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8H2V6h5V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v3zm1 2H6v12h12V8zm-4.586 6l1.768 1.768-1.414 1.414L12 15.414l-1.768 1.768-1.414-1.414L10.586 14l-1.768-1.768 1.414-1.414L12 12.586l1.768-1.768 1.414 1.414L13.414 14zM9 4v2h6V4H9z",
       fill: "currentColor"
     })
@@ -44432,13 +44446,13 @@ function IconTrash({
 function IconCross({
   size: size2 = 24
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     width: size2,
     height: size2,
     viewBox: "0 0 14 14",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M6.99999 5.58599L11.95 0.635986L13.364 2.04999L8.41399 6.99999L13.364 11.95L11.95 13.364L6.99999 8.41399L2.04999 13.364L0.635986 11.95L5.58599 6.99999L0.635986 2.04999L2.04999 0.635986L6.99999 5.58599Z",
       fill: "currentColor"
     })
@@ -44447,12 +44461,12 @@ function IconCross({
 function IconSearch({
   size: size2 = 24
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     width: size2,
     height: size2,
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "m11.02 10.078 2.856 2.855-.943.943-2.855-2.855A6.002 6.002 0 0 1 .333 6.334c0-3.313 2.688-6 6-6a6.002 6.002 0 0 1 4.688 9.744Zm-1.337-.495a4.665 4.665 0 0 0-3.35-7.917 4.665 4.665 0 0 0-4.666 4.667 4.665 4.665 0 0 0 7.916 3.35l.1-.1Z",
       fill: "currentColor"
     })
@@ -44461,12 +44475,12 @@ function IconSearch({
 function IconCode({
   size: size2 = 24
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     width: size2,
     height: size2,
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       fill: "currentColor",
       d: "M24 12l-5.657 5.657-1.414-1.414L21.172 12l-4.243-4.243 1.414-1.414L24 12zM2.828 12l4.243 4.243-1.414 1.414L0 12l5.657-5.657L7.07 7.757 2.828 12zm6.96 9H7.66l6.552-18h2.128L9.788 21z"
     })
@@ -44475,12 +44489,12 @@ function IconCode({
 function IconFolder({
   size: size2 = 24
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     width: size2,
     height: size2,
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       fill: "currentColor",
       d: "M3 21a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h7.414l2 2H20a1 1 0 0 1 1 1v3h-2V7h-7.414l-2-2H4v11.998L5.5 11h17l-2.31 9.243a1 1 0 0 1-.97.757H3zm16.938-8H7.062l-1.5 6h12.876l1.5-6z"
     })
@@ -44489,13 +44503,13 @@ function IconFolder({
 function IconBack({
   size: size2 = 24
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     width: size2,
     height: size2,
     viewBox: "0 0 24 24",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M4.5 2.5L4.5 20.5L2.5 20.5L2.5 2.5L4.5 2.5ZM10.328 12.5L16.4 18.571L14.986 19.985L6.5 11.5L14.985 3.015L16.4 4.429L10.33 10.5L21.5 10.5L21.5 12.5L10.328 12.5Z",
       fill: "currentColor"
     })
@@ -44504,12 +44518,12 @@ function IconBack({
 function IconSave({
   size: size2 = 24
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     width: size2,
     height: size2,
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M7 19v-6h10v6h2V7.828L16.172 5H5v14h2zM4 3h13l4 4v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm5 12v4h6v-4H9z",
       fill: "currentColor"
     })
@@ -44518,12 +44532,12 @@ function IconSave({
 function IconCalendar({
   size: size2 = 24
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     width: size2,
     height: size2,
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       fill: "currentColor",
       d: "M17 3h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h4V1h2v2h6V1h2v2zm-2 2H9v2H7V5H4v4h16V5h-3v2h-2V5zm5 6H4v8h16v-8z"
     })
@@ -44532,12 +44546,12 @@ function IconCalendar({
 function IconPage({
   size: size2 = 24
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     width: size2,
     height: size2,
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       fill: "currentColor",
       d: "M5 8v12h14V8H5zm0-2h14V4H5v2zm15 16H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1zM7 10h4v4H7v-4zm0 6h10v2H7v-2zm6-5h4v2h-4v-2z"
     })
@@ -44552,12 +44566,12 @@ function IconBlocs({
     viewBox: "0 0 24 24",
     width: size2,
     height: size2,
-    children: [/* @__PURE__ */ jsx("path", {
+    children: [/* @__PURE__ */ jsx2("path", {
       fill: "currentColor",
       fillRule: "evenodd",
       d: "M4 4v5h16V4H4ZM3 2a1 1 0 0 0-1 1v7c0 .6.4 1 1 1h18c.6 0 1-.4 1-1V3c0-.6-.4-1-1-1H3ZM4 15v5h16v-5H4Zm-1-2a1 1 0 0 0-1 1v7c0 .6.4 1 1 1h18c.6 0 1-.4 1-1v-7c0-.6-.4-1-1-1H3Z",
       clipRule: "evenodd"
-    }), /* @__PURE__ */ jsx("path", {
+    }), /* @__PURE__ */ jsx2("path", {
       fill: "currentColor",
       d: "M5 5h6v1H5V5ZM5 16h6v1H5v-1Z"
     })]
@@ -44581,12 +44595,12 @@ function SortableWrapper({
       onMove(ids2.indexOf(active.id.toString()), ids2.indexOf(over.id.toString()));
     }
   }
-  return /* @__PURE__ */ jsx(DndContext, {
+  return /* @__PURE__ */ jsx2(DndContext, {
     sensors,
     collisionDetection: closestCenter,
     onDragEnd: handleDragEnd,
     modifiers: [restrictToVerticalAxis, restrictToParentElement],
-    children: /* @__PURE__ */ jsx(SortableContext, {
+    children: /* @__PURE__ */ jsx2(SortableContext, {
       items: ids2,
       strategy: verticalListSortingStrategy,
       children
@@ -44620,7 +44634,7 @@ function Sortable({
     style: style2,
     ...attributes,
     ...props,
-    children: [/* @__PURE__ */ jsx(DragHandle, {
+    children: [/* @__PURE__ */ jsx2(DragHandle, {
       ...listeners
     }), children]
   });
@@ -45172,7 +45186,7 @@ var Events = /* @__PURE__ */ ((Events2) => {
   return Events2;
 })(Events || {});
 const sidebarWidth = typeof localStorage !== "undefined" ? localStorage.getItem("veSidebarWidth") : 0;
-const createStore = (data = [], definitions, hiddenCategories = [], rootElement, templates2, insertPosition, devices) => {
+const createStore = (data = [], definitions, hiddenCategories = [], rootElement, templates2, insertPosition, devices, actions2) => {
   return create(combine({
     data,
     definitions,
@@ -45180,6 +45194,7 @@ const createStore = (data = [], definitions, hiddenCategories = [], rootElement,
     rootElement,
     templates: templates2,
     insertPosition,
+    actions: actions2,
     device: devices[devices.length - 1],
     devices,
     previousData: data,
@@ -45335,11 +45350,12 @@ function StoreProvider({
   templates: templates2,
   insertPosition,
   devices,
-  onStore
+  onStore,
+  actions: actions2
 }) {
-  const store2 = reactExports.useMemo(() => createStore(data, definitions, hiddenCategories, rootElement, templates2, insertPosition, devices), [data, definitions, hiddenCategories, rootElement, templates2, insertPosition, devices]);
+  const store2 = reactExports.useMemo(() => createStore(data, definitions, hiddenCategories, rootElement, templates2, insertPosition, devices, actions2), [data, definitions, hiddenCategories, rootElement, templates2, insertPosition, devices]);
   onStore(store2);
-  return /* @__PURE__ */ jsx(StoreContext.Provider, {
+  return /* @__PURE__ */ jsx2(StoreContext.Provider, {
     value: {
       store: store2
     },
@@ -45484,7 +45500,7 @@ const SidebarHeading = reactExports.forwardRef(({
     children: [/* @__PURE__ */ jsxs(Title$1, {
       as,
       onClick,
-      children: [/* @__PURE__ */ jsx("strong", {
+      children: [/* @__PURE__ */ jsx2("strong", {
         children: title
       }), description]
     }), children]
@@ -45492,7 +45508,7 @@ const SidebarHeading = reactExports.forwardRef(({
 });
 SidebarHeading.displayName = "SidebarHeading";
 const SidebarHeadingHoverable = (props) => {
-  return /* @__PURE__ */ jsx(HoverableActions, {
+  return /* @__PURE__ */ jsx2(HoverableActions, {
     gap: 0,
     ...props
   });
@@ -45533,16 +45549,16 @@ function SidebarBlocMissing({
   const {
     removeBloc
   } = usePartialStore("removeBloc");
-  return /* @__PURE__ */ jsx(SidebarBlocWrapper, {
+  return /* @__PURE__ */ jsx2(SidebarBlocWrapper, {
     item: data,
     css: _ref$9,
-    children: /* @__PURE__ */ jsx(SidebarHeading, {
+    children: /* @__PURE__ */ jsx2(SidebarHeading, {
       title: `${t("unknownComponent")} : ${data._name}`,
-      children: /* @__PURE__ */ jsx(ButtonIcon, {
+      children: /* @__PURE__ */ jsx2(ButtonIcon, {
         danger: true,
         onClick: prevent(() => removeBloc(data._id)),
         title: t("deleteComponent"),
-        children: /* @__PURE__ */ jsx(IconTrash, {
+        children: /* @__PURE__ */ jsx2(IconTrash, {
           size: 20
         })
       })
@@ -45555,16 +45571,16 @@ function FieldsRenderer({
   path,
   onUpdate
 }) {
-  return /* @__PURE__ */ jsx(Fragment$1, {
-    children: fields.filter((field) => field.shouldRender(data)).map((field, k3) => field.group ? /* @__PURE__ */ jsx(field.render, {
+  return /* @__PURE__ */ jsx2(Fragment$1, {
+    children: fields.filter((field) => field.shouldRender(data)).map((field, k3) => field.group ? /* @__PURE__ */ jsx2(field.render, {
       options: field.options,
-      children: /* @__PURE__ */ jsx(FieldsRenderer, {
+      children: /* @__PURE__ */ jsx2(FieldsRenderer, {
         fields: field.fields,
         data,
         path,
         onUpdate
       })
-    }, k3) : /* @__PURE__ */ jsx(Field, {
+    }, k3) : /* @__PURE__ */ jsx2(Field, {
       field,
       value: field.name ? data[field.name] : void 0,
       path: `${path}.${field.name}`,
@@ -45584,7 +45600,7 @@ function Field({
   const handleChange = reactExports.useCallback((v2) => {
     onUpdate(v2, path);
   }, [path, onUpdate]);
-  return /* @__PURE__ */ jsx(Component2, {
+  return /* @__PURE__ */ jsx2(Component2, {
     value,
     onChange: handleChange,
     options: field.options,
@@ -45599,7 +45615,7 @@ function SidebarFields({
   const {
     updateData
   } = usePartialStore("updateData");
-  return /* @__PURE__ */ jsx(FieldsRenderer, {
+  return /* @__PURE__ */ jsx2(FieldsRenderer, {
     fields,
     data,
     onUpdate: updateData,
@@ -45648,19 +45664,19 @@ function CopyAction({
   reactExports.useEffect(() => {
     clearTimeout(timer.current);
   }, []);
-  return /* @__PURE__ */ jsx(Tooltip$1, {
+  return /* @__PURE__ */ jsx2(Tooltip$1, {
     content: success ? /* @__PURE__ */ jsxs(Fragment$1, {
-      children: [t("copySuccess"), /* @__PURE__ */ jsx("br", {}), t("copyInstructions")]
+      children: [t("copySuccess"), /* @__PURE__ */ jsx2("br", {}), t("copyInstructions")]
     }) : tooltipLabel,
     trigger: "focus",
-    children: /* @__PURE__ */ jsx("div", {
-      children: /* @__PURE__ */ jsx(ButtonIcon, {
+    children: /* @__PURE__ */ jsx2("div", {
+      children: /* @__PURE__ */ jsx2(ButtonIcon, {
         onClick: prevent(handleCopy),
         success,
         ...props,
-        children: success ? /* @__PURE__ */ jsx(IconCheck, {
+        children: success ? /* @__PURE__ */ jsx2(IconCheck, {
           size: size2
-        }) : /* @__PURE__ */ jsx(IconCode, {
+        }) : /* @__PURE__ */ jsx2(IconCode, {
           size: size2
         })
       })
@@ -45714,7 +45730,7 @@ const SidebarBloc = reactExports.memo(function SidebarItem({
     toggleCollapsed();
   };
   if (!definition) {
-    return /* @__PURE__ */ jsx(SidebarBlocMissing, {
+    return /* @__PURE__ */ jsx2(SidebarBlocMissing, {
       data
     });
   }
@@ -45726,29 +45742,29 @@ const SidebarBloc = reactExports.memo(function SidebarItem({
       description: isCollapsed ? labelHTMLSafe : null,
       onClick: prevent(focusBloc),
       children: [/* @__PURE__ */ jsxs(SidebarHeading.Hover, {
-        children: [/* @__PURE__ */ jsx(CopyAction, {
+        children: [/* @__PURE__ */ jsx2(CopyAction, {
           data,
           size: 20
-        }), /* @__PURE__ */ jsx(ButtonIcon, {
+        }), /* @__PURE__ */ jsx2(ButtonIcon, {
           danger: true,
           onClick: handleRemove,
           title: t("deleteComponent"),
-          children: /* @__PURE__ */ jsx(IconTrash, {
+          children: /* @__PURE__ */ jsx2(IconTrash, {
             size: 20
           })
         })]
-      }), /* @__PURE__ */ jsx(ButtonIcon, {
+      }), /* @__PURE__ */ jsx2(ButtonIcon, {
         rotate: isCollapsed ? -90 : 0,
         onClick: prevent(toggleCollapsed),
-        children: /* @__PURE__ */ jsx(IconDown, {
+        children: /* @__PURE__ */ jsx2(IconDown, {
           size: 20
         })
       })]
-    }), !isCollapsed && /* @__PURE__ */ jsx(Flex, {
+    }), !isCollapsed && /* @__PURE__ */ jsx2(Flex, {
       column: true,
       gap: 1,
       css: _ref$8,
-      children: /* @__PURE__ */ jsx(SidebarFields, {
+      children: /* @__PURE__ */ jsx2(SidebarFields, {
         fields: definition.fields,
         data,
         path
@@ -45768,11 +45784,11 @@ function SidebarBlocs() {
   const handleMove = (from3, to) => {
     updateData(moveItem(data, from3, to));
   };
-  return /* @__PURE__ */ jsx(Wrapper$c, {
-    children: /* @__PURE__ */ jsx(SortableWrapper, {
+  return /* @__PURE__ */ jsx2(Wrapper$c, {
+    children: /* @__PURE__ */ jsx2(SortableWrapper, {
       items: data,
       onMove: handleMove,
-      children: data.map((v2, k3) => /* @__PURE__ */ jsx(SidebarBloc, {
+      children: data.map((v2, k3) => /* @__PURE__ */ jsx2(SidebarBloc, {
         data: v2,
         definition: definitions[v2._name],
         path: `${k3}`
@@ -45794,6 +45810,21 @@ const Wrapper$c = /* @__PURE__ */ createStyled("div", process.env.NODE_ENV === "
   map: "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvU2lkZWJhci9TaWRlYmFyQmxvY3MudHN4Il0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQXFDZ0IiLCJmaWxlIjoiL1VzZXJzL3hzdGV2ZW55dW5nL0NvZGUva2xhcGF1ZGllbmNlL3BhY2thZ2VzL3Zpc3VhbC1lZGl0b3IvdmlzdWFsLWVkaXRvci9zcmMvY29tcG9uZW50cy9TaWRlYmFyL1NpZGViYXJCbG9jcy50c3giLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBFZGl0b3JDb21wb25lbnREYXRhIH0gZnJvbSAnc3JjL3R5cGVzJ1xuaW1wb3J0IHsgU29ydGFibGVXcmFwcGVyIH0gZnJvbSAnc3JjL2NvbXBvbmVudHMvU29ydGFibGUnXG5pbXBvcnQgeyBtb3ZlSXRlbSB9IGZyb20gJ3NyYy9mdW5jdGlvbnMvYXJyYXknXG5cbmltcG9ydCB7IFNpZGViYXJCbG9jIH0gZnJvbSAnLi9TaWRlYmFyQmxvYydcbmltcG9ydCBzdHlsZWQgZnJvbSAnQGVtb3Rpb24vc3R5bGVkJ1xuaW1wb3J0IHsgdXNlUGFydGlhbFN0b3JlIH0gZnJvbSAnc3JjL3N0b3JlJ1xuXG4vKipcbiAqIEfDqW7DqHJlIGxhIGxpc3RlIGRlcyBjaGFtcHMgZGFucyBsYSBzaWRlYmFyXG4gKi9cbmV4cG9ydCBmdW5jdGlvbiBTaWRlYmFyQmxvY3MoKSB7XG4gIGNvbnN0IHsgdXBkYXRlRGF0YSwgZGVmaW5pdGlvbnMsIGRhdGEgfSA9IHVzZVBhcnRpYWxTdG9yZShcbiAgICAnZGVmaW5pdGlvbnMnLFxuICAgICd1cGRhdGVEYXRhJyxcbiAgICAnZGF0YScsXG4gIClcbiAgY29uc3QgaGFuZGxlTW92ZSA9IChmcm9tOiBudW1iZXIsIHRvOiBudW1iZXIpID0+IHtcbiAgICB1cGRhdGVEYXRhKG1vdmVJdGVtKGRhdGEsIGZyb20sIHRvKSlcbiAgfVxuXG4gIHJldHVybiAoXG4gICAgPFdyYXBwZXI+XG4gICAgICA8U29ydGFibGVXcmFwcGVyIGl0ZW1zPXtkYXRhfSBvbk1vdmU9e2hhbmRsZU1vdmV9PlxuICAgICAgICB7ZGF0YS5tYXAoKHYsIGspID0+IChcbiAgICAgICAgICA8U2lkZWJhckJsb2NcbiAgICAgICAgICAgIGtleT17di5faWR9XG4gICAgICAgICAgICBkYXRhPXt2fVxuICAgICAgICAgICAgZGVmaW5pdGlvbj17ZGVmaW5pdGlvbnNbdi5fbmFtZV19XG4gICAgICAgICAgICBwYXRoPXtgJHtrfWB9XG4gICAgICAgICAgLz5cbiAgICAgICAgKSl9XG4gICAgICA8L1NvcnRhYmxlV3JhcHBlcj5cbiAgICA8L1dyYXBwZXI+XG4gIClcbn1cblxuY29uc3QgV3JhcHBlciA9IHN0eWxlZC5kaXYoe1xuICBkaXNwbGF5OiAnZ3JpZCcsXG4gIGdyaWRUZW1wbGF0ZUNvbHVtbnM6ICcxZnInLFxuICBmbGV4RGlyZWN0aW9uOiAnY29sdW1uJyxcbiAgZ2FwOiAnMWVtJyxcbiAgcGFkZGluZzogJzFlbScsXG4gIG92ZXJmbG93OiAnYXV0bycsXG4gIHNjcm9sbGJhckd1dHRlcjogJ3N0YWJsZScsXG59KVxuIl19 */",
   toString: _EMOTION_STRINGIFIED_CSS_ERROR__$s
 });
+function ActionButton({
+  icon,
+  title,
+  action
+}) {
+  return /* @__PURE__ */ jsx2(ButtonIcon, {
+    onClick: prevent(action),
+    title,
+    children: /* @__PURE__ */ jsx2("span", {
+      dangerouslySetInnerHTML: {
+        __html: icon
+      }
+    })
+  });
+}
 function _EMOTION_STRINGIFIED_CSS_ERROR__$r() {
   return "You have tried to stringify object returned from `css` function. It isn't supposed to be used directly (e.g. as value of the `className` prop), but rather handed to emotion so it can handle it (e.g. as value of `css` prop).";
 }
@@ -45802,22 +45833,26 @@ function SidebarHeader({
   children
 }) {
   const {
-    setAddBlockIndex
-  } = usePartialStore("setAddBlockIndex");
+    setAddBlockIndex,
+    actions: actions2
+  } = usePartialStore("setAddBlockIndex", "actions");
   return /* @__PURE__ */ jsxs(Wrapper$b, {
     between: true,
-    children: [/* @__PURE__ */ jsx("div", {
-      children: /* @__PURE__ */ jsx(ButtonIcon, {
+    children: [/* @__PURE__ */ jsx2("div", {
+      children: /* @__PURE__ */ jsx2(ButtonIcon, {
         title: t("close"),
         onClick: prevent(onClose),
-        children: /* @__PURE__ */ jsx(IconCross, {
+        children: /* @__PURE__ */ jsx2(IconCross, {
           size: 12
         })
       })
     }), /* @__PURE__ */ jsxs(Flex, {
-      children: [children, /* @__PURE__ */ jsx(CopyAction, {
+      children: [actions2.filter((a4) => a4.position === "header").map((a4, k3) => /* @__PURE__ */ jsx$2(ActionButton, {
+        ...a4,
+        key: k3
+      })), children, /* @__PURE__ */ jsx2(CopyAction, {
         size: 20
-      }), /* @__PURE__ */ jsx(Button$8, {
+      }), /* @__PURE__ */ jsx2(Button$8, {
         icon: IconCirclePlus,
         onClick: prevent(() => setAddBlockIndex()),
         children: t("addComponent")
@@ -45836,28 +45871,36 @@ const Wrapper$b = /* @__PURE__ */ createStyled(Flex, process.env.NODE_ENV === "p
 } : {
   name: "dryaye",
   styles: "padding:0 1em;flex:none;background-color:#FFF;border-bottom:1px solid rgba(0,0,0,0.06);box-shadow:rgba(0, 0, 0, 0.05) 0 1px 2px 0;height:64px",
-  map: "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvU2lkZWJhci9TaWRlYmFySGVhZGVyLnRzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUEyQ2dCIiwiZmlsZSI6Ii9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvU2lkZWJhci9TaWRlYmFySGVhZGVyLnRzeCIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IHByZXZlbnQgfSBmcm9tICdzcmMvZnVuY3Rpb25zL2Z1bmN0aW9ucydcbmltcG9ydCB7IHVzZVBhcnRpYWxTdG9yZSB9IGZyb20gJ3NyYy9zdG9yZSdcbmltcG9ydCB7XG4gIEJ1dHRvbixcbiAgQnV0dG9uSWNvbixcbiAgRmxleCxcbiAgSWNvbkNpcmNsZVBsdXMsXG4gIEljb25Dcm9zcyxcbn0gZnJvbSAnc3JjL2NvbXBvbmVudHMvdWknXG5pbXBvcnQgeyBDb3B5QWN0aW9uIH0gZnJvbSAnLi9BY3Rpb25zL0NvcHlBY3Rpb24nXG5cbmltcG9ydCBzdHlsZWQgZnJvbSAnQGVtb3Rpb24vc3R5bGVkJ1xuaW1wb3J0IHsgdCB9IGZyb20gJ3NyYy9mdW5jdGlvbnMvaTE4bidcbmltcG9ydCB7IFByb3BzV2l0aENoaWxkcmVuIH0gZnJvbSAncmVhY3QnXG5cbnR5cGUgU2lkZWJhckhlYWRlclByb3BzID0gUHJvcHNXaXRoQ2hpbGRyZW48e1xuICBvbkNsb3NlOiAoKSA9PiB2b2lkXG59PlxuXG5leHBvcnQgZnVuY3Rpb24gU2lkZWJhckhlYWRlcih7IG9uQ2xvc2UsIGNoaWxkcmVuIH06IFNpZGViYXJIZWFkZXJQcm9wcykge1xuICBjb25zdCB7IHNldEFkZEJsb2NrSW5kZXggfSA9IHVzZVBhcnRpYWxTdG9yZSgnc2V0QWRkQmxvY2tJbmRleCcpXG5cbiAgcmV0dXJuIChcbiAgICA8V3JhcHBlciBiZXR3ZWVuPlxuICAgICAgPGRpdj5cbiAgICAgICAgPEJ1dHRvbkljb24gdGl0bGU9e3QoJ2Nsb3NlJyl9IG9uQ2xpY2s9e3ByZXZlbnQob25DbG9zZSl9PlxuICAgICAgICAgIDxJY29uQ3Jvc3Mgc2l6ZT17MTJ9IC8+XG4gICAgICAgIDwvQnV0dG9uSWNvbj5cbiAgICAgIDwvZGl2PlxuICAgICAgPEZsZXg+XG4gICAgICAgIHtjaGlsZHJlbn1cbiAgICAgICAgPENvcHlBY3Rpb24gc2l6ZT17MjB9IC8+XG4gICAgICAgIDxCdXR0b25cbiAgICAgICAgICBpY29uPXtJY29uQ2lyY2xlUGx1c31cbiAgICAgICAgICBvbkNsaWNrPXtwcmV2ZW50KCgpID0+IHNldEFkZEJsb2NrSW5kZXgoKSl9XG4gICAgICAgID5cbiAgICAgICAgICB7dCgnYWRkQ29tcG9uZW50Jyl9XG4gICAgICAgIDwvQnV0dG9uPlxuICAgICAgPC9GbGV4PlxuICAgIDwvV3JhcHBlcj5cbiAgKVxufVxuXG5jb25zdCBXcmFwcGVyID0gc3R5bGVkKEZsZXgpKHtcbiAgcGFkZGluZzogJzAgMWVtJyxcbiAgZmxleDogJ25vbmUnLFxuICBiYWNrZ3JvdW5kQ29sb3I6ICcjRkZGJyxcbiAgYm9yZGVyQm90dG9tOiAnMXB4IHNvbGlkIHJnYmEoMCwwLDAsMC4wNiknLFxuICBib3hTaGFkb3c6ICdyZ2JhKDAsIDAsIDAsIDAuMDUpIDAgMXB4IDJweCAwJyxcbiAgaGVpZ2h0OiA2NCxcbn0pXG4iXX0= */",
+  map: "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvU2lkZWJhci9TaWRlYmFySGVhZGVyLnRzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFvRGdCIiwiZmlsZSI6Ii9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvU2lkZWJhci9TaWRlYmFySGVhZGVyLnRzeCIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IHByZXZlbnQgfSBmcm9tICdzcmMvZnVuY3Rpb25zL2Z1bmN0aW9ucydcbmltcG9ydCB7IHVzZVBhcnRpYWxTdG9yZSB9IGZyb20gJ3NyYy9zdG9yZSdcbmltcG9ydCB7XG4gIEJ1dHRvbixcbiAgQnV0dG9uSWNvbixcbiAgRmxleCxcbiAgSWNvbkNpcmNsZVBsdXMsXG4gIEljb25Dcm9zcyxcbn0gZnJvbSAnc3JjL2NvbXBvbmVudHMvdWknXG5pbXBvcnQgeyBDb3B5QWN0aW9uIH0gZnJvbSAnLi9BY3Rpb25zL0NvcHlBY3Rpb24nXG5cbmltcG9ydCBzdHlsZWQgZnJvbSAnQGVtb3Rpb24vc3R5bGVkJ1xuaW1wb3J0IHsgdCB9IGZyb20gJ3NyYy9mdW5jdGlvbnMvaTE4bidcbmltcG9ydCB7IFByb3BzV2l0aENoaWxkcmVuIH0gZnJvbSAncmVhY3QnXG5pbXBvcnQgeyBBY3Rpb25CdXR0b24gfSBmcm9tICdzcmMvY29tcG9uZW50cy9TaWRlYmFyL0FjdGlvbnMvQWN0aW9uQnV0dG9uJ1xuXG50eXBlIFNpZGViYXJIZWFkZXJQcm9wcyA9IFByb3BzV2l0aENoaWxkcmVuPHtcbiAgb25DbG9zZTogKCkgPT4gdm9pZFxufT5cblxuZXhwb3J0IGZ1bmN0aW9uIFNpZGViYXJIZWFkZXIoeyBvbkNsb3NlLCBjaGlsZHJlbiB9OiBTaWRlYmFySGVhZGVyUHJvcHMpIHtcbiAgY29uc3QgeyBzZXRBZGRCbG9ja0luZGV4LCBhY3Rpb25zIH0gPSB1c2VQYXJ0aWFsU3RvcmUoXG4gICAgJ3NldEFkZEJsb2NrSW5kZXgnLFxuICAgICdhY3Rpb25zJ1xuICApXG5cbiAgcmV0dXJuIChcbiAgICA8V3JhcHBlciBiZXR3ZWVuPlxuICAgICAgPGRpdj5cbiAgICAgICAgPEJ1dHRvbkljb24gdGl0bGU9e3QoJ2Nsb3NlJyl9IG9uQ2xpY2s9e3ByZXZlbnQob25DbG9zZSl9PlxuICAgICAgICAgIDxJY29uQ3Jvc3Mgc2l6ZT17MTJ9IC8+XG4gICAgICAgIDwvQnV0dG9uSWNvbj5cbiAgICAgIDwvZGl2PlxuICAgICAgPEZsZXg+XG4gICAgICAgIHthY3Rpb25zXG4gICAgICAgICAgLmZpbHRlcigoYSkgPT4gYS5wb3NpdGlvbiA9PT0gJ2hlYWRlcicpXG4gICAgICAgICAgLm1hcCgoYSwgaykgPT4gKFxuICAgICAgICAgICAgPEFjdGlvbkJ1dHRvbiB7Li4uYX0ga2V5PXtrfSAvPlxuICAgICAgICAgICkpfVxuICAgICAgICB7Y2hpbGRyZW59XG4gICAgICAgIDxDb3B5QWN0aW9uIHNpemU9ezIwfSAvPlxuICAgICAgICA8QnV0dG9uXG4gICAgICAgICAgaWNvbj17SWNvbkNpcmNsZVBsdXN9XG4gICAgICAgICAgb25DbGljaz17cHJldmVudCgoKSA9PiBzZXRBZGRCbG9ja0luZGV4KCkpfVxuICAgICAgICA+XG4gICAgICAgICAge3QoJ2FkZENvbXBvbmVudCcpfVxuICAgICAgICA8L0J1dHRvbj5cbiAgICAgIDwvRmxleD5cbiAgICA8L1dyYXBwZXI+XG4gIClcbn1cblxuY29uc3QgV3JhcHBlciA9IHN0eWxlZChGbGV4KSh7XG4gIHBhZGRpbmc6ICcwIDFlbScsXG4gIGZsZXg6ICdub25lJyxcbiAgYmFja2dyb3VuZENvbG9yOiAnI0ZGRicsXG4gIGJvcmRlckJvdHRvbTogJzFweCBzb2xpZCByZ2JhKDAsMCwwLDAuMDYpJyxcbiAgYm94U2hhZG93OiAncmdiYSgwLCAwLCAwLCAwLjA1KSAwIDFweCAycHggMCcsXG4gIGhlaWdodDogNjQsXG59KVxuIl19 */",
   toString: _EMOTION_STRINGIFIED_CSS_ERROR__$r
 });
 function _EMOTION_STRINGIFIED_CSS_ERROR__$q() {
   return "You have tried to stringify object returned from `css` function. It isn't supposed to be used directly (e.g. as value of the `className` prop), but rather handed to emotion so it can handle it (e.g. as value of `css` prop).";
 }
 function SidebarFooter() {
+  const {
+    actions: actions2
+  } = usePartialStore("actions");
   return /* @__PURE__ */ jsxs(Wrapper$a, {
     between: true,
     children: [/* @__PURE__ */ jsxs(Mention, {
-      children: [t("poweredBy"), " ", /* @__PURE__ */ jsx("br", {}), /* @__PURE__ */ jsx("a", {
+      children: [t("poweredBy"), " ", /* @__PURE__ */ jsx2("br", {}), /* @__PURE__ */ jsx2("a", {
         href: "https://ciklik.com",
         target: "_blank",
-        children: /* @__PURE__ */ jsx(Logo, {
+        children: /* @__PURE__ */ jsx2(Logo, {
           src: "https://static.ciklik.co/logo.svg",
           alt: "Logo Boxraiser"
         })
       })]
-    }), /* @__PURE__ */ jsx(Button$8, {
-      type: "submit",
-      icon: IconSave,
-      children: t("save")
+    }), /* @__PURE__ */ jsxs(Flex, {
+      children: [actions2.filter((a4) => a4.position === "footer").map((a4, k3) => /* @__PURE__ */ jsx$2(ActionButton, {
+        ...a4,
+        key: k3
+      })), /* @__PURE__ */ jsx2(Button$8, {
+        type: "submit",
+        icon: IconSave,
+        children: t("save")
+      })]
     })]
   });
 }
@@ -45872,7 +45915,7 @@ const Wrapper$a = /* @__PURE__ */ createStyled(Flex, process.env.NODE_ENV === "p
 } : {
   name: "1t65jij",
   styles: "margin-top:auto;background-color:#FFF;justify-content:flex-end;border-top:1px solid rgba(0,0,0,0.06);padding:.5em 1em;box-shadow:0 -1px 2px 0 rgba(0,0,0,0.05)",
-  map: "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvU2lkZWJhci9TaWRlYmFyRm9vdGVyLnRzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFxQmdCIiwiZmlsZSI6Ii9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvU2lkZWJhci9TaWRlYmFyRm9vdGVyLnRzeCIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEJ1dHRvbiwgRmxleCwgSWNvblNhdmUgfSBmcm9tICdzcmMvY29tcG9uZW50cy91aSdcblxuaW1wb3J0IHN0eWxlZCBmcm9tICdAZW1vdGlvbi9zdHlsZWQnXG5pbXBvcnQgeyB0IH0gZnJvbSAnc3JjL2Z1bmN0aW9ucy9pMThuJ1xuXG5leHBvcnQgZnVuY3Rpb24gU2lkZWJhckZvb3RlcigpIHtcbiAgcmV0dXJuIChcbiAgICA8V3JhcHBlciBiZXR3ZWVuPlxuICAgICAgPE1lbnRpb24+XG4gICAgICAgIHt0KCdwb3dlcmVkQnknKX0gPGJyIC8+XG4gICAgICAgIDxhIGhyZWY9XCJodHRwczovL2Npa2xpay5jb21cIiB0YXJnZXQ9XCJfYmxhbmtcIj5cbiAgICAgICAgICA8TG9nbyBzcmM9XCJodHRwczovL3N0YXRpYy5jaWtsaWsuY28vbG9nby5zdmdcIiBhbHQ9XCJMb2dvIEJveHJhaXNlclwiIC8+XG4gICAgICAgIDwvYT5cbiAgICAgIDwvTWVudGlvbj5cbiAgICAgIDxCdXR0b24gdHlwZT1cInN1Ym1pdFwiIGljb249e0ljb25TYXZlfT5cbiAgICAgICAge3QoJ3NhdmUnKX1cbiAgICAgIDwvQnV0dG9uPlxuICAgIDwvV3JhcHBlcj5cbiAgKVxufVxuXG5jb25zdCBXcmFwcGVyID0gc3R5bGVkKEZsZXgpKHtcbiAgbWFyZ2luVG9wOiAnYXV0bycsXG4gIGJhY2tncm91bmRDb2xvcjogJyNGRkYnLFxuICBqdXN0aWZ5Q29udGVudDogJ2ZsZXgtZW5kJyxcbiAgYm9yZGVyVG9wOiAnMXB4IHNvbGlkIHJnYmEoMCwwLDAsMC4wNiknLFxuICBwYWRkaW5nOiAnLjVlbSAxZW0nLFxuICBib3hTaGFkb3c6ICcwIC0xcHggMnB4IDAgcmdiYSgwLDAsMCwwLjA1KScsXG59KVxuXG5jb25zdCBNZW50aW9uID0gc3R5bGVkKCdkaXYnKSh7XG4gIGZvbnRTaXplOiAnLjdlbScsXG4gIG1hcmdpblJpZ2h0OiAnYXV0bycsXG59KVxuXG5jb25zdCBMb2dvID0gc3R5bGVkKCdpbWcnKSh7XG4gIHdpZHRoOiAnYXV0bycsXG4gIGhlaWdodDogMjAsXG59KVxuIl19 */",
+  map: "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvU2lkZWJhci9TaWRlYmFyRm9vdGVyLnRzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFnQ2dCIiwiZmlsZSI6Ii9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvU2lkZWJhci9TaWRlYmFyRm9vdGVyLnRzeCIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEJ1dHRvbiwgRmxleCwgSWNvblNhdmUgfSBmcm9tICdzcmMvY29tcG9uZW50cy91aSdcblxuaW1wb3J0IHN0eWxlZCBmcm9tICdAZW1vdGlvbi9zdHlsZWQnXG5pbXBvcnQgeyB0IH0gZnJvbSAnc3JjL2Z1bmN0aW9ucy9pMThuJ1xuaW1wb3J0IHsgdXNlUGFydGlhbFN0b3JlIH0gZnJvbSAnc3JjL3N0b3JlJ1xuaW1wb3J0IHsgQWN0aW9uQnV0dG9uIH0gZnJvbSAnc3JjL2NvbXBvbmVudHMvU2lkZWJhci9BY3Rpb25zL0FjdGlvbkJ1dHRvbidcblxuZXhwb3J0IGZ1bmN0aW9uIFNpZGViYXJGb290ZXIoKSB7XG4gIGNvbnN0IHsgYWN0aW9ucyB9ID0gdXNlUGFydGlhbFN0b3JlKCdhY3Rpb25zJylcblxuICByZXR1cm4gKFxuICAgIDxXcmFwcGVyIGJldHdlZW4+XG4gICAgICA8TWVudGlvbj5cbiAgICAgICAge3QoJ3Bvd2VyZWRCeScpfSA8YnIgLz5cbiAgICAgICAgPGEgaHJlZj1cImh0dHBzOi8vY2lrbGlrLmNvbVwiIHRhcmdldD1cIl9ibGFua1wiPlxuICAgICAgICAgIDxMb2dvIHNyYz1cImh0dHBzOi8vc3RhdGljLmNpa2xpay5jby9sb2dvLnN2Z1wiIGFsdD1cIkxvZ28gQm94cmFpc2VyXCIgLz5cbiAgICAgICAgPC9hPlxuICAgICAgPC9NZW50aW9uPlxuICAgICAgPEZsZXg+XG4gICAgICAgIHthY3Rpb25zXG4gICAgICAgICAgLmZpbHRlcigoYSkgPT4gYS5wb3NpdGlvbiA9PT0gJ2Zvb3RlcicpXG4gICAgICAgICAgLm1hcCgoYSwgaykgPT4gKFxuICAgICAgICAgICAgPEFjdGlvbkJ1dHRvbiB7Li4uYX0ga2V5PXtrfSAvPlxuICAgICAgICAgICkpfVxuICAgICAgICA8QnV0dG9uIHR5cGU9XCJzdWJtaXRcIiBpY29uPXtJY29uU2F2ZX0+XG4gICAgICAgICAge3QoJ3NhdmUnKX1cbiAgICAgICAgPC9CdXR0b24+XG4gICAgICA8L0ZsZXg+XG4gICAgPC9XcmFwcGVyPlxuICApXG59XG5cbmNvbnN0IFdyYXBwZXIgPSBzdHlsZWQoRmxleCkoe1xuICBtYXJnaW5Ub3A6ICdhdXRvJyxcbiAgYmFja2dyb3VuZENvbG9yOiAnI0ZGRicsXG4gIGp1c3RpZnlDb250ZW50OiAnZmxleC1lbmQnLFxuICBib3JkZXJUb3A6ICcxcHggc29saWQgcmdiYSgwLDAsMCwwLjA2KScsXG4gIHBhZGRpbmc6ICcuNWVtIDFlbScsXG4gIGJveFNoYWRvdzogJzAgLTFweCAycHggMCByZ2JhKDAsMCwwLDAuMDUpJyxcbn0pXG5cbmNvbnN0IE1lbnRpb24gPSBzdHlsZWQoJ2RpdicpKHtcbiAgZm9udFNpemU6ICcuN2VtJyxcbiAgbWFyZ2luUmlnaHQ6ICdhdXRvJyxcbn0pXG5cbmNvbnN0IExvZ28gPSBzdHlsZWQoJ2ltZycpKHtcbiAgd2lkdGg6ICdhdXRvJyxcbiAgaGVpZ2h0OiAyMCxcbn0pXG4iXX0= */",
   toString: _EMOTION_STRINGIFIED_CSS_ERROR__$q
 });
 const Mention = /* @__PURE__ */ createStyled("div", process.env.NODE_ENV === "production" ? {
@@ -45886,7 +45929,7 @@ const Mention = /* @__PURE__ */ createStyled("div", process.env.NODE_ENV === "pr
 } : {
   name: "1nvz0zk",
   styles: "font-size:.7em;margin-right:auto",
-  map: "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvU2lkZWJhci9TaWRlYmFyRm9vdGVyLnRzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUE4QmdCIiwiZmlsZSI6Ii9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvU2lkZWJhci9TaWRlYmFyRm9vdGVyLnRzeCIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEJ1dHRvbiwgRmxleCwgSWNvblNhdmUgfSBmcm9tICdzcmMvY29tcG9uZW50cy91aSdcblxuaW1wb3J0IHN0eWxlZCBmcm9tICdAZW1vdGlvbi9zdHlsZWQnXG5pbXBvcnQgeyB0IH0gZnJvbSAnc3JjL2Z1bmN0aW9ucy9pMThuJ1xuXG5leHBvcnQgZnVuY3Rpb24gU2lkZWJhckZvb3RlcigpIHtcbiAgcmV0dXJuIChcbiAgICA8V3JhcHBlciBiZXR3ZWVuPlxuICAgICAgPE1lbnRpb24+XG4gICAgICAgIHt0KCdwb3dlcmVkQnknKX0gPGJyIC8+XG4gICAgICAgIDxhIGhyZWY9XCJodHRwczovL2Npa2xpay5jb21cIiB0YXJnZXQ9XCJfYmxhbmtcIj5cbiAgICAgICAgICA8TG9nbyBzcmM9XCJodHRwczovL3N0YXRpYy5jaWtsaWsuY28vbG9nby5zdmdcIiBhbHQ9XCJMb2dvIEJveHJhaXNlclwiIC8+XG4gICAgICAgIDwvYT5cbiAgICAgIDwvTWVudGlvbj5cbiAgICAgIDxCdXR0b24gdHlwZT1cInN1Ym1pdFwiIGljb249e0ljb25TYXZlfT5cbiAgICAgICAge3QoJ3NhdmUnKX1cbiAgICAgIDwvQnV0dG9uPlxuICAgIDwvV3JhcHBlcj5cbiAgKVxufVxuXG5jb25zdCBXcmFwcGVyID0gc3R5bGVkKEZsZXgpKHtcbiAgbWFyZ2luVG9wOiAnYXV0bycsXG4gIGJhY2tncm91bmRDb2xvcjogJyNGRkYnLFxuICBqdXN0aWZ5Q29udGVudDogJ2ZsZXgtZW5kJyxcbiAgYm9yZGVyVG9wOiAnMXB4IHNvbGlkIHJnYmEoMCwwLDAsMC4wNiknLFxuICBwYWRkaW5nOiAnLjVlbSAxZW0nLFxuICBib3hTaGFkb3c6ICcwIC0xcHggMnB4IDAgcmdiYSgwLDAsMCwwLjA1KScsXG59KVxuXG5jb25zdCBNZW50aW9uID0gc3R5bGVkKCdkaXYnKSh7XG4gIGZvbnRTaXplOiAnLjdlbScsXG4gIG1hcmdpblJpZ2h0OiAnYXV0bycsXG59KVxuXG5jb25zdCBMb2dvID0gc3R5bGVkKCdpbWcnKSh7XG4gIHdpZHRoOiAnYXV0bycsXG4gIGhlaWdodDogMjAsXG59KVxuIl19 */",
+  map: "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvU2lkZWJhci9TaWRlYmFyRm9vdGVyLnRzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUF5Q2dCIiwiZmlsZSI6Ii9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvU2lkZWJhci9TaWRlYmFyRm9vdGVyLnRzeCIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEJ1dHRvbiwgRmxleCwgSWNvblNhdmUgfSBmcm9tICdzcmMvY29tcG9uZW50cy91aSdcblxuaW1wb3J0IHN0eWxlZCBmcm9tICdAZW1vdGlvbi9zdHlsZWQnXG5pbXBvcnQgeyB0IH0gZnJvbSAnc3JjL2Z1bmN0aW9ucy9pMThuJ1xuaW1wb3J0IHsgdXNlUGFydGlhbFN0b3JlIH0gZnJvbSAnc3JjL3N0b3JlJ1xuaW1wb3J0IHsgQWN0aW9uQnV0dG9uIH0gZnJvbSAnc3JjL2NvbXBvbmVudHMvU2lkZWJhci9BY3Rpb25zL0FjdGlvbkJ1dHRvbidcblxuZXhwb3J0IGZ1bmN0aW9uIFNpZGViYXJGb290ZXIoKSB7XG4gIGNvbnN0IHsgYWN0aW9ucyB9ID0gdXNlUGFydGlhbFN0b3JlKCdhY3Rpb25zJylcblxuICByZXR1cm4gKFxuICAgIDxXcmFwcGVyIGJldHdlZW4+XG4gICAgICA8TWVudGlvbj5cbiAgICAgICAge3QoJ3Bvd2VyZWRCeScpfSA8YnIgLz5cbiAgICAgICAgPGEgaHJlZj1cImh0dHBzOi8vY2lrbGlrLmNvbVwiIHRhcmdldD1cIl9ibGFua1wiPlxuICAgICAgICAgIDxMb2dvIHNyYz1cImh0dHBzOi8vc3RhdGljLmNpa2xpay5jby9sb2dvLnN2Z1wiIGFsdD1cIkxvZ28gQm94cmFpc2VyXCIgLz5cbiAgICAgICAgPC9hPlxuICAgICAgPC9NZW50aW9uPlxuICAgICAgPEZsZXg+XG4gICAgICAgIHthY3Rpb25zXG4gICAgICAgICAgLmZpbHRlcigoYSkgPT4gYS5wb3NpdGlvbiA9PT0gJ2Zvb3RlcicpXG4gICAgICAgICAgLm1hcCgoYSwgaykgPT4gKFxuICAgICAgICAgICAgPEFjdGlvbkJ1dHRvbiB7Li4uYX0ga2V5PXtrfSAvPlxuICAgICAgICAgICkpfVxuICAgICAgICA8QnV0dG9uIHR5cGU9XCJzdWJtaXRcIiBpY29uPXtJY29uU2F2ZX0+XG4gICAgICAgICAge3QoJ3NhdmUnKX1cbiAgICAgICAgPC9CdXR0b24+XG4gICAgICA8L0ZsZXg+XG4gICAgPC9XcmFwcGVyPlxuICApXG59XG5cbmNvbnN0IFdyYXBwZXIgPSBzdHlsZWQoRmxleCkoe1xuICBtYXJnaW5Ub3A6ICdhdXRvJyxcbiAgYmFja2dyb3VuZENvbG9yOiAnI0ZGRicsXG4gIGp1c3RpZnlDb250ZW50OiAnZmxleC1lbmQnLFxuICBib3JkZXJUb3A6ICcxcHggc29saWQgcmdiYSgwLDAsMCwwLjA2KScsXG4gIHBhZGRpbmc6ICcuNWVtIDFlbScsXG4gIGJveFNoYWRvdzogJzAgLTFweCAycHggMCByZ2JhKDAsMCwwLDAuMDUpJyxcbn0pXG5cbmNvbnN0IE1lbnRpb24gPSBzdHlsZWQoJ2RpdicpKHtcbiAgZm9udFNpemU6ICcuN2VtJyxcbiAgbWFyZ2luUmlnaHQ6ICdhdXRvJyxcbn0pXG5cbmNvbnN0IExvZ28gPSBzdHlsZWQoJ2ltZycpKHtcbiAgd2lkdGg6ICdhdXRvJyxcbiAgaGVpZ2h0OiAyMCxcbn0pXG4iXX0= */",
   toString: _EMOTION_STRINGIFIED_CSS_ERROR__$q
 });
 const Logo = /* @__PURE__ */ createStyled("img", process.env.NODE_ENV === "production" ? {
@@ -45900,7 +45943,7 @@ const Logo = /* @__PURE__ */ createStyled("img", process.env.NODE_ENV === "produ
 } : {
   name: "14i868d",
   styles: "width:auto;height:20px",
-  map: "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvU2lkZWJhci9TaWRlYmFyRm9vdGVyLnRzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFtQ2EiLCJmaWxlIjoiL1VzZXJzL3hzdGV2ZW55dW5nL0NvZGUva2xhcGF1ZGllbmNlL3BhY2thZ2VzL3Zpc3VhbC1lZGl0b3IvdmlzdWFsLWVkaXRvci9zcmMvY29tcG9uZW50cy9TaWRlYmFyL1NpZGViYXJGb290ZXIudHN4Iiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgQnV0dG9uLCBGbGV4LCBJY29uU2F2ZSB9IGZyb20gJ3NyYy9jb21wb25lbnRzL3VpJ1xuXG5pbXBvcnQgc3R5bGVkIGZyb20gJ0BlbW90aW9uL3N0eWxlZCdcbmltcG9ydCB7IHQgfSBmcm9tICdzcmMvZnVuY3Rpb25zL2kxOG4nXG5cbmV4cG9ydCBmdW5jdGlvbiBTaWRlYmFyRm9vdGVyKCkge1xuICByZXR1cm4gKFxuICAgIDxXcmFwcGVyIGJldHdlZW4+XG4gICAgICA8TWVudGlvbj5cbiAgICAgICAge3QoJ3Bvd2VyZWRCeScpfSA8YnIgLz5cbiAgICAgICAgPGEgaHJlZj1cImh0dHBzOi8vY2lrbGlrLmNvbVwiIHRhcmdldD1cIl9ibGFua1wiPlxuICAgICAgICAgIDxMb2dvIHNyYz1cImh0dHBzOi8vc3RhdGljLmNpa2xpay5jby9sb2dvLnN2Z1wiIGFsdD1cIkxvZ28gQm94cmFpc2VyXCIgLz5cbiAgICAgICAgPC9hPlxuICAgICAgPC9NZW50aW9uPlxuICAgICAgPEJ1dHRvbiB0eXBlPVwic3VibWl0XCIgaWNvbj17SWNvblNhdmV9PlxuICAgICAgICB7dCgnc2F2ZScpfVxuICAgICAgPC9CdXR0b24+XG4gICAgPC9XcmFwcGVyPlxuICApXG59XG5cbmNvbnN0IFdyYXBwZXIgPSBzdHlsZWQoRmxleCkoe1xuICBtYXJnaW5Ub3A6ICdhdXRvJyxcbiAgYmFja2dyb3VuZENvbG9yOiAnI0ZGRicsXG4gIGp1c3RpZnlDb250ZW50OiAnZmxleC1lbmQnLFxuICBib3JkZXJUb3A6ICcxcHggc29saWQgcmdiYSgwLDAsMCwwLjA2KScsXG4gIHBhZGRpbmc6ICcuNWVtIDFlbScsXG4gIGJveFNoYWRvdzogJzAgLTFweCAycHggMCByZ2JhKDAsMCwwLDAuMDUpJyxcbn0pXG5cbmNvbnN0IE1lbnRpb24gPSBzdHlsZWQoJ2RpdicpKHtcbiAgZm9udFNpemU6ICcuN2VtJyxcbiAgbWFyZ2luUmlnaHQ6ICdhdXRvJyxcbn0pXG5cbmNvbnN0IExvZ28gPSBzdHlsZWQoJ2ltZycpKHtcbiAgd2lkdGg6ICdhdXRvJyxcbiAgaGVpZ2h0OiAyMCxcbn0pXG4iXX0= */",
+  map: "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvU2lkZWJhci9TaWRlYmFyRm9vdGVyLnRzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUE4Q2EiLCJmaWxlIjoiL1VzZXJzL3hzdGV2ZW55dW5nL0NvZGUva2xhcGF1ZGllbmNlL3BhY2thZ2VzL3Zpc3VhbC1lZGl0b3IvdmlzdWFsLWVkaXRvci9zcmMvY29tcG9uZW50cy9TaWRlYmFyL1NpZGViYXJGb290ZXIudHN4Iiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgQnV0dG9uLCBGbGV4LCBJY29uU2F2ZSB9IGZyb20gJ3NyYy9jb21wb25lbnRzL3VpJ1xuXG5pbXBvcnQgc3R5bGVkIGZyb20gJ0BlbW90aW9uL3N0eWxlZCdcbmltcG9ydCB7IHQgfSBmcm9tICdzcmMvZnVuY3Rpb25zL2kxOG4nXG5pbXBvcnQgeyB1c2VQYXJ0aWFsU3RvcmUgfSBmcm9tICdzcmMvc3RvcmUnXG5pbXBvcnQgeyBBY3Rpb25CdXR0b24gfSBmcm9tICdzcmMvY29tcG9uZW50cy9TaWRlYmFyL0FjdGlvbnMvQWN0aW9uQnV0dG9uJ1xuXG5leHBvcnQgZnVuY3Rpb24gU2lkZWJhckZvb3RlcigpIHtcbiAgY29uc3QgeyBhY3Rpb25zIH0gPSB1c2VQYXJ0aWFsU3RvcmUoJ2FjdGlvbnMnKVxuXG4gIHJldHVybiAoXG4gICAgPFdyYXBwZXIgYmV0d2Vlbj5cbiAgICAgIDxNZW50aW9uPlxuICAgICAgICB7dCgncG93ZXJlZEJ5Jyl9IDxiciAvPlxuICAgICAgICA8YSBocmVmPVwiaHR0cHM6Ly9jaWtsaWsuY29tXCIgdGFyZ2V0PVwiX2JsYW5rXCI+XG4gICAgICAgICAgPExvZ28gc3JjPVwiaHR0cHM6Ly9zdGF0aWMuY2lrbGlrLmNvL2xvZ28uc3ZnXCIgYWx0PVwiTG9nbyBCb3hyYWlzZXJcIiAvPlxuICAgICAgICA8L2E+XG4gICAgICA8L01lbnRpb24+XG4gICAgICA8RmxleD5cbiAgICAgICAge2FjdGlvbnNcbiAgICAgICAgICAuZmlsdGVyKChhKSA9PiBhLnBvc2l0aW9uID09PSAnZm9vdGVyJylcbiAgICAgICAgICAubWFwKChhLCBrKSA9PiAoXG4gICAgICAgICAgICA8QWN0aW9uQnV0dG9uIHsuLi5hfSBrZXk9e2t9IC8+XG4gICAgICAgICAgKSl9XG4gICAgICAgIDxCdXR0b24gdHlwZT1cInN1Ym1pdFwiIGljb249e0ljb25TYXZlfT5cbiAgICAgICAgICB7dCgnc2F2ZScpfVxuICAgICAgICA8L0J1dHRvbj5cbiAgICAgIDwvRmxleD5cbiAgICA8L1dyYXBwZXI+XG4gIClcbn1cblxuY29uc3QgV3JhcHBlciA9IHN0eWxlZChGbGV4KSh7XG4gIG1hcmdpblRvcDogJ2F1dG8nLFxuICBiYWNrZ3JvdW5kQ29sb3I6ICcjRkZGJyxcbiAganVzdGlmeUNvbnRlbnQ6ICdmbGV4LWVuZCcsXG4gIGJvcmRlclRvcDogJzFweCBzb2xpZCByZ2JhKDAsMCwwLDAuMDYpJyxcbiAgcGFkZGluZzogJy41ZW0gMWVtJyxcbiAgYm94U2hhZG93OiAnMCAtMXB4IDJweCAwIHJnYmEoMCwwLDAsMC4wNSknLFxufSlcblxuY29uc3QgTWVudGlvbiA9IHN0eWxlZCgnZGl2Jykoe1xuICBmb250U2l6ZTogJy43ZW0nLFxuICBtYXJnaW5SaWdodDogJ2F1dG8nLFxufSlcblxuY29uc3QgTG9nbyA9IHN0eWxlZCgnaW1nJykoe1xuICB3aWR0aDogJ2F1dG8nLFxuICBoZWlnaHQ6IDIwLFxufSlcbiJdfQ== */",
   toString: _EMOTION_STRINGIFIED_CSS_ERROR__$q
 });
 function _EMOTION_STRINGIFIED_CSS_ERROR__$p() {
@@ -45908,10 +45951,10 @@ function _EMOTION_STRINGIFIED_CSS_ERROR__$p() {
 }
 function SidebarEmpty(data) {
   return /* @__PURE__ */ jsxs(Wrapper$9, {
-    children: [/* @__PURE__ */ jsx(Description, {
+    children: [/* @__PURE__ */ jsx2(Description, {
       children: t("noContent")
-    }), /* @__PURE__ */ jsx("div", {
-      children: /* @__PURE__ */ jsx(Button$8, {
+    }), /* @__PURE__ */ jsx2("div", {
+      children: /* @__PURE__ */ jsx2(Button$8, {
         outline: true,
         onClick: prevent(data.onAction),
         size: "small",
@@ -45972,8 +46015,8 @@ function SidebarTemplates({
     setData(data);
     onTemplate();
   }, [setData, onTemplate]);
-  return /* @__PURE__ */ jsx(Wrapper$8, {
-    children: templates2.map((t3) => /* @__PURE__ */ jsx(TemplateCard, {
+  return /* @__PURE__ */ jsx2(Wrapper$8, {
+    children: templates2.map((t3) => /* @__PURE__ */ jsx2(TemplateCard, {
       template: t3,
       onClick: callback,
       loading: loadingTemplate === t3
@@ -45989,13 +46032,13 @@ function TemplateCard({
     hoverable: true,
     onClick: prevent(() => loading ? null : onClick(template)),
     loading,
-    children: [loading && /* @__PURE__ */ jsx(Spinner, {}), /* @__PURE__ */ jsx(TemplateImage, {
+    children: [loading && /* @__PURE__ */ jsx2(Spinner, {}), /* @__PURE__ */ jsx2(TemplateImage, {
       src: template.image,
       alt: ""
     }), /* @__PURE__ */ jsxs(Body, {
-      children: [/* @__PURE__ */ jsx(Title, {
+      children: [/* @__PURE__ */ jsx2(Title, {
         children: template.name
-      }), /* @__PURE__ */ jsx("div", {
+      }), /* @__PURE__ */ jsx2("div", {
         children: template.description
       })]
     })]
@@ -46097,24 +46140,24 @@ function Sidebar({
   const isTemplateMode = state === 1;
   return /* @__PURE__ */ jsxs(SidebarWrapper, {
     ...props,
-    children: [/* @__PURE__ */ jsx(SidebarHeader, {
+    children: [/* @__PURE__ */ jsx2(SidebarHeader, {
       onClose,
-      children: hasTemplates && /* @__PURE__ */ jsx(ButtonIcon, {
+      children: hasTemplates && /* @__PURE__ */ jsx2(ButtonIcon, {
         onClick: prevent(toggleMode),
         title: t(isTemplateMode ? "addComponent" : "useTemplate"),
-        children: isTemplateMode ? /* @__PURE__ */ jsx(IconBlocs, {}) : /* @__PURE__ */ jsx(IconPage, {})
+        children: isTemplateMode ? /* @__PURE__ */ jsx2(IconBlocs, {}) : /* @__PURE__ */ jsx2(IconPage, {})
       })
-    }), state === 0 && (showEmpty ? /* @__PURE__ */ jsx(SidebarEmpty, {
+    }), state === 0 && (showEmpty ? /* @__PURE__ */ jsx2(SidebarEmpty, {
       onAction: () => setState(
         1
         /* TEMPLATES */
       )
-    }) : /* @__PURE__ */ jsx(SidebarBlocs, {})), state === 1 && /* @__PURE__ */ jsx(SidebarTemplates, {
+    }) : /* @__PURE__ */ jsx2(SidebarBlocs, {})), state === 1 && /* @__PURE__ */ jsx2(SidebarTemplates, {
       onTemplate: () => setState(
         0
         /* BLOCS */
       )
-    }), /* @__PURE__ */ jsx(SidebarFooter, {})]
+    }), /* @__PURE__ */ jsx2(SidebarFooter, {})]
   });
 }
 const Out$3 = keyframes({
@@ -46167,7 +46210,7 @@ function FrameProvider({
   container,
   children
 }) {
-  return /* @__PURE__ */ jsx(CacheProvider, {
+  return /* @__PURE__ */ jsx2(CacheProvider, {
     value: memoizedCreateCacheWithContainer(container),
     children
   });
@@ -46189,9 +46232,9 @@ const BaseStyles = ({
   complete = true
 }) => {
   return /* @__PURE__ */ jsxs(Fragment$1, {
-    children: [/* @__PURE__ */ jsx(Global, {
+    children: [/* @__PURE__ */ jsx2(Global, {
       styles: _ref$7
-    }), /* @__PURE__ */ jsx(Reset, {
+    }), /* @__PURE__ */ jsx2(Reset, {
       complete,
       children
     })]
@@ -46892,10 +46935,10 @@ function PreviewAddFloating({
   onClick,
   style: style2
 }) {
-  return /* @__PURE__ */ jsx(Button$7, {
+  return /* @__PURE__ */ jsx2(Button$7, {
     onClick,
     style: style2,
-    children: /* @__PURE__ */ jsx("span", {
+    children: /* @__PURE__ */ jsx2("span", {
       children: "Ajouter un bloc"
     })
   });
@@ -46941,35 +46984,35 @@ const PreviewItemWrapper = reactExports.forwardRef(({
     ref,
     style: style2,
     onClick,
-    children: [/* @__PURE__ */ jsx(PreviewAddFloating, {
+    children: [/* @__PURE__ */ jsx2(PreviewAddFloating, {
       onClick: handleAdd
-    }), title && /* @__PURE__ */ jsx(PreviewItemTitle, {
+    }), title && /* @__PURE__ */ jsx2(PreviewItemTitle, {
       isFocused,
       children: title
     }), /* @__PURE__ */ jsxs(PreviewItemHeader, {
       isFocused,
-      children: [/* @__PURE__ */ jsx(PreviewButton, {
+      children: [/* @__PURE__ */ jsx2(PreviewButton, {
         onClick: prevent(() => onMove(-1)),
         style: {
           marginLeft: "auto"
         },
-        children: /* @__PURE__ */ jsx(IconUp, {
+        children: /* @__PURE__ */ jsx2(IconUp, {
           size: 16
         })
-      }), /* @__PURE__ */ jsx(PreviewButton, {
+      }), /* @__PURE__ */ jsx2(PreviewButton, {
         onClick: prevent(() => onMove(1)),
         style: {
           marginLeft: "auto"
         },
-        children: /* @__PURE__ */ jsx(IconDown, {
+        children: /* @__PURE__ */ jsx2(IconDown, {
           size: 16
         })
-      }), /* @__PURE__ */ jsx(PreviewButton, {
+      }), /* @__PURE__ */ jsx2(PreviewButton, {
         onClick: handleDelete,
         style: {
           backgroundColor: "var(--ve-danger)"
         },
-        children: /* @__PURE__ */ jsx(IconTrash, {
+        children: /* @__PURE__ */ jsx2(IconTrash, {
           size: 16
         })
       })]
@@ -47069,16 +47112,16 @@ function PreviewItem({
       root.scrollTop = top2;
     }
   }, [isFocused]);
-  return /* @__PURE__ */ jsx(y, {
+  return /* @__PURE__ */ jsx2(y, {
     flipId: data._id,
     children: /* @__PURE__ */ jsxs("div", {
-      children: [loading && /* @__PURE__ */ jsx(StyledSpinner, {
+      children: [loading && /* @__PURE__ */ jsx2(StyledSpinner, {
         size: 12
-      }), /* @__PURE__ */ jsx("div", {
+      }), /* @__PURE__ */ jsx2("div", {
         dangerouslySetInnerHTML: {
           __html: html
         }
-      }), /* @__PURE__ */ jsx(PreviewItemWrapper, {
+      }), /* @__PURE__ */ jsx2(PreviewItemWrapper, {
         title,
         id: `previewItem${data._id}`,
         isFocused,
@@ -47111,8 +47154,8 @@ function _EMOTION_STRINGIFIED_CSS_ERROR__$j() {
 function PreviewAddButton({
   onClick
 }) {
-  return /* @__PURE__ */ jsx(Wrapper$7, {
-    children: /* @__PURE__ */ jsx(Button$8, {
+  return /* @__PURE__ */ jsx2(Wrapper$7, {
+    children: /* @__PURE__ */ jsx2(Button$8, {
       icon: IconCirclePlus,
       onClick,
       children: "Ajouter un bloc"
@@ -47143,15 +47186,15 @@ function PreviewItems({
     data
   } = usePartialStore("setAddBlockIndex", "definitions", "data");
   return /* @__PURE__ */ jsxs(Fragment$1, {
-    children: [/* @__PURE__ */ jsx(h, {
+    children: [/* @__PURE__ */ jsx2(h, {
       flipKey: data.map((d4) => d4._id).join("_"),
       children: data.map((v2, k3) => {
         var _a;
-        return /* @__PURE__ */ jsx("div", {
+        return /* @__PURE__ */ jsx2("div", {
           style: {
             position: "relative"
           },
-          children: /* @__PURE__ */ jsx(PreviewItem, {
+          children: /* @__PURE__ */ jsx2(PreviewItem, {
             index: k3,
             title: ((_a = definitions[v2._name]) == null ? void 0 : _a.title) || "",
             data: v2,
@@ -47160,7 +47203,7 @@ function PreviewItems({
           })
         }, v2._id);
       })
-    }), /* @__PURE__ */ jsx(PreviewAddButton, {
+    }), /* @__PURE__ */ jsx2(PreviewAddButton, {
       onClick: () => setAddBlockIndex(data.length)
     })]
   });
@@ -47248,17 +47291,17 @@ function Header() {
     setDevice,
     device: currentDevice
   } = usePartialStore("sidebarWidth", "devices", "setDevice", "device");
-  return /* @__PURE__ */ jsx(Wrapper$6, {
+  return /* @__PURE__ */ jsx2(Wrapper$6, {
     center: true,
     style: {
       left: `${sidebarWidth2}vw`
     },
-    children: devices.map((device) => /* @__PURE__ */ jsx(Tooltip$1, {
+    children: devices.map((device) => /* @__PURE__ */ jsx2(Tooltip$1, {
       content: device.name,
-      children: /* @__PURE__ */ jsx(Button$6, {
+      children: /* @__PURE__ */ jsx2(Button$6, {
         onClick: prevent(() => setDevice(device)),
         "aria-selected": device === currentDevice,
-        children: /* @__PURE__ */ jsx(DeviceIcon, {
+        children: /* @__PURE__ */ jsx2(DeviceIcon, {
           icon: device.icon
         })
       })
@@ -47269,12 +47312,12 @@ function DeviceIcon({
   icon
 }) {
   if (icon === "tablet") {
-    return /* @__PURE__ */ jsx(IconTablet, {});
+    return /* @__PURE__ */ jsx2(IconTablet, {});
   }
   if (icon === "desktop") {
-    return /* @__PURE__ */ jsx(IconDesktop, {});
+    return /* @__PURE__ */ jsx2(IconDesktop, {});
   }
-  return /* @__PURE__ */ jsx(IconPhone, {});
+  return /* @__PURE__ */ jsx2(IconPhone, {});
 }
 const headerHeight = 50;
 const Out$2 = keyframes({
@@ -47346,8 +47389,8 @@ function PreviewWrapper$1({
   children
 }) {
   const style2 = useViewportStyle();
-  return /* @__PURE__ */ jsx(ViewportWrapper, {
-    children: /* @__PURE__ */ jsx(Viewport, {
+  return /* @__PURE__ */ jsx2(ViewportWrapper, {
+    children: /* @__PURE__ */ jsx2(Viewport, {
       id: "viewport",
       style: style2,
       children
@@ -47473,17 +47516,17 @@ function Preview({
     setIframeRoot(root);
   }, []);
   return /* @__PURE__ */ jsxs(PreviewWrapper$1, {
-    children: [showSpinner && /* @__PURE__ */ jsx(Spinner, {
+    children: [showSpinner && /* @__PURE__ */ jsx2(Spinner, {
       css: _ref$6
-    }), /* @__PURE__ */ jsx(StyledIframe, {
+    }), /* @__PURE__ */ jsx2(StyledIframe, {
       loaded,
       ref: iframe,
       onLoad: () => setLoaded(true)
-    }), iframeRoot && reactDomExports.createPortal(/* @__PURE__ */ jsx(FrameProvider, {
+    }), iframeRoot && reactDomExports.createPortal(/* @__PURE__ */ jsx2(FrameProvider, {
       container: iframe.current.contentDocument,
-      children: /* @__PURE__ */ jsx(BaseStyles, {
+      children: /* @__PURE__ */ jsx2(BaseStyles, {
         complete: false,
-        children: /* @__PURE__ */ jsx(PreviewItems, {
+        children: /* @__PURE__ */ jsx2(PreviewItems, {
           initialHTML: initialHTML.current,
           previewUrl
         })
@@ -47523,10 +47566,10 @@ function ResizeBar() {
     });
   };
   return /* @__PURE__ */ jsxs(Fragment$1, {
-    children: [/* @__PURE__ */ jsx(Wrapper$5, {
+    children: [/* @__PURE__ */ jsx2(Wrapper$5, {
       isDragging: drag,
       onMouseDown: handleMouseDown
-    }), drag && /* @__PURE__ */ jsx(ResizeBarOverlay, {})]
+    }), drag && /* @__PURE__ */ jsx2(ResizeBarOverlay, {})]
   });
 }
 const Wrapper$5 = /* @__PURE__ */ createStyled("div", process.env.NODE_ENV === "production" ? {
@@ -47566,12 +47609,12 @@ function BlocSelectorItem({
   const title = definition.title;
   return /* @__PURE__ */ jsxs(Button$5, {
     onClick: prevent(onClick),
-    children: [/* @__PURE__ */ jsx(ButtonImage, {
-      children: /* @__PURE__ */ jsx("img", {
+    children: [/* @__PURE__ */ jsx2(ButtonImage, {
+      children: /* @__PURE__ */ jsx2("img", {
         src: icon,
         alt: ""
       })
-    }), /* @__PURE__ */ jsx("div", {
+    }), /* @__PURE__ */ jsx2("div", {
       children: title
     })]
   });
@@ -47665,12 +47708,12 @@ function BlocSelectorSearch({
   onChange
 }) {
   return /* @__PURE__ */ jsxs(Wrapper$4, {
-    children: [/* @__PURE__ */ jsx(Input$1, {
+    children: [/* @__PURE__ */ jsx2(Input$1, {
       type: "search",
       placeholder: t("searchComponent"),
       value,
       onChange: (e3) => onChange(e3.target.value)
-    }), /* @__PURE__ */ jsx(IconSearch, {
+    }), /* @__PURE__ */ jsx2(IconSearch, {
       size: 14
     })]
   });
@@ -47734,14 +47777,14 @@ function BlocSelector({
     visible: isVisible,
     onVisibilityChange: handleVisibilityChange,
     title: t("addComponent"),
-    children: [/* @__PURE__ */ jsx(BlocSelectorSearch, {
+    children: [/* @__PURE__ */ jsx2(BlocSelectorSearch, {
       value: search,
       onChange: setSearch
-    }), /* @__PURE__ */ jsx(Tabs$1, {
+    }), /* @__PURE__ */ jsx2(Tabs$1, {
       css: _ref$5,
-      children: categories.map((category) => /* @__PURE__ */ jsx(BlocSelectorGrid, {
+      children: categories.map((category) => /* @__PURE__ */ jsx2(BlocSelectorGrid, {
         title: category,
-        children: Object.keys(definitions).filter((key) => !hiddenCategories.includes(definitions[key].category ?? "")).filter(searchDefinition(search ?? "", category, definitions)).map((key) => /* @__PURE__ */ jsx(BlocSelectorItem, {
+        children: Object.keys(definitions).filter((key) => !hiddenCategories.includes(definitions[key].category ?? "")).filter(searchDefinition(search ?? "", category, definitions)).map((key) => /* @__PURE__ */ jsx2(BlocSelectorItem, {
           definition: definitions[key],
           name: key,
           iconsUrl,
@@ -47764,7 +47807,7 @@ function RollbackMessage() {
     rollback,
     voidRollback
   } = useRollbackMessage();
-  return /* @__PURE__ */ jsx(Flash, {
+  return /* @__PURE__ */ jsx2(Flash, {
     action: t("rollback"),
     onClick: rollback,
     duration: 3,
@@ -47776,10 +47819,10 @@ function SidebarToggleButton({
   collapsed,
   onClick
 }) {
-  return /* @__PURE__ */ jsx(Button$4, {
+  return /* @__PURE__ */ jsx2(Button$4, {
     onClick: prevent(onClick),
     collapsed,
-    children: /* @__PURE__ */ jsx(IconBack, {
+    children: /* @__PURE__ */ jsx2(IconBack, {
       size: 20
     })
   });
@@ -47852,8 +47895,8 @@ function PreviewPostMessage({
   }, [focusIndex]);
   const previewURLWithReferrer = new URL(previewUrl);
   previewURLWithReferrer.searchParams.set("referrer", window.location.toString());
-  return /* @__PURE__ */ jsx(PreviewWrapper$1, {
-    children: /* @__PURE__ */ jsx(StyledIframe, {
+  return /* @__PURE__ */ jsx2(PreviewWrapper$1, {
+    children: /* @__PURE__ */ jsx2(StyledIframe, {
       ref: iframe,
       src: previewURLWithReferrer.toString(),
       loaded,
@@ -47870,22 +47913,22 @@ function Layout({
   const [sidebarCollapsed, toggleSidebar] = useToggle(false);
   const showResizeControl = !sidebarCollapsed;
   const PreviewComponent = VisualEditor.postMessagePreview ? PreviewPostMessage : Preview;
-  return /* @__PURE__ */ jsx(Fragment$1, {
+  return /* @__PURE__ */ jsx2(Fragment$1, {
     children: /* @__PURE__ */ jsxs(Wrapper$3, {
       withSidebar: !sidebarCollapsed,
-      children: [/* @__PURE__ */ jsx(Header, {}), /* @__PURE__ */ jsx(Sidebar, {
+      children: [/* @__PURE__ */ jsx2(Header, {}), /* @__PURE__ */ jsx2(Sidebar, {
         onClose,
         css: /* @__PURE__ */ css({
           display: sidebarCollapsed ? "none" : void 0
         }, process.env.NODE_ENV === "production" ? "" : ";label:Layout;", process.env.NODE_ENV === "production" ? "" : "/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy94c3RldmVueXVuZy9Db2RlL2tsYXBhdWRpZW5jZS9wYWNrYWdlcy92aXN1YWwtZWRpdG9yL3Zpc3VhbC1lZGl0b3Ivc3JjL2NvbXBvbmVudHMvTGF5b3V0LnRzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFtQ1UiLCJmaWxlIjoiL1VzZXJzL3hzdGV2ZW55dW5nL0NvZGUva2xhcGF1ZGllbmNlL3BhY2thZ2VzL3Zpc3VhbC1lZGl0b3IvdmlzdWFsLWVkaXRvci9zcmMvY29tcG9uZW50cy9MYXlvdXQudHN4Iiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgU2lkZWJhciB9IGZyb20gJ3NyYy9jb21wb25lbnRzL1NpZGViYXIvU2lkZWJhcidcbmltcG9ydCB7IFByZXZpZXcgfSBmcm9tICdzcmMvY29tcG9uZW50cy9QcmV2aWV3L1ByZXZpZXcnXG5pbXBvcnQgeyB0eXBlIEVkaXRvckNvbXBvbmVudERhdGEgfSBmcm9tICdzcmMvdHlwZXMnXG5pbXBvcnQgeyBSZXNpemVCYXIgfSBmcm9tICcuL1Jlc2l6ZUJhcidcbmltcG9ydCB7IEJsb2NTZWxlY3RvciB9IGZyb20gJy4vQmxvY3MvQmxvY1NlbGVjdG9yJ1xuaW1wb3J0IFJlYWN0LCB7IFJlYWN0Tm9kZSB9IGZyb20gJ3JlYWN0J1xuaW1wb3J0IHsgUm9sbGJhY2tNZXNzYWdlIH0gZnJvbSAnLi9Sb2xsYmFja01lc3NhZ2UnXG5pbXBvcnQgc3R5bGVkIGZyb20gJ0BlbW90aW9uL3N0eWxlZCdcbmltcG9ydCB7IGtleWZyYW1lcyB9IGZyb20gJ0BlbW90aW9uL3JlYWN0J1xuaW1wb3J0IHsgU2lkZWJhclRvZ2dsZUJ1dHRvbiB9IGZyb20gJ3NyYy9jb21wb25lbnRzL0xheW91dC9TaWRlYmFyVG9nZ2xlQnV0dG9uJ1xuaW1wb3J0IHsgdXNlVG9nZ2xlIH0gZnJvbSAnc3JjL2hvb2tzL3VzZVRvZ2dsZSdcbmltcG9ydCB7IFZpc3VhbEVkaXRvciB9IGZyb20gJ3NyYy9WaXN1YWxFZGl0b3InXG5pbXBvcnQgeyBQcmV2aWV3UG9zdE1lc3NhZ2UgfSBmcm9tICdzcmMvY29tcG9uZW50cy9QcmV2aWV3L1ByZXZpZXdQb3N0TWVzc2FnZSdcbmltcG9ydCB7IEhlYWRlciB9IGZyb20gJ3NyYy9jb21wb25lbnRzL0hlYWRlci9IZWFkZXInXG5pbXBvcnQgeyB1c2VQYXJ0aWFsU3RvcmUgfSBmcm9tICdzcmMvc3RvcmUnXG5cbnR5cGUgTGF5b3V0UHJvcHMgPSB7XG4gIGNsYXNzTmFtZT86IHN0cmluZ1xuICBwcmV2aWV3VXJsPzogc3RyaW5nXG4gIG9uQ2xvc2U6ICgpID0+IHZvaWRcbiAgaWNvbnNVcmw6IHN0cmluZ1xufVxuXG5leHBvcnQgZnVuY3Rpb24gTGF5b3V0KHsgcHJldmlld1VybCwgb25DbG9zZSwgaWNvbnNVcmwgfTogTGF5b3V0UHJvcHMpIHtcbiAgY29uc3QgW3NpZGViYXJDb2xsYXBzZWQsIHRvZ2dsZVNpZGViYXJdID0gdXNlVG9nZ2xlKGZhbHNlKVxuICBjb25zdCBzaG93UmVzaXplQ29udHJvbCA9ICFzaWRlYmFyQ29sbGFwc2VkXG4gIGNvbnN0IFByZXZpZXdDb21wb25lbnQgPSBWaXN1YWxFZGl0b3IucG9zdE1lc3NhZ2VQcmV2aWV3XG4gICAgPyBQcmV2aWV3UG9zdE1lc3NhZ2VcbiAgICA6IFByZXZpZXdcbiAgcmV0dXJuIChcbiAgICA8PlxuICAgICAgPFdyYXBwZXIgd2l0aFNpZGViYXI9eyFzaWRlYmFyQ29sbGFwc2VkfT5cbiAgICAgICAgPEhlYWRlciAvPlxuICAgICAgICA8U2lkZWJhclxuICAgICAgICAgIG9uQ2xvc2U9e29uQ2xvc2V9XG4gICAgICAgICAgY3NzPXt7XG4gICAgICAgICAgICBkaXNwbGF5OiBzaWRlYmFyQ29sbGFwc2VkID8gJ25vbmUnIDogdW5kZWZpbmVkLFxuICAgICAgICAgIH19XG4gICAgICAgIC8+XG4gICAgICAgIHtwcmV2aWV3VXJsICYmIDxQcmV2aWV3Q29tcG9uZW50IHByZXZpZXdVcmw9e3ByZXZpZXdVcmx9IC8+fVxuICAgICAgICA8U2lkZWJhclRvZ2dsZUJ1dHRvblxuICAgICAgICAgIGNvbGxhcHNlZD17c2lkZWJhckNvbGxhcHNlZH1cbiAgICAgICAgICBvbkNsaWNrPXt0b2dnbGVTaWRlYmFyfVxuICAgICAgICAvPlxuICAgICAgICB7c2hvd1Jlc2l6ZUNvbnRyb2wgJiYgPFJlc2l6ZUJhciAvPn1cbiAgICAgICAgPEJsb2NTZWxlY3RvciBpY29uc1VybD17aWNvbnNVcmx9IC8+XG4gICAgICAgIDxSb2xsYmFja01lc3NhZ2UgLz5cbiAgICAgIDwvV3JhcHBlcj5cbiAgICA8Lz5cbiAgKVxufVxuXG5mdW5jdGlvbiBXcmFwcGVyKHByb3BzOiB7IHdpdGhTaWRlYmFyOiBib29sZWFuOyBjaGlsZHJlbjogUmVhY3ROb2RlIH0pIHtcbiAgY29uc3QgeyBzaWRlYmFyV2lkdGggfSA9IHVzZVBhcnRpYWxTdG9yZSgnc2lkZWJhcldpZHRoJylcblxuICByZXR1cm4gKFxuICAgIDxTdHlsZWRXcmFwcGVyXG4gICAgICB7Li4ucHJvcHN9XG4gICAgICBzdHlsZT17eyAnLS12ZS1zaWRlYmFyJzogYCR7c2lkZWJhcldpZHRofXZ3YCB9IGFzIFJlYWN0LkNTU1Byb3BlcnRpZXN9XG4gICAgLz5cbiAgKVxufVxuXG5jb25zdCBJbiA9IGtleWZyYW1lcyh7XG4gIGZyb206IHsgYmFja2dyb3VuZENvbG9yOiAncmdiYSgyNTUsIDI1NSwgMjU1LCAwKScgfSxcbiAgdG86IHsgYmFja2dyb3VuZENvbG9yOiAndmFyKC0tdmUtZmllbGQtYm9yZGVyKScgfSxcbn0pXG5cbmNvbnN0IE91dCA9IGtleWZyYW1lcyh7XG4gIGZyb206IHsgYmFja2dyb3VuZENvbG9yOiAndmFyKC0tdmUtZmllbGQtYm9yZGVyKScgfSxcbiAgdG86IHsgYmFja2dyb3VuZENvbG9yOiAncmdiYSgyNTUsIDI1NSwgMjU1LCAwKScgfSxcbn0pXG5cbmNvbnN0IFN0eWxlZFdyYXBwZXIgPSBzdHlsZWQuZGl2PHsgd2l0aFNpZGViYXI6IGJvb2xlYW4gfT4oXG4gIHtcbiAgICBpc29sYXRpb246ICdpc29sYXRlJyxcbiAgICB6SW5kZXg6IDk5OTksXG4gICAgZm9udFNpemU6ICcxNXB4JyxcbiAgICAnLS12ZS1zaWRlYmFyJzogJzYwMHB4JyxcbiAgICAnLS12ZS1jbGFtcGVkU2lkZWJhcic6XG4gICAgICAnY2xhbXAoNDUwcHgsIHZhcigtLXZlLXNpZGViYXIpLCBjYWxjKDEwMHZ3IC0gMzc1cHgpKScsXG4gICAgY29sb3I6ICd2YXIoLS12ZS1jb2xvci1saWdodCknLFxuICAgIHRyYW5zaXRpb246ICdiYWNrZ3JvdW5kLWNvbG9yIC4zcycsXG4gICAgcG9zaXRpb246ICdmaXhlZCcsXG4gICAgaW5zZXQ6ICcwJyxcbiAgICB3aWR0aDogJzEwMCUnLFxuICAgIGhlaWdodDogJzEwMCUnLFxuICAgIGRpc3BsYXk6ICdncmlkJyxcbiAgICBiYWNrZ3JvdW5kQ29sb3I6ICd2YXIoLS12ZS1maWVsZC1ib3JkZXIpJyxcbiAgICBhbmltYXRpb246IGAke0lufSAuN3MgY3ViaWMtYmV6aWVyKDAuMTksIDEsIDAuMjIsIDEpIGJvdGhgLFxuICAgICdbaGlkZGVuPVwiaGlkZGVuXCJdICYnOiB7XG4gICAgICBhbmltYXRpb246IGAke091dH0gLjdzIGN1YmljLWJlemllcigwLjE5LCAxLCAwLjIyLCAxKSBib3RoYCxcbiAgICB9LFxuICAgICcmIConOiB7XG4gICAgICAnJjo6LXdlYmtpdC1zY3JvbGxiYXInOiB7IHdpZHRoOiAnN3B4JywgaGVpZ2h0OiAnN3B4JyB9LFxuICAgICAgJyY6Oi13ZWJraXQtc2Nyb2xsYmFyLXRyYWNrJzoge1xuICAgICAgICBiYWNrZ3JvdW5kOiAndHJhbnNwYXJlbnQnLFxuICAgICAgICBwYWRkaW5nOiAnMXB4JyxcbiAgICAgIH0sXG4gICAgICAnJjo6LXdlYmtpdC1zY3JvbGxiYXItdGh1bWInOiB7XG4gICAgICAgIGJhY2tncm91bmQ6ICd2YXIoLS12ZS1maWVsZC1ib3JkZXIpJyxcbiAgICAgICAgYm9yZGVyUmFkaXVzOiAnNHB4JyxcbiAgICAgIH0sXG4gICAgfSxcbiAgfSxcbiAgKHByb3BzKSA9PiAoe1xuICAgIGdyaWRUZW1wbGF0ZUNvbHVtbnM6IHByb3BzLndpdGhTaWRlYmFyXG4gICAgICA/ICd2YXIoLS12ZS1jbGFtcGVkU2lkZWJhcikgMWZyJ1xuICAgICAgOiAnMWZyJyxcbiAgfSlcbilcbiJdfQ== */")
-      }), previewUrl && /* @__PURE__ */ jsx(PreviewComponent, {
+      }), previewUrl && /* @__PURE__ */ jsx2(PreviewComponent, {
         previewUrl
-      }), /* @__PURE__ */ jsx(SidebarToggleButton, {
+      }), /* @__PURE__ */ jsx2(SidebarToggleButton, {
         collapsed: sidebarCollapsed,
         onClick: toggleSidebar
-      }), showResizeControl && /* @__PURE__ */ jsx(ResizeBar, {}), /* @__PURE__ */ jsx(BlocSelector, {
+      }), showResizeControl && /* @__PURE__ */ jsx2(ResizeBar, {}), /* @__PURE__ */ jsx2(BlocSelector, {
         iconsUrl
-      }), /* @__PURE__ */ jsx(RollbackMessage, {})]
+      }), /* @__PURE__ */ jsx2(RollbackMessage, {})]
     })
   });
 }
@@ -47893,7 +47936,7 @@ function Wrapper$3(props) {
   const {
     sidebarWidth: sidebarWidth2
   } = usePartialStore("sidebarWidth");
-  return /* @__PURE__ */ jsx(StyledWrapper, {
+  return /* @__PURE__ */ jsx2(StyledWrapper, {
     ...props,
     style: {
       "--ve-sidebar": `${sidebarWidth2}vw`
@@ -48099,9 +48142,9 @@ class PreviewWrapper extends (isClientSide() ? HTMLElement : class {
     if (!this.root) {
       return;
     }
-    this.root.render(/* @__PURE__ */ jsx(Reset, {
+    this.root.render(/* @__PURE__ */ jsx2(Reset, {
       complete: false,
-      children: /* @__PURE__ */ jsx(PreviewItemWrapper, {
+      children: /* @__PURE__ */ jsx2(PreviewItemWrapper, {
         title: this.dataset.name,
         onDelete: this.handleDelete,
         onAdd: this.handleAdd,
@@ -48144,9 +48187,9 @@ class AddButton extends (isClientSide() ? HTMLElement : class {
         }
       }, referrer);
     };
-    createRoot(div2).render(/* @__PURE__ */ jsx(Reset, {
+    createRoot(div2).render(/* @__PURE__ */ jsx2(Reset, {
       complete: true,
-      children: /* @__PURE__ */ jsx(PreviewAddButton, {
+      children: /* @__PURE__ */ jsx2(PreviewAddButton, {
         onClick: onAddClick
       })
     }));
@@ -48214,7 +48257,7 @@ const Component$c = ({
   options
 }) => {
   const id = useUniqId("textinput");
-  return /* @__PURE__ */ jsx(Field$1, {
+  return /* @__PURE__ */ jsx2(Field$1, {
     label: options.label,
     type: options.multiline ? "textarea" : "text",
     id,
@@ -48238,15 +48281,15 @@ const Component$b = ({
   options
 }) => {
   const id = useUniqId("checkbox");
-  return /* @__PURE__ */ jsx(Field$1, {
+  return /* @__PURE__ */ jsx2(Field$1, {
     help: options.help,
     children: /* @__PURE__ */ jsxs(Wrapper$2, {
-      children: [/* @__PURE__ */ jsx(Input, {
+      children: [/* @__PURE__ */ jsx2(Input, {
         type: "checkbox",
         id,
         checked: value,
         onChange: () => onChange(!value)
-      }), /* @__PURE__ */ jsx(Label, {
+      }), /* @__PURE__ */ jsx2(Label, {
         htmlFor: id,
         children: options.label
       })]
@@ -48416,21 +48459,21 @@ const Component$a = ({
   function handleMove(from3, to) {
     onChange(moveItem(value, from3, to));
   }
-  return /* @__PURE__ */ jsx(Field$1, {
+  return /* @__PURE__ */ jsx2(Field$1, {
     label: options.label,
-    children: /* @__PURE__ */ jsx(SortableWrapper, {
+    children: /* @__PURE__ */ jsx2(SortableWrapper, {
       items: value,
       onMove: handleMove,
       children: /* @__PURE__ */ jsxs(Wrapper$1, {
-        children: [value.map((line2, k3) => /* @__PURE__ */ jsx(FieldLine, {
+        children: [value.map((line2, k3) => /* @__PURE__ */ jsx2(FieldLine, {
           line: line2,
           index: k3,
           onUpdate: updateProperty,
           onRemove: canRemove ? remove : null,
           options,
           defaultCollapsed: lastAdditionIndex !== k3
-        }, line2._id)), canAdd && /* @__PURE__ */ jsx(Footer, {
-          children: /* @__PURE__ */ jsx(Button$8, {
+        }, line2._id)), canAdd && /* @__PURE__ */ jsx2(Footer, {
+          children: /* @__PURE__ */ jsx2(Button$8, {
             secondary: true,
             onClick: prevent(add2),
             icon: IconCirclePlus,
@@ -48457,24 +48500,24 @@ const FieldLine = ({
     children: [/* @__PURE__ */ jsxs(SidebarHeading, {
       onClick: prevent(toggleCollapsed),
       title: escapedTitle,
-      children: [/* @__PURE__ */ jsx(SidebarHeading.Hover, {
-        children: onRemove && /* @__PURE__ */ jsx(ButtonIcon, {
+      children: [/* @__PURE__ */ jsx2(SidebarHeading.Hover, {
+        children: onRemove && /* @__PURE__ */ jsx2(ButtonIcon, {
           danger: true,
           onClick: () => onRemove(line2),
           title: t("deleteItem"),
-          children: /* @__PURE__ */ jsx(IconTrash, {
+          children: /* @__PURE__ */ jsx2(IconTrash, {
             size: 20
           })
         })
-      }), /* @__PURE__ */ jsx(ButtonIcon, {
+      }), /* @__PURE__ */ jsx2(ButtonIcon, {
         rotate: collapsed ? -90 : 0,
         onClick: prevent(toggleCollapsed),
-        children: /* @__PURE__ */ jsx(IconDown, {
+        children: /* @__PURE__ */ jsx2(IconDown, {
           size: 24
         })
       })]
-    }), !collapsed && /* @__PURE__ */ jsx(ItemBody, {
-      children: /* @__PURE__ */ jsx(FieldsRenderer, {
+    }), !collapsed && /* @__PURE__ */ jsx2(ItemBody, {
+      children: /* @__PURE__ */ jsx2(FieldsRenderer, {
         fields: options.fields,
         data: line2,
         onUpdate,
@@ -48515,20 +48558,20 @@ const Component$9 = ({
     }).catch((e3) => {
     });
   };
-  return /* @__PURE__ */ jsx(Field$1, {
+  return /* @__PURE__ */ jsx2(Field$1, {
     id,
     label: options.label,
     help: options.help,
     value,
-    tooltip: value ? /* @__PURE__ */ jsx(TooltipImage, {
+    tooltip: value ? /* @__PURE__ */ jsx2(TooltipImage, {
       src: value,
       alt: ""
     }) : void 0,
     onChange: (e3) => onChange(e3.target.value),
     css: _ref$4,
-    icon: options.onBrowse ? /* @__PURE__ */ jsx(Button$3, {
+    icon: options.onBrowse ? /* @__PURE__ */ jsx2(Button$3, {
       onClick: prevent(handleBrowse),
-      children: /* @__PURE__ */ jsx(IconFolder, {
+      children: /* @__PURE__ */ jsx2(IconFolder, {
         size: 16
       })
     }) : void 0
@@ -64041,7 +64084,7 @@ const mergeRefs = (...refs) => {
 const Portals = ({
   renderers
 }) => {
-  return /* @__PURE__ */ jsx(Fragment$1, {
+  return /* @__PURE__ */ jsx2(Fragment$1, {
     children: Object.entries(renderers).map(([key, renderer]) => {
       return ae.createPortal(renderer.reactElement, renderer.element, key);
     })
@@ -64144,10 +64187,10 @@ class PureEditorContent extends e$1.Component {
       ...rest
     } = this.props;
     return /* @__PURE__ */ jsxs(Fragment$1, {
-      children: [/* @__PURE__ */ jsx("div", {
+      children: [/* @__PURE__ */ jsx2("div", {
         ref: mergeRefs(innerRef, this.editorContentRef),
         ...rest
-      }), /* @__PURE__ */ jsx(Portals, {
+      }), /* @__PURE__ */ jsx2(Portals, {
         renderers: this.state.renderers
       })]
     });
@@ -64157,7 +64200,7 @@ const EditorContentWithKey = reactExports.forwardRef((props, ref) => {
   const key = e$1.useMemo(() => {
     return Math.floor(Math.random() * 4294967295).toString();
   }, [props.editor]);
-  return /* @__PURE__ */ jsx(PureEditorContent, {
+  return /* @__PURE__ */ jsx2(PureEditorContent, {
     innerRef: ref,
     ...props
   }, key);
@@ -64300,7 +64343,7 @@ const BubbleMenu = (props) => {
     menuEditor.registerPlugin(plugin);
     return () => menuEditor.unregisterPlugin(pluginKey);
   }, [props.editor, currentEditor, element]);
-  return /* @__PURE__ */ jsx("div", {
+  return /* @__PURE__ */ jsx2("div", {
     ref: setElement,
     className: props.className,
     style: {
@@ -64318,7 +64361,7 @@ e$1.forwardRef((props, ref) => {
     onDragStart
   } = useReactNodeView();
   const Tag = props.as || "div";
-  return /* @__PURE__ */ jsx(Tag, {
+  return /* @__PURE__ */ jsx2(Tag, {
     ...props,
     ref,
     "data-node-view-wrapper": "",
@@ -66010,12 +66053,12 @@ const TiptapToolbarButton = /* @__PURE__ */ createStyled(UnstyledButton, process
 function IconBold({
   size: size2 = 24
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     width: size2,
     height: size2,
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M8 11h4.5a2.5 2.5 0 1 0 0-5H8v5zm10 4.5a4.5 4.5 0 0 1-4.5 4.5H6V4h6.5a4.5 4.5 0 0 1 3.256 7.606A4.498 4.498 0 0 1 18 15.5zM8 13v5h5.5a2.5 2.5 0 1 0 0-5H8z",
       fill: "currentColor"
     })
@@ -66024,12 +66067,12 @@ function IconBold({
 function IconItalic({
   size: size2 = 24
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     width: size2,
     height: size2,
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M15 20H7v-2h2.927l2.116-12H9V4h8v2h-2.927l-2.116 12H15z",
       fill: "currentColor"
     })
@@ -66038,12 +66081,12 @@ function IconItalic({
 function IconUnderline({
   size: size2 = 24
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     width: size2,
     height: size2,
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M8 3v9a4 4 0 1 0 8 0V3h2v9a6 6 0 1 1-12 0V3h2zM4 20h16v2H4v-2z",
       fill: "currentColor"
     })
@@ -66052,12 +66095,12 @@ function IconUnderline({
 function IconMark({
   size: size2 = 24
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     width: size2,
     height: size2,
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M15.243 4.515l-6.738 6.737-.707 2.121-1.04 1.041 2.828 2.829 1.04-1.041 2.122-.707 6.737-6.738-4.242-4.242zm6.364 3.535a1 1 0 0 1 0 1.414l-7.779 7.779-2.12.707-1.415 1.414a1 1 0 0 1-1.414 0l-4.243-4.243a1 1 0 0 1 0-1.414l1.414-1.414.707-2.121 7.779-7.779a1 1 0 0 1 1.414 0l5.657 5.657zm-6.364-.707l1.414 1.414-4.95 4.95-1.414-1.414 4.95-4.95zM4.283 16.89l2.828 2.829-1.414 1.414-4.243-1.414 2.828-2.829z",
       fill: "currentColor"
     })
@@ -66066,12 +66109,12 @@ function IconMark({
 function IconLink({
   size: size2 = 24
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     width: size2,
     height: size2,
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M17.657 14.828l-1.414-1.414L17.657 12A4 4 0 1 0 12 6.343l-1.414 1.414-1.414-1.414 1.414-1.414a6 6 0 0 1 8.485 8.485l-1.414 1.414zm-2.829 2.829l-1.414 1.414a6 6 0 1 1-8.485-8.485l1.414-1.414 1.414 1.414L6.343 12A4 4 0 1 0 12 17.657l1.414-1.414 1.414 1.414zm0-9.9l1.415 1.415-7.071 7.07-1.415-1.414 7.071-7.07z",
       fill: "currentColor"
     })
@@ -66080,12 +66123,12 @@ function IconLink({
 function IconClear({
   size: size2 = 24
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     width: size2,
     height: size2,
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M12.651 14.065L11.605 20H9.574l1.35-7.661-7.41-7.41L4.93 3.515 20.485 19.07l-1.414 1.414-6.42-6.42zm-.878-6.535l.27-1.53h-1.8l-2-2H20v2h-5.927L13.5 9.257 11.773 7.53z",
       fill: "currentColor"
     })
@@ -66094,12 +66137,12 @@ function IconClear({
 function IconList({
   size: size2 = 24
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     width: size2,
     height: size2,
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M8 4h13v2H8V4zM4.5 6.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 7a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0 6.9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM8 11h13v2H8v-2zm0 7h13v2H8v-2z",
       fill: "currentColor"
     })
@@ -66108,12 +66151,12 @@ function IconList({
 function IconQuote({
   size: size2 = 24
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     width: size2,
     height: size2,
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 0 1-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 0 1-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z",
       fill: "currentColor"
     })
@@ -66122,12 +66165,12 @@ function IconQuote({
 function IconOrderedList({
   size: size2 = 24
 }) {
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     width: size2,
     height: size2,
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M8 4h13v2H8V4zM5 3v3h1v1H3V6h1V4H3V3h2zM3 14v-2.5h2V11H3v-1h3v2.5H4v.5h2v1H3zm2 5.5H3v-1h2V18H3v-1h3v4H3v-1h2v-.5zM8 11h13v2H8v-2zm0 7h13v2H8v-2z",
       fill: "currentColor"
     })
@@ -66153,12 +66196,12 @@ function IconHeading({
   } else if (level === 6) {
     path = "M21.097 8l-2.598 4.5c2.21 0 4.001 1.79 4.001 4s-1.79 4-4 4-4-1.79-4-4c0-.736.199-1.426.546-2.019L18.788 8h2.309zM4 4v7h7V4h2v16h-2v-7H4v7H2V4h2zm14.5 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2z";
   }
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     width: size2,
     height: size2,
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: path,
       fill: "currentColor"
     })
@@ -66169,45 +66212,45 @@ function IconAlign({
   direction = "left"
 }) {
   if (direction === "left") {
-    return /* @__PURE__ */ jsx("svg", {
+    return /* @__PURE__ */ jsx2("svg", {
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 24 24",
       width: size2,
       height: size2,
-      children: /* @__PURE__ */ jsx("path", {
+      children: /* @__PURE__ */ jsx2("path", {
         d: "M3 4h18v2H3V4zm0 15h14v2H3v-2zm0-5h18v2H3v-2zm0-5h14v2H3V9z",
         fill: "currentColor"
       })
     });
   } else if (direction === "right") {
-    return /* @__PURE__ */ jsx("svg", {
+    return /* @__PURE__ */ jsx2("svg", {
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 24 24",
       width: size2,
       height: size2,
-      children: /* @__PURE__ */ jsx("path", {
+      children: /* @__PURE__ */ jsx2("path", {
         d: "M3 4h18v2H3V4zm4 15h14v2H7v-2zm-4-5h18v2H3v-2zm4-5h14v2H7V9z",
         fill: "currentColor"
       })
     });
   } else if (direction === "center") {
-    return /* @__PURE__ */ jsx("svg", {
+    return /* @__PURE__ */ jsx2("svg", {
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 24 24",
       width: size2,
       height: size2,
-      children: /* @__PURE__ */ jsx("path", {
+      children: /* @__PURE__ */ jsx2("path", {
         d: "M3 4h18v2H3V4zm2 15h14v2H5v-2zm-2-5h18v2H3v-2zm2-5h14v2H5V9z",
         fill: "currentColor"
       })
     });
   }
-  return /* @__PURE__ */ jsx("svg", {
+  return /* @__PURE__ */ jsx2("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     width: size2,
     height: size2,
-    children: /* @__PURE__ */ jsx("path", {
+    children: /* @__PURE__ */ jsx2("path", {
       d: "M3 4h18v2H3V4zm0 15h18v2H3v-2zm0-5h18v2H3v-2zm0-5h18v2H3V9z",
       fill: "currentColor"
     })
@@ -66274,18 +66317,18 @@ const TiptapToolbarAlign = ({
   }
   return /* @__PURE__ */ jsxs(TiptapDropdown, {
     size: alignments.length,
-    children: [/* @__PURE__ */ jsx(TiptapToolbarButton, {
+    children: [/* @__PURE__ */ jsx2(TiptapToolbarButton, {
       title: capitalize(currentAlign),
       type: "button",
-      children: /* @__PURE__ */ jsx(IconAlign, {
+      children: /* @__PURE__ */ jsx2(IconAlign, {
         size: 16,
         direction: currentAlign
       })
-    }), alignments.filter((align) => align !== currentAlign).map((align) => /* @__PURE__ */ jsx(TiptapToolbarButton, {
+    }), alignments.filter((align) => align !== currentAlign).map((align) => /* @__PURE__ */ jsx2(TiptapToolbarButton, {
       onClick: prevent(() => editor.chain().focus().setTextAlign(align).run()),
       css: _ref$3,
       title: capitalize(align),
-      children: /* @__PURE__ */ jsx(IconAlign, {
+      children: /* @__PURE__ */ jsx2(IconAlign, {
         size: 16,
         direction: align
       })
@@ -66324,18 +66367,18 @@ const TiptapToolbarHeadings = ({
   });
   return /* @__PURE__ */ jsxs(TiptapDropdown, {
     size: levels.length + 1,
-    children: [/* @__PURE__ */ jsx(TiptapToolbarButton, {
+    children: [/* @__PURE__ */ jsx2(TiptapToolbarButton, {
       active: !!currentLevel,
       onClick: clickHandler2(currentLevel),
-      children: /* @__PURE__ */ jsx(IconHeading, {
+      children: /* @__PURE__ */ jsx2(IconHeading, {
         size: 16,
         level: currentLevel
       })
-    }), levels.map((level) => /* @__PURE__ */ jsx(TiptapToolbarButton, {
+    }), levels.map((level) => /* @__PURE__ */ jsx2(TiptapToolbarButton, {
       active: level === currentLevel,
       onClick: clickHandler2(level),
       css: _ref$2,
-      children: /* @__PURE__ */ jsx(IconHeading, {
+      children: /* @__PURE__ */ jsx2(IconHeading, {
         size: 16,
         level
       })
@@ -66384,7 +66427,7 @@ function TiptapColorPicker({
   }
   return /* @__PURE__ */ jsxs("div", {
     css: _ref$1,
-    children: [/* @__PURE__ */ jsx(TiptapToolbarButton, {
+    children: [/* @__PURE__ */ jsx2(TiptapToolbarButton, {
       onClick: prevent(toggleExpanded),
       children: /* @__PURE__ */ jsxs("svg", {
         width: 16,
@@ -66392,15 +66435,15 @@ function TiptapColorPicker({
         viewBox: "0 0 24 24",
         fill: "none",
         xmlns: "http://www.w3.org/2000/svg",
-        children: [/* @__PURE__ */ jsx("path", {
+        children: [/* @__PURE__ */ jsx2("path", {
           d: "M15.246 14H8.754L7.154 18H5L11 3H13L19 18H16.846L15.246 14ZM14.446 12L12 5.885L9.554 12H14.446Z",
           fill: "currentColor"
-        }), /* @__PURE__ */ jsx("path", {
+        }), /* @__PURE__ */ jsx2("path", {
           d: "M3 20H21V22H3V20Z",
           fill: currentColor || "currentColor"
         })]
       })
-    }), expanded && /* @__PURE__ */ jsx(Palette$1, {
+    }), expanded && /* @__PURE__ */ jsx2(Palette$1, {
       colors: cssColors,
       onChange: handleChange
     })]
@@ -66433,9 +66476,9 @@ function Palette$1({
   onChange
 }) {
   const changeHandler = (color) => prevent(() => onChange(color));
-  return /* @__PURE__ */ jsx(PaletteWrapper, {
+  return /* @__PURE__ */ jsx2(PaletteWrapper, {
     size: colors.length,
-    children: colors.map((color) => /* @__PURE__ */ jsx(PaletteItem$1, {
+    children: colors.map((color) => /* @__PURE__ */ jsx2(PaletteItem$1, {
       onClick: changeHandler(color),
       style: {
         backgroundColor: color
@@ -66481,7 +66524,7 @@ function TiptapToolbar({
       );
     }
   }, [editor.isFocused]);
-  return /* @__PURE__ */ jsx(Toolbar, {
+  return /* @__PURE__ */ jsx2(Toolbar, {
     className: "WysiwygToolbar",
     editor,
     shouldShow: ({
@@ -66494,10 +66537,10 @@ function TiptapToolbar({
         appendTo: () => rootElement
       } : {}
     },
-    children: mode === 1 ? /* @__PURE__ */ jsx(ToolbarLink, {
+    children: mode === 1 ? /* @__PURE__ */ jsx2(ToolbarLink, {
       onSubmit: insertLink,
       onCancel: setButtonsMode
-    }) : /* @__PURE__ */ jsx(ToolbarButtons, {
+    }) : /* @__PURE__ */ jsx2(ToolbarButtons, {
       editor,
       onLinkClick: setLinkMode,
       colors
@@ -66526,12 +66569,12 @@ function ToolbarLink({
     as: "form",
     onKeyDown: handleKeyDown,
     onSubmit: prevent(handleSubmit),
-    children: [/* @__PURE__ */ jsx(LinkInput, {
+    children: [/* @__PURE__ */ jsx2(LinkInput, {
       name: "link",
       type: "text",
       placeholder: "https://...",
       autoFocus: true
-    }), /* @__PURE__ */ jsx(TiptapToolbarButton, {
+    }), /* @__PURE__ */ jsx2(TiptapToolbarButton, {
       children: "Ok"
     })]
   });
@@ -66550,73 +66593,73 @@ function ToolbarButtons({
     }
   };
   return /* @__PURE__ */ jsxs(Fragment$1, {
-    children: [editor.can().toggleOrderedList() && /* @__PURE__ */ jsx(TiptapToolbarButton, {
+    children: [editor.can().toggleOrderedList() && /* @__PURE__ */ jsx2(TiptapToolbarButton, {
       onClick: prevent(() => editor.chain().focus().toggleOrderedList().run()),
       active: editor.isActive("orderedList"),
       title: "Ordered List",
-      children: /* @__PURE__ */ jsx(IconOrderedList, {
+      children: /* @__PURE__ */ jsx2(IconOrderedList, {
         size: iconSize
       })
-    }), editor.can().toggleBulletList() && /* @__PURE__ */ jsx(TiptapToolbarButton, {
+    }), editor.can().toggleBulletList() && /* @__PURE__ */ jsx2(TiptapToolbarButton, {
       onClick: prevent(() => editor.chain().focus().toggleBulletList().run()),
       active: editor.isActive("bulletList"),
       title: "Unordered List",
-      children: /* @__PURE__ */ jsx(IconList, {
+      children: /* @__PURE__ */ jsx2(IconList, {
         size: iconSize
       })
-    }), editor.can().toggleBlockquote() && /* @__PURE__ */ jsx(TiptapToolbarButton, {
+    }), editor.can().toggleBlockquote() && /* @__PURE__ */ jsx2(TiptapToolbarButton, {
       onClick: prevent(() => editor.chain().focus().toggleBlockquote().run()),
       active: editor.isActive("blockquote"),
       title: "Blockquote",
-      children: /* @__PURE__ */ jsx(IconQuote, {
+      children: /* @__PURE__ */ jsx2(IconQuote, {
         size: iconSize
       })
-    }), /* @__PURE__ */ jsx(TiptapToolbarHeadings, {
+    }), /* @__PURE__ */ jsx2(TiptapToolbarHeadings, {
       editor
-    }), editor.can().toggleBulletList() && /* @__PURE__ */ jsx(Separator, {}), /* @__PURE__ */ jsx(TiptapToolbarAlign, {
+    }), editor.can().toggleBulletList() && /* @__PURE__ */ jsx2(Separator, {}), /* @__PURE__ */ jsx2(TiptapToolbarAlign, {
       editor
-    }), /* @__PURE__ */ jsx(TiptapToolbarButton, {
+    }), /* @__PURE__ */ jsx2(TiptapToolbarButton, {
       onClick: prevent(() => editor.chain().focus().toggleBold().run()),
       active: editor.isActive("bold"),
       title: "Bold",
-      children: /* @__PURE__ */ jsx(IconBold, {
+      children: /* @__PURE__ */ jsx2(IconBold, {
         size: iconSize
       })
-    }), /* @__PURE__ */ jsx(TiptapToolbarButton, {
+    }), /* @__PURE__ */ jsx2(TiptapToolbarButton, {
       onClick: prevent(() => editor.chain().focus().toggleItalic().run()),
       active: editor.isActive("italic"),
       title: "Italic",
-      children: /* @__PURE__ */ jsx(IconItalic, {
+      children: /* @__PURE__ */ jsx2(IconItalic, {
         size: iconSize
       })
-    }), /* @__PURE__ */ jsx(TiptapToolbarButton, {
+    }), /* @__PURE__ */ jsx2(TiptapToolbarButton, {
       onClick: prevent(() => editor.chain().focus().toggleUnderline().run()),
       active: editor.isActive("underline"),
       title: "Underline",
-      children: /* @__PURE__ */ jsx(IconUnderline, {
+      children: /* @__PURE__ */ jsx2(IconUnderline, {
         size: iconSize
       })
-    }), /* @__PURE__ */ jsx(TiptapToolbarButton, {
+    }), /* @__PURE__ */ jsx2(TiptapToolbarButton, {
       onClick: prevent(() => editor.chain().focus().toggleHighlight().run()),
       active: editor.isActive("highlight"),
       title: "Mark",
-      children: /* @__PURE__ */ jsx(IconMark, {
+      children: /* @__PURE__ */ jsx2(IconMark, {
         size: iconSize
       })
-    }), /* @__PURE__ */ jsx(TiptapColorPicker, {
+    }), /* @__PURE__ */ jsx2(TiptapColorPicker, {
       editor,
       colors
-    }), /* @__PURE__ */ jsx(Separator, {}), /* @__PURE__ */ jsx(TiptapToolbarButton, {
+    }), /* @__PURE__ */ jsx2(Separator, {}), /* @__PURE__ */ jsx2(TiptapToolbarButton, {
       onClick: prevent(toggleLink),
       active: editor.isActive("link"),
       title: "Link",
-      children: /* @__PURE__ */ jsx(IconLink, {
+      children: /* @__PURE__ */ jsx2(IconLink, {
         size: iconSize
       })
-    }), /* @__PURE__ */ jsx(TiptapToolbarButton, {
+    }), /* @__PURE__ */ jsx2(TiptapToolbarButton, {
       onClick: prevent(clearFormat),
       title: "Clear",
-      children: /* @__PURE__ */ jsx(IconClear, {
+      children: /* @__PURE__ */ jsx2(IconClear, {
         size: iconSize
       })
     })]
@@ -67907,9 +67950,9 @@ function TiptapEditor({
       color,
       backgroundColor
     },
-    children: [/* @__PURE__ */ jsx(EditorContent, {
+    children: [/* @__PURE__ */ jsx2(EditorContent, {
       editor
-    }), editor && /* @__PURE__ */ jsx(TiptapToolbar, {
+    }), editor && /* @__PURE__ */ jsx2(TiptapToolbar, {
       editor,
       colors
     })]
@@ -67944,10 +67987,10 @@ const Component$8 = ({
   textColor,
   defaultAlign
 }) => {
-  return /* @__PURE__ */ jsx(Field$1, {
+  return /* @__PURE__ */ jsx2(Field$1, {
     label: options.label,
     help: options.help,
-    children: /* @__PURE__ */ jsx(TiptapEditor, {
+    children: /* @__PURE__ */ jsx2(TiptapEditor, {
       value,
       onChange,
       backgroundColor,
@@ -70242,14 +70285,14 @@ const Component$7 = ({
     onChange(color);
     setOpen(false);
   });
-  return /* @__PURE__ */ jsx(Field$1, {
+  return /* @__PURE__ */ jsx2(Field$1, {
     label: options.label,
     children: /* @__PURE__ */ jsxs($cb5cc270b50c6fcd$export$be92b6f5f03c0fe9, {
       open: isOpen,
       onOpenChange: () => setOpen((v2) => !v2),
-      children: [/* @__PURE__ */ jsx($cb5cc270b50c6fcd$export$41fb9f06171c75f4, {
+      children: [/* @__PURE__ */ jsx2($cb5cc270b50c6fcd$export$41fb9f06171c75f4, {
         asChild: true,
-        children: /* @__PURE__ */ jsx(Button$2, {
+        children: /* @__PURE__ */ jsx2(Button$2, {
           focused: isOpen || void 0,
           color: value || "",
           style: value ? {
@@ -70262,15 +70305,15 @@ const Component$7 = ({
           style: {
             "--children": options.colors.length + 1
           },
-          children: [/* @__PURE__ */ jsx(PaletteItemTransparent, {
+          children: [/* @__PURE__ */ jsx2(PaletteItemTransparent, {
             onClick: prevent(() => onChange(null))
-          }), options.colors.map((color) => /* @__PURE__ */ jsx(PaletteItem, {
+          }), options.colors.map((color) => /* @__PURE__ */ jsx2(PaletteItem, {
             style: {
               "--ve-color": colorToProperty(color)
             },
             onClick: changeHandler(color)
           }, color))]
-        }), /* @__PURE__ */ jsx(Arrow, {})]
+        }), /* @__PURE__ */ jsx2(Arrow, {})]
       })]
     })
   });
@@ -70397,9 +70440,9 @@ const RowComponent = ({
   options,
   children
 }) => {
-  return /* @__PURE__ */ jsx(Field$1, {
+  return /* @__PURE__ */ jsx2(Field$1, {
     label: options.label,
-    children: /* @__PURE__ */ jsx(Wrapper, {
+    children: /* @__PURE__ */ jsx2(Wrapper, {
       columns: options.columns,
       children
     })
@@ -70430,14 +70473,14 @@ function AlignmentButton({
   ...props
 }) {
   return /* @__PURE__ */ jsxs(Button$1, {
-    children: [/* @__PURE__ */ jsx("input", {
+    children: [/* @__PURE__ */ jsx2("input", {
       type: "radio",
       value,
       onChange: () => onChange(value),
       title: capitalize(value),
       ...props
-    }), /* @__PURE__ */ jsx("div", {
-      children: /* @__PURE__ */ jsx(IconComponent, {})
+    }), /* @__PURE__ */ jsx2("div", {
+      children: /* @__PURE__ */ jsx2(IconComponent, {})
     })]
   });
 }
@@ -70484,10 +70527,10 @@ const Component$6 = ({
   options
 }) => {
   const alignements = ["left", "right", ...options.vertical ? ["top", "bottom"] : []];
-  return /* @__PURE__ */ jsx(Field$1, {
+  return /* @__PURE__ */ jsx2(Field$1, {
     label: options.label,
-    children: /* @__PURE__ */ jsx(AlignmentButtons, {
-      children: alignements.map((alignment) => /* @__PURE__ */ jsx(AlignmentButton, {
+    children: /* @__PURE__ */ jsx2(AlignmentButtons, {
+      children: alignements.map((alignment) => /* @__PURE__ */ jsx2(AlignmentButton, {
         value: alignment,
         checked: value === alignment,
         onChange,
@@ -70508,7 +70551,7 @@ const Component$5 = ({
   options
 }) => {
   const id = useUniqId("selectinput");
-  return /* @__PURE__ */ jsx(Field$1, {
+  return /* @__PURE__ */ jsx2(Field$1, {
     id,
     label: options.label,
     help: options.help,
@@ -70530,7 +70573,7 @@ const Component$4 = ({
   options
 }) => {
   const id = useUniqId("numberinput");
-  return /* @__PURE__ */ jsx(Field$1, {
+  return /* @__PURE__ */ jsx2(Field$1, {
     label: options.label,
     type: "number",
     id,
@@ -71125,7 +71168,7 @@ const Component$3 = ({
   onChange,
   options
 }) => {
-  return /* @__PURE__ */ jsx(Field$1, {
+  return /* @__PURE__ */ jsx2(Field$1, {
     label: /* @__PURE__ */ jsxs(Fragment$1, {
       children: [options.label, " ", /* @__PURE__ */ jsxs("small", {
         children: ["(", value, ")"]
@@ -71138,9 +71181,9 @@ const Component$3 = ({
       value: [value === void 0 ? options.default || 0 : value],
       step: options.step,
       onValueChange: (v2) => onChange(v2[0] || 0),
-      children: [/* @__PURE__ */ jsx(Track, {
-        children: /* @__PURE__ */ jsx(TrackSelected, {})
-      }), /* @__PURE__ */ jsx(Cursor, {})]
+      children: [/* @__PURE__ */ jsx2(Track, {
+        children: /* @__PURE__ */ jsx2(TrackSelected, {})
+      }), /* @__PURE__ */ jsx2(Cursor, {})]
     })
   });
 };
@@ -71220,10 +71263,10 @@ const Component$2 = ({
       fields: tab.fields
     });
   };
-  return /* @__PURE__ */ jsx(Tabs$1, {
-    children: options.tabs.map((tab) => /* @__PURE__ */ jsx(Tabs$1.Tab, {
+  return /* @__PURE__ */ jsx2(Tabs$1, {
+    children: options.tabs.map((tab) => /* @__PURE__ */ jsx2(Tabs$1.Tab, {
       title: tab.label,
-      children: /* @__PURE__ */ jsx(Flex, {
+      children: /* @__PURE__ */ jsx2(Flex, {
         column: true,
         children: childrenForTab(tab)
       })
@@ -78179,26 +78222,26 @@ const Component$1 = ({
   };
   const ReactDatePickerComponent = typeof er === "function" ? er : er.default;
   const id = useUniqId("datepickerinput");
-  return /* @__PURE__ */ jsx(Field$1, {
+  return /* @__PURE__ */ jsx2(Field$1, {
     id,
     label: options.label,
     help: options.help,
-    icon: /* @__PURE__ */ jsx(Button, {
+    icon: /* @__PURE__ */ jsx2(Button, {
       onClick: prevent(() => setOpen(true)),
-      children: /* @__PURE__ */ jsx(IconCalendar, {
+      children: /* @__PURE__ */ jsx2(IconCalendar, {
         size: 16
       })
     }),
     children: /* @__PURE__ */ jsxs("div", {
       css: DatePickerCss,
-      children: [/* @__PURE__ */ jsx(Input$2, {
+      children: [/* @__PURE__ */ jsx2(Input$2, {
         id,
         onFocus: () => setOpen(true),
         value: formattedDate,
         readOnly: true
-      }), open && /* @__PURE__ */ jsx("div", {
+      }), open && /* @__PURE__ */ jsx2("div", {
         css: _ref,
-        children: /* @__PURE__ */ jsx(ReactDatePickerComponent, {
+        children: /* @__PURE__ */ jsx2(ReactDatePickerComponent, {
           selected: date,
           showTimeInput: options.time,
           inline: true,
@@ -78242,10 +78285,10 @@ const Component = ({
 }) => {
   const alignements = Object.keys(AlignmentIcons);
   const id = useUniqId();
-  return /* @__PURE__ */ jsx(Field$1, {
+  return /* @__PURE__ */ jsx2(Field$1, {
     label: options.label,
-    children: /* @__PURE__ */ jsx(AlignmentButtons, {
-      children: alignements.map((alignment) => /* @__PURE__ */ jsx(AlignmentButton, {
+    children: /* @__PURE__ */ jsx2(AlignmentButtons, {
+      children: alignements.map((alignment) => /* @__PURE__ */ jsx2(AlignmentButton, {
         name: id,
         value: alignment,
         checked: value === alignment,
@@ -78283,6 +78326,7 @@ const Translations = {
 };
 const components = {};
 const templates = [];
+const actions = [];
 const defaultDevices = [{
   name: "Mobile",
   width: 390,
@@ -78308,6 +78352,9 @@ const _VisualEditor = class _VisualEditor {
   }
   registerTemplate(template) {
     templates.push(template);
+  }
+  registerButton(action) {
+    actions.push(action);
   }
   defineElement(elementName = "visual-editor") {
     class VisualEditorElement extends HTMLElement {
@@ -78388,16 +78435,17 @@ const _VisualEditor = class _VisualEditor {
         if (!this._root) {
           this._root = createRoot(this);
         }
-        this._root.render(/* @__PURE__ */ jsx(StoreProvider, {
+        this._root.render(/* @__PURE__ */ jsx2(StoreProvider, {
           data,
           definitions: components,
+          actions,
           templates,
           hiddenCategories,
           rootElement: this,
           devices: _VisualEditor.devices,
           insertPosition: this.getAttribute("insertPosition") ?? InsertPosition.Start,
           onStore: (store) => this._store = store,
-          children: /* @__PURE__ */ jsx(VisualEditorComponent, {
+          children: /* @__PURE__ */ jsx2(VisualEditorComponent, {
             element: this,
             previewUrl: this.getAttribute("preview") ?? "",
             iconsUrl: this.getAttribute("iconsUrl") ?? "/",
@@ -78430,19 +78478,19 @@ function VisualEditorComponent({
   const div2 = reactExports.useRef(null);
   useStopPropagation(div2, ["change", "close"]);
   if (!visible) {
-    return /* @__PURE__ */ jsx(HiddenTextarea, {
+    return /* @__PURE__ */ jsx2(HiddenTextarea, {
       name
     });
   }
   return /* @__PURE__ */ jsxs("div", {
     ref: div2,
-    children: [/* @__PURE__ */ jsx(BaseStyles, {
-      children: /* @__PURE__ */ jsx(Layout, {
+    children: [/* @__PURE__ */ jsx2(BaseStyles, {
+      children: /* @__PURE__ */ jsx2(Layout, {
         onClose: handleClose,
         previewUrl,
         iconsUrl
       })
-    }), /* @__PURE__ */ jsx(HiddenTextarea, {
+    }), /* @__PURE__ */ jsx2(HiddenTextarea, {
       name
     })]
   });
@@ -78455,13 +78503,24 @@ function HiddenTextarea({
     data
   } = usePartialStore("data");
   const cleanedData = reactExports.useMemo(() => stringifyFields(data), [data]);
-  return /* @__PURE__ */ jsx("textarea", {
+  return /* @__PURE__ */ jsx2("textarea", {
     hidden: true,
     name,
     value: cleanedData,
     onChange: doNothing
   });
 }
+const UI = {
+  Button: Button$8,
+  ButtonIcon,
+  Flex,
+  Card,
+  Input: Input$2,
+  Field: Field$1,
+  Modal,
+  Spinner,
+  Label: Label$1
+};
 export {
   AddButton,
   Alignment,
@@ -78485,6 +78544,7 @@ export {
   Tabs,
   Text$2 as Text,
   TextAlign,
+  UI,
   VisualEditor,
   VisualEditorComponent,
   defineField,
