@@ -2,7 +2,7 @@
     "name": "@ciklik/visual-editor",
     "version": "0.1.1",
     "type": "module",
-    "main": "dist/VisualEditor.js",
+    "main": "dist/VisualEditor.standalone.js",
     "types": "dist/VisualEditor.d.ts",
     "repository": {
         "type": "git",
